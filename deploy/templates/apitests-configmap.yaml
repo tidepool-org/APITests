@@ -1,0 +1,13 @@
+{{ if .Values.configmap.enabled }}
+---
+apiVersion: v1
+{{ with .Values.configmap.data }}
+data:
+{{- end }}
+kind: ConfigMap
+metadata:
+  name: apitests
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: apitests
+{{- end -}}

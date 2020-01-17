@@ -1,0 +1,16 @@
+{
+  "name": "api-integration-tests",
+  "version": "0.0.1",
+  "private": true,
+  "author": "J H Bate <jamie@tidepool.org>",
+  "description": "A service to run tidepool API integration tests",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "newman": "^4.5.7"
+  },
+  "engines": {
+    "node": "^13.6.0"
+  }
+}
