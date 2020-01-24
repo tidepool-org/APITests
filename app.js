@@ -3,7 +3,9 @@ import bodyParser from 'body-parser';
 import { run } from 'newman';
 
 const app = express();
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
+const PORT = 8080;
 
 app.get('/status', function (req, res) {
     return res.status(200).send('OK');
@@ -25,6 +27,7 @@ function getConfig(targetEnv) {
         jsonConfig = require('./tests/QA1.postman_environment.json');
         setUser(process.env.QA1_API_USER_EMAIL, process.env.QA1_API_USER_PW);
     }
+    console.log("config: ", jsonConfig);
     return jsonConfig;
 }
 
@@ -51,8 +54,9 @@ app.post('/run', function (req, res) {
         } else if (summary.error) {
             return res.status(500).send(summary.error);
         }
-        return res.status(200).send('Tests run');
+        console.log('summary: ', summary.run.stats);
+        return res.status(200).send({ results: summary.run.stats });
     });
 })
 
-app.listen(8080)
+app.listen(PORT)
