@@ -284,7 +284,7 @@
 								"id": "d0b1561e-efe4-496b-89f7-986d2badf171",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, null, \"\");"
+									"assert.common(200, 1000, false, null, \"\");"
 								],
 								"type": "text/javascript"
 							}
