@@ -11,11 +11,11 @@ before_script:
 - npm --version
 - node_modules/.bin/newman --version
 
+
 jobs:
     include:
-      - stage: QA1 API smoke test
-        allow_failures:
+    allow_failures:
+    - name: QA1 API smoke test
         script: node_modules/.bin/newman run tests/API_smoke_test.postman_collection.json -e tests/QA1.postman_environment.json --env-var "loginEmail=$QA1_USER_EMAIL" --env-var "loginPw=$QA1_USER_PASSWORD"
-      - stage: QA2 API smoke test
-        allow_failures:
+    - name: QA2 API smoke test
         script: node_modules/.bin/newman run tests/API_smoke_test.postman_collection.json -e tests/QA2.postman_environment.json --env-var "loginEmail=$QA2_USER_EMAIL" --env-var "loginPw=$QA2_USER_PASSWORD"
