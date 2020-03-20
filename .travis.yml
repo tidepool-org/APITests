@@ -15,8 +15,8 @@ jobs:
   include:
     - stage: "API smoke test"
       name: "QA1"
-      script: node_modules/.bin/newman run tests/API_smoke_test.postman_collection.json -e tests/QA1.postman_environment.json --env-var "loginEmail=$QA1_USER_EMAIL" --env-var "loginPw=$QA1_USER_PASSWORD"
-    - script: node_modules/.bin/newman run tests/API_smoke_test.postman_collection.json -e tests/QA2.postman_environment.json --env-var "loginEmail=$QA2_USER_EMAIL" --env-var "loginPw=$QA2_USER_PASSWORD"
+      script: node_modules/.bin/newman run tests/API_smoke_test.postman_collection.json -e tests/QA1.postman_environment.json --env-var "loginEmail=$QA1_USER_EMAIL" --env-var "loginPw=$QA1_USER_PASSWORD" --env-var "marketoClientId=$MARKETO_CLIENT_ID" --env-var "marketoClientSecret=$MARKETO_CLIENT_SECRET"
+    - script: node_modules/.bin/newman run tests/API_smoke_test.postman_collection.json -e tests/QA2.postman_environment.json --env-var "loginEmail=$QA2_USER_EMAIL" --env-var "loginPw=$QA2_USER_PASSWORD" --env-var "marketoClientId=$MARKETO_CLIENT_ID" --env-var "marketoClientSecret=$MARKETO_CLIENT_SECRET"
       name: "QA2"
-    - script: node_modules/.bin/newman run tests/API_smoke_test.postman_collection.json -e tests/PRODUCTION.postman_environment.json --env-var "loginEmail=$PRODUCTION_USER_EMAIL" --env-var "loginPw=$PRODUCTION_USER_PASSWORD"
+    - script: node_modules/.bin/newman run tests/API_smoke_test.postman_collection.json -e tests/PRODUCTION.postman_environment.json --env-var "loginEmail=$PRODUCTION_USER_EMAIL" --env-var "loginPw=$PRODUCTION_USER_PASSWORD" --env-var "marketoClientId=$MARKETO_CLIENT_ID" --env-var "marketoClientSecret=$MARKETO_CLIENT_SECRET"
       name: "PRODUCTION"
