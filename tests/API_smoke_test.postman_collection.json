@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "35e23581-413f-4acb-9c66-8865e59ea1cf",
+		"_postman_id": "f44f7047-0f3d-47ef-879f-9c17c7580a5e",
 		"name": "API_smoke_test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -456,6 +456,367 @@
 					"listen": "test",
 					"script": {
 						"id": "3c4b721d-fa7b-47fd-9afa-a3e644e52681",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "User Marketing Communication",
+			"item": [
+				{
+					"name": "Retrieve marketing acess token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b756b5be-319a-406c-ba54-31f8bef6a739",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"",
+									"pm.test(\"Set Access Token\", function () {",
+									"    let jsonData = pm.response.json();",
+									"    pm.variables.set(\"accessToken\", jsonData.access_token);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://248-ISZ-536.mktorest.com/identity/oauth/token?grant_type=client_credentials&client_id={{marketoClientId}}&client_secret={{marketoClientSecret}}",
+							"protocol": "https",
+							"host": [
+								"248-ISZ-536",
+								"mktorest",
+								"com"
+							],
+							"path": [
+								"identity",
+								"oauth",
+								"token"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials"
+								},
+								{
+									"key": "client_id",
+									"value": "{{marketoClientId}}"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{marketoClientSecret}}"
+								}
+							]
+						},
+						"description": "Retrieve unique access token from marketo. This token is valid for only **1 hour**."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve paging token for the last 12 hours",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3afd1793-633f-4d4c-8e4a-1f43a203a145",
+								"exec": [
+									"var moment = require('moment');\r",
+									"\r",
+									"    pm.variables.set(\"current_timestamp\", moment().format());\r",
+									"    pm.variables.set(\"last12Hours\", moment().subtract(12, 'hours').format());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "598e2d2f-3f9d-4440-a3bc-4b3a0dccbf5f",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"",
+									"pm.test(\"Set Next Page Token for Last 12 Hours\", function (){",
+									"    let jsonData = pm.response.json();",
+									"    pm.variables.set(\"nextPageToken\", jsonData.nextPageToken);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://248-ISZ-536.mktorest.com/rest/v1/activities/pagingtoken.json?sinceDatetime={{last12Hours}}&access_token={{accessToken}}",
+							"protocol": "https",
+							"host": [
+								"248-ISZ-536",
+								"mktorest",
+								"com"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"activities",
+								"pagingtoken.json"
+							],
+							"query": [
+								{
+									"key": "sinceDatetime",
+									"value": "{{last12Hours}}"
+								},
+								{
+									"key": "access_token",
+									"value": "{{accessToken}}"
+								}
+							]
+						},
+						"description": "returning paging token for last 12 hours in order to get lead changes in the following request"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify new lead activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0d6e3c86-77eb-42e6-965b-c446e0d0d1c2",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"",
+									"pm.test(\"User created within last 12 Hours\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result[0].activityTypeId).to.eql(12);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://248-ISZ-536.mktorest.com/rest/v1/activities.json?access_token={{accessToken}}&nextPageToken={{nextPageToken}}&activityTypeIds=12&=&&",
+							"protocol": "https",
+							"host": [
+								"248-ISZ-536",
+								"mktorest",
+								"com"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"activities.json"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{accessToken}}"
+								},
+								{
+									"key": "nextPageToken",
+									"value": "{{nextPageToken}}"
+								},
+								{
+									"key": "activityTypeIds",
+									"value": "12"
+								},
+								{
+									"key": "",
+									"value": ""
+								},
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						},
+						"description": "making sure new users have been added to the marketo database wihthin the last 12 hours"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve paging token for the last hour",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3afd1793-633f-4d4c-8e4a-1f43a203a145",
+								"exec": [
+									"\r",
+									"var moment = require('moment');\r",
+									"\r",
+									"    pm.variables.set(\"current_timestamp\", moment().format());\r",
+									"    pm.variables.set(\"pastHour\", moment().subtract(1, 'hour').format());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "598e2d2f-3f9d-4440-a3bc-4b3a0dccbf5f",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"",
+									"pm.test(\"Set Next Page Token for Last 12 Hours\", function (){",
+									"    let jsonData = pm.response.json();",
+									"    pm.variables.set(\"nextPageToken\", jsonData.nextPageToken);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://248-ISZ-536.mktorest.com/rest/v1/activities/pagingtoken.json?sinceDatetime={{pastHour}}&access_token={{accessToken}}",
+							"protocol": "https",
+							"host": [
+								"248-ISZ-536",
+								"mktorest",
+								"com"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"activities",
+								"pagingtoken.json"
+							],
+							"query": [
+								{
+									"key": "sinceDatetime",
+									"value": "{{pastHour}}"
+								},
+								{
+									"key": "access_token",
+									"value": "{{accessToken}}"
+								}
+							]
+						},
+						"description": "returning paging token for last hour in order to get lead changes in the following request"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify campaign emails being sent",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9cbc4390-0752-4a23-b367-ea827ffd6f87",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "cacd1abb-0016-4dbd-875d-fa5dd33c1a4e",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"",
+									"pm.test(\"Marketo has delivered emails within the last hour\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result).to.be.an('array').that.is.not.empty;",
+									"});",
+									"",
+									"   "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://248-ISZ-536.mktorest.com/rest/v1/activities.json?access_token={{accessToken}}&nextPageToken={{nextPageToken}}&activityTypeIds=7&=&&",
+							"protocol": "https",
+							"host": [
+								"248-ISZ-536",
+								"mktorest",
+								"com"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"activities.json"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{accessToken}}"
+								},
+								{
+									"key": "nextPageToken",
+									"value": "{{nextPageToken}}"
+								},
+								{
+									"key": "activityTypeIds",
+									"value": "7"
+								},
+								{
+									"key": "",
+									"value": ""
+								},
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						},
+						"description": "Verifying that marketo has attempted to send emails within the **last hour**."
+					},
+					"response": []
+				}
+			],
+			"description": "A series of tests designed around making sure new clinicians and DSAs are being connected via shoreline to our marketing campaigns.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1aa215b0-df87-4014-b78a-0236be1b78af",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "07c5ca86-781b-4d89-8ac9-296f79157d76",
 						"type": "text/javascript",
 						"exec": [
 							""
