@@ -994,9 +994,402 @@
 			"name": "Contract tests",
 			"item": [
 				{
-					"name": "Clinician Sign Up",
-					"item": [],
-					"description": "Clinician signs up for tidepool.",
+					"name": "Clinician signup and setup",
+					"item": [
+						{
+							"name": "Clinician sign up",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "72e6dbe1-2283-44b9-8e51-76fbab62e71a",
+										"exec": [
+											"var moment = require('moment');",
+											"",
+											"    pm.variables.set(\"currentTimestamp\", moment().unix());",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "aef68e59-fa85-4675-bd0c-d73bcfc4f666",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(201, 1000, true, null,\"\");",
+											"",
+											"pm.test(\"Session Token Set\", function () {",
+											"    let jsonData = pm.response.json();",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"});",
+											"",
+											"pm.test(\"User ID Set\", function () {",
+											"    let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"});",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"username\":\"qa+automatedclinician{{currentTimestamp}}@tidepool.org\",\"password\":\"{{$randomPassword}}\",\"emails\":[\"qa+automatedclinician{{currentTimestamp}}@tidepool.org\"],\"roles\":[\"clinic\"]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Initial sign-up for the clinician account, which includes creation of the \n    \n    `userId`\n    "
+							},
+							"response": []
+						},
+						{
+							"name": "Send email verification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0fb5a1e8-5b9d-45d1-ac8c-0c0f0352ee5e",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null,\"\");",
+											"    ",
+											"    "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/send/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"signup",
+										"{{userId}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Send the email confirmation using the `userId` we picked up in the last request."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve email key",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9ca1ca55-a3d4-4146-8b96-5ce198579252",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");",
+											"",
+											"pm.test(\"Retrieve Email Key\", function () {",
+											"    let jsonData = pm.response.json();",
+											"pm.variables.set(\"emailKey\", jsonData[0].key);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"signup",
+										"{{userId}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get `emailKey` to use in next request to confirm email"
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9ca1ca55-a3d4-4146-8b96-5ce198579252",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/accept/signup/{{emailKey}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"accept",
+										"signup",
+										"{{emailKey}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Using `emailKey` to confirm email."
+							},
+							"response": []
+						},
+						{
+							"name": "Accept terms",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9ca1ca55-a3d4-4146-8b96-5ce198579252",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userSchema\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "41dbe3a9-efca-4b72-a543-b58ac98dc070",
+										"exec": [
+											"var moment = require('moment');\r",
+											"\r",
+											"    pm.variables.set(\"currentTimestamp\", moment().format());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"updates\":{\"termsAccepted\":\"{{currentTimestamp}}\"}}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Accepting Terms and conditions"
+							},
+							"response": []
+						},
+						{
+							"name": "Initial clinic profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9ca1ca55-a3d4-4146-8b96-5ce198579252",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "41dbe3a9-efca-4b72-a543-b58ac98dc070",
+										"exec": [
+											"var moment = require('moment');\r",
+											"let newMoment = moment().subtract(18, 'years');\r",
+											"    pm.variables.set(\"birthdate\", newMoment.format('YYYY-MM-DD'));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fullName\":\"{{$randomFullName}}\",\"clinic\":{\"role\":\"endocrinologist\",\"name\":\"{{$randomCompanyName}} Clinic\",\"telephone\":\"{{$randomPhoneNumber}}\"}}\r\n\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve user profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c3848609-36dc-4ef7-86d6-9a21656afffa",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								},
+								"description": "Verify user profile stored successfully."
+							},
+							"response": []
+						}
+					],
+					"description": "Clinician signs up for tidepool, fills out profile, and invites first patient.",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -1026,7 +1419,7 @@
 					"name": "DSA signup and setup",
 					"item": [
 						{
-							"name": "DSA sign-up and profile",
+							"name": "DSA sign-up",
 							"event": [
 								{
 									"listen": "prerequest",
@@ -1768,7 +2161,7 @@
 					"const messagesSchema = { \"type\": \"array\", \"items\": { \"required\": [\"id\", \"guid\", \"parentmessage\", \"userid\", \"groupid\", \"timestamp\", \"createdtime\", \"messagetext\", \"user\"], \"properties\": { \"id\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"userid\": { \"type\": \"string\" }, \"groupid\": { \"type\": \"string\" }, \"timestamp\": { \"type\": \"string\" }, \"createdtime\": { \"type\": \"string\" }, \"messagetext\": { \"type\": \"string\" }, \"user\": { \"type\": \"object\" } } } };",
 					"const smbgsSchema = { \"type\": \"array\", \"items\": { \"required\": [\"clockDriftOffset\", \"deviceId\", \"deviceTime\", \"guid\", \"id\", \"subType\", \"time\", \"type\", \"units\", \"uploadId\", \"value\"], \"properties\": { \"clockDriftOffset\": { \"type\": \"integer\" }, \"conversionOffset\": { \"type\": \"integer\" }, \"deviceId\": { \"type\": \"string\" }, \"deviceTime\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"id\": { \"type\": \"string\" }, \"subType\": { \"type\": \"string\" }, \"time\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"units\": { \"type\": \"string\" }, \"uploadId\": { \"type\": \"string\" }, \"value\": { \"type\": \"number\" } } } };",
 					"const userProfileSchema = {\"required\": [\"fullName\"], \"properties\": { \"fullName\": { \"type\": \"string\" },",
-					"\"patient\": { \"type\": \"object\" }}};",
+					"\"patient\": { \"type\": \"object\" }, \"clinic\": {\"type\": \"object\"}}};",
 					"const careteamInviteSchema = { \"required\": [\"key\", \"type\", \"email\", \"creatorId\", \"creator\", \"context\", \"created\"], \"properties\": { \"key\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"email\": { \"type\": \"string\" }, \"creatorId\": { \"type\": \"string\" }, \"creator\": { \"type\": \"object\" }, \"context\": { \"type\": \"object\" }, \"created\": { \"type\": \"string\" } } };",
 					"const userSettingsSchema = { \"required\": [\"bgTarget\", \"units\"], \"properties\": { \"bgTarget\": { \"type\": \"object\" }, \"units\": { \"type\": \"object\" } } };",
 					"",
