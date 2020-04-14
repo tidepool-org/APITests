@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "clients smoke test",
+			"name": "Clients smoke test",
 			"item": [
 				{
 					"name": "login to tidepool",
@@ -330,6 +330,7 @@
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, jsonData,\"smbgsSchema\");",
+									"",
 									"pm.test(\"one item is returned\", function () {",
 									"    pm.expect(jsonData.length).to.eql(1);",
 									"});",
@@ -988,6 +989,771 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Contract tests",
+			"item": [
+				{
+					"name": "Clinician Sign Up",
+					"item": [],
+					"description": "Clinician signs up for tidepool.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7358686c-7cfb-4a1c-810d-71ffa6e7cd90",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f2a65db9-4f0d-4a42-bb90-ab32c73b1734",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "DSA signup and setup",
+					"item": [
+						{
+							"name": "DSA sign-up and profile",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "72e6dbe1-2283-44b9-8e51-76fbab62e71a",
+										"exec": [
+											"var moment = require('moment');",
+											"",
+											"    pm.variables.set(\"currentTimestamp\", moment().unix());",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "aef68e59-fa85-4675-bd0c-d73bcfc4f666",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(201, 1000, true, null,\"\");",
+											"",
+											"pm.test(\"Session Token Set\", function () {",
+											"    let jsonData = pm.response.json();",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"});",
+											"",
+											"pm.test(\"User ID Set\", function () {",
+											"    let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"});",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"username\":\"qa+automated{{currentTimestamp}}@tidepool.org\",\"password\":\"{{$randomPassword}}\",\"emails\":[\"qa+automated{{currentTimestamp}}@tidepool.org\"],\"roles\":[]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Initial sign-up for a data storage account, which includes creation of the \n    \n    `userId`\n    "
+							},
+							"response": []
+						},
+						{
+							"name": "Send email verification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0fb5a1e8-5b9d-45d1-ac8c-0c0f0352ee5e",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null,\"\");",
+											"    ",
+											"    "
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/send/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"signup",
+										"{{userId}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Send the email confirmation using the `userId` we picked up in the last request."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve email key",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9ca1ca55-a3d4-4146-8b96-5ce198579252",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");",
+											"",
+											"pm.test(\"Retrieve Email Key\", function () {",
+											"    let jsonData = pm.response.json();",
+											"pm.variables.set(\"emailKey\", jsonData[0].key);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"signup",
+										"{{userId}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get `emailKey` to use in next request to confirm email"
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9ca1ca55-a3d4-4146-8b96-5ce198579252",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/accept/signup/{{emailKey}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"accept",
+										"signup",
+										"{{emailKey}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Using `emailKey` to confirm email."
+							},
+							"response": []
+						},
+						{
+							"name": "Accept terms",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9ca1ca55-a3d4-4146-8b96-5ce198579252",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userSchema\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "41dbe3a9-efca-4b72-a543-b58ac98dc070",
+										"exec": [
+											"var moment = require('moment');\r",
+											"\r",
+											"    pm.variables.set(\"currentTimestamp\", moment().format());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"updates\":{\"termsAccepted\":\"{{currentTimestamp}}\"}}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Accepting Terms and conditions"
+							},
+							"response": []
+						},
+						{
+							"name": "Initial DSA profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9ca1ca55-a3d4-4146-8b96-5ce198579252",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "41dbe3a9-efca-4b72-a543-b58ac98dc070",
+										"exec": [
+											"var moment = require('moment');\r",
+											"let newMoment = moment().subtract(18, 'years');\r",
+											"    pm.variables.set(\"birthdate\", newMoment.format('YYYY-MM-DD'));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fullName\":\"{{$randomFullName}}\",\"patient\":{\"birthday\":\"{{birthdate}}\",\"diagnosis date\":\"{{birthdate}}\"}}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Setting up Name and birthdate (18 years old) for the new user."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve user profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c3848609-36dc-4ef7-86d6-9a21656afffa",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								},
+								"description": "Verify user profile stored successfully."
+							},
+							"response": []
+						},
+						{
+							"name": "Change BG Units",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "286773f3-b1b1-46b0-8e63-ca6cda0f5cca",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"bgTarget\":{\"high\":10,\"low\":3.9},\"units\":{\"bg\":\"mmol/L\"}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/settings",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"settings"
+									]
+								},
+								"description": "Changing BG units to mmol/L, another aspect a user can change in the user profile."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "bef1356d-82ff-4212-9b5a-d6f6c41afd02",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");",
+											"",
+											"pm.test(\"Verify settings change to mmol\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.units.bg).to.eql(\"mmol/L\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/settings",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"settings"
+									]
+								},
+								"description": "Verifying the change to mmol/L was stored."
+							},
+							"response": []
+						},
+						{
+							"name": "Tidepool data donation opt-in",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "146fda7e-6cd2-47e1-8aa0-38e678d68fc0",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "10167115-0928-4636-8932-0296b3ad66b5",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"email\":\"bigdata@tidepool.org\",\"permissions\":{\"view\":{},\"note\":{}}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/confirm/send/invite/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"invite",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Data donation selection",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "146fda7e-6cd2-47e1-8aa0-38e678d68fc0",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "10167115-0928-4636-8932-0296b3ad66b5",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"email\":\"bigdata+JDRF@tidepool.org\",\"permissions\":{\"view\":{},\"note\":{}}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/confirm/send/invite/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"invite",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Tidepool data donation opt-out",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "146fda7e-6cd2-47e1-8aa0-38e678d68fc0",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "10167115-0928-4636-8932-0296b3ad66b5",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/{{userId}}/invited/bigdata@tidepool.org",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"{{userId}}",
+										"invited",
+										"bigdata@tidepool.org"
+									]
+								},
+								"description": "This removes the data donation option and makes sure our test accounts aren't being added to the data pool."
+							},
+							"response": []
+						},
+						{
+							"name": "Remove data donation selection",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "146fda7e-6cd2-47e1-8aa0-38e678d68fc0",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "10167115-0928-4636-8932-0296b3ad66b5",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/{{userId}}/invited/bigdata+JDRF@tidepool.org",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"{{userId}}",
+										"invited",
+										"bigdata+JDRF@tidepool.org"
+									]
+								},
+								"description": "This removes the data donation selection 'JDRF' and makes sure our test accounts aren't being added to the data pool."
+							},
+							"response": []
+						}
+					],
+					"description": "The initial interactions a user goes through to sign up for tidepool and set up their profile.",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "35368ac4-6b62-4347-b750-5c39b29e5fc7",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "35b9075a-db02-40b0-8b6e-eb06a67a7ef2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"event": [
@@ -1004,6 +1770,7 @@
 					"const userProfileSchema = {\"required\": [\"fullName\"], \"properties\": { \"fullName\": { \"type\": \"string\" },",
 					"\"patient\": { \"type\": \"object\" }}};",
 					"const careteamInviteSchema = { \"required\": [\"key\", \"type\", \"email\", \"creatorId\", \"creator\", \"context\", \"created\"], \"properties\": { \"key\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"email\": { \"type\": \"string\" }, \"creatorId\": { \"type\": \"string\" }, \"creator\": { \"type\": \"object\" }, \"context\": { \"type\": \"object\" }, \"created\": { \"type\": \"string\" } } };",
+					"const userSettingsSchema = { \"required\": [\"bgTarget\", \"units\"], \"properties\": { \"bgTarget\": { \"type\": \"object\" }, \"units\": { \"type\": \"object\" } } };",
 					"",
 					"pm.globals.set(\"userSchema\", JSON.stringify(userSchema));",
 					"pm.globals.set(\"userProfileSchema\", JSON.stringify(userProfileSchema));",
@@ -1011,6 +1778,7 @@
 					"pm.globals.set(\"messagesSchema\", JSON.stringify(messagesSchema));",
 					"pm.globals.set(\"smbgsSchema\", JSON.stringify(smbgsSchema));",
 					"pm.globals.set(\"careteamInviteSchema\", JSON.stringify(careteamInviteSchema));",
+					"pm.globals.set(\"userSettingsSchema\", JSON.stringify(userSettingsSchema));",
 					"",
 					"pm.globals.set('loadAsserts', function loadAsserts() {",
 					"    let asserts = {};",
