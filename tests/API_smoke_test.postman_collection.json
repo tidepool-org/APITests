@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f44f7047-0f3d-47ef-879f-9c17c7580a5e",
+		"_postman_id": "0a868624-bf7b-42d6-a6c7-c6aecfa24113",
 		"name": "API_smoke_test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -466,10 +466,10 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "User Marketing Communication",
+			"name": "User email notification integration",
 			"item": [
 				{
-					"name": "Retrieve marketing acess token",
+					"name": "Retrieve marketo access token",
 					"event": [
 						{
 							"listen": "test",
@@ -478,11 +478,8 @@
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
-									"",
-									"pm.test(\"Set Access Token\", function () {",
-									"    let jsonData = pm.response.json();",
-									"    pm.variables.set(\"accessToken\", jsonData.access_token);",
-									"});"
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"marketoAccessToken\", jsonData.access_token);"
 								],
 								"type": "text/javascript"
 							}
@@ -492,12 +489,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://248-ISZ-536.mktorest.com/identity/oauth/token?grant_type=client_credentials&client_id={{marketoClientId}}&client_secret={{marketoClientSecret}}",
-							"protocol": "https",
+							"raw": "{{marketoApi}}/identity/oauth/token?grant_type=client_credentials&client_id={{marketoClientId}}&client_secret={{marketoClientSecret}}",
 							"host": [
-								"248-ISZ-536",
-								"mktorest",
-								"com"
+								"{{marketoApi}}"
 							],
 							"path": [
 								"identity",
@@ -524,6 +518,185 @@
 					"response": []
 				},
 				{
+					"name": "Get lead email address initial",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c9f0ac6a-546d-482f-8f18-ce16a9b6e13d",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "29535b0a-7fee-42ef-8c79-2bcc5a383f94",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"currentMarketoEmail\", jsonData.result[0].email);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{marketoApi}}/rest/v1/lead/{{leadId}}.json?access_token={{marketoAccessToken}}&fields=email",
+							"host": [
+								"{{marketoApi}}"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"lead",
+								"{{leadId}}.json"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{marketoAccessToken}}"
+								},
+								{
+									"key": "fields",
+									"value": "email"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login to tidepool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5875c19d-624c-4941-b2aa-f9dc2c263109",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"userId\", jsonData.userid);",
+									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{marketoEmailPw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{currentMarketoEmail}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{api}}/auth/login",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change email address in Tidepool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9ca1ca55-a3d4-4146-8b96-5ce198579252",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, null,\"\");",
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"newMarketoEmail\", jsonData.username);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "41dbe3a9-efca-4b72-a543-b58ac98dc070",
+								"exec": [
+									"var moment = require('moment');",
+									"pm.variables.set(\"currentTimestamp\", moment().unix());",
+									"pm.variables.set(\"newMarketoEmail\", \"qa+automated+marketo{{currentTimestamp}}@tidepool.org.test-google-a.com\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"updates\":{\"username\":\"{{newMarketoEmail}}\",\"emails\":[\"{{newMarketoEmail}}\"]}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/auth/user",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"user"
+							]
+						},
+						"description": "Setting up Name, clinic name, role and telephone number."
+					},
+					"response": []
+				},
+				{
 					"name": "Retrieve paging token for the last 12 hours",
 					"event": [
 						{
@@ -532,9 +705,8 @@
 								"id": "3afd1793-633f-4d4c-8e4a-1f43a203a145",
 								"exec": [
 									"var moment = require('moment');\r",
-									"\r",
-									"    pm.variables.set(\"current_timestamp\", moment().format());\r",
-									"    pm.variables.set(\"last12Hours\", moment().subtract(12, 'hours').format());"
+									"pm.variables.set(\"current_timestamp\", moment().format());\r",
+									"pm.variables.set(\"twelveHoursAgo\", moment().subtract(12, 'hours').format());"
 								],
 								"type": "text/javascript"
 							}
@@ -546,11 +718,8 @@
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
-									"",
-									"pm.test(\"Set Next Page Token for Last 12 Hours\", function (){",
-									"    let jsonData = pm.response.json();",
-									"    pm.variables.set(\"nextPageToken\", jsonData.nextPageToken);",
-									"});"
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"nextPageToken\", jsonData.nextPageToken);"
 								],
 								"type": "text/javascript"
 							}
@@ -560,12 +729,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://248-ISZ-536.mktorest.com/rest/v1/activities/pagingtoken.json?sinceDatetime={{last12Hours}}&access_token={{accessToken}}",
-							"protocol": "https",
+							"raw": "{{marketoApi}}/rest/v1/activities/pagingtoken.json?sinceDatetime={{twelveHoursAgo}}&access_token={{marketoAccessToken}}",
 							"host": [
-								"248-ISZ-536",
-								"mktorest",
-								"com"
+								"{{marketoApi}}"
 							],
 							"path": [
 								"rest",
@@ -576,11 +742,11 @@
 							"query": [
 								{
 									"key": "sinceDatetime",
-									"value": "{{last12Hours}}"
+									"value": "{{twelveHoursAgo}}"
 								},
 								{
 									"key": "access_token",
-									"value": "{{accessToken}}"
+									"value": "{{marketoAccessToken}}"
 								}
 							]
 						},
@@ -594,15 +760,25 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0d6e3c86-77eb-42e6-965b-c446e0d0d1c2",
+								"id": "b01b2ff1-63e9-441a-88f1-5d8dce8eeb97",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
 									"",
 									"pm.test(\"User created within last 12 Hours\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.result[0].activityTypeId).to.eql(12);",
+									"    pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"newUserActivity\"));",
 									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "77c46e9e-202a-4a47-9cae-5e0d77e03865",
+								"exec": [
+									"pm.variables.set(\"newUserActivity\", 12);"
 								],
 								"type": "text/javascript"
 							}
@@ -612,12 +788,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://248-ISZ-536.mktorest.com/rest/v1/activities.json?access_token={{accessToken}}&nextPageToken={{nextPageToken}}&activityTypeIds=12&=&&",
-							"protocol": "https",
+							"raw": "{{marketoApi}}/rest/v1/activities.json?access_token={{marketoAccessToken}}&nextPageToken={{nextPageToken}}&activityTypeIds={{newUserActivity}}",
 							"host": [
-								"248-ISZ-536",
-								"mktorest",
-								"com"
+								"{{marketoApi}}"
 							],
 							"path": [
 								"rest",
@@ -627,7 +800,7 @@
 							"query": [
 								{
 									"key": "access_token",
-									"value": "{{accessToken}}"
+									"value": "{{marketoAccessToken}}"
 								},
 								{
 									"key": "nextPageToken",
@@ -635,19 +808,7 @@
 								},
 								{
 									"key": "activityTypeIds",
-									"value": "12"
-								},
-								{
-									"key": "",
-									"value": ""
-								},
-								{
-									"key": null,
-									"value": null
-								},
-								{
-									"key": "",
-									"value": null
+									"value": "{{newUserActivity}}"
 								}
 							]
 						},
@@ -663,11 +824,9 @@
 							"script": {
 								"id": "3afd1793-633f-4d4c-8e4a-1f43a203a145",
 								"exec": [
-									"\r",
 									"var moment = require('moment');\r",
-									"\r",
-									"    pm.variables.set(\"current_timestamp\", moment().format());\r",
-									"    pm.variables.set(\"pastHour\", moment().subtract(1, 'hour').format());"
+									"pm.variables.set(\"current_timestamp\", moment().format());\r",
+									"pm.variables.set(\"oneHourAgo\", moment().subtract(1, 'hour').format());"
 								],
 								"type": "text/javascript"
 							}
@@ -679,11 +838,8 @@
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
-									"",
-									"pm.test(\"Set Next Page Token for Last 12 Hours\", function (){",
-									"    let jsonData = pm.response.json();",
-									"    pm.variables.set(\"nextPageToken\", jsonData.nextPageToken);",
-									"});"
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"nextPageToken\", jsonData.nextPageToken);"
 								],
 								"type": "text/javascript"
 							}
@@ -693,12 +849,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://248-ISZ-536.mktorest.com/rest/v1/activities/pagingtoken.json?sinceDatetime={{pastHour}}&access_token={{accessToken}}",
-							"protocol": "https",
+							"raw": "{{marketoApi}}/rest/v1/activities/pagingtoken.json?sinceDatetime={{oneHourAgo}}&access_token={{marketoAccessToken}}",
 							"host": [
-								"248-ISZ-536",
-								"mktorest",
-								"com"
+								"{{marketoApi}}"
 							],
 							"path": [
 								"rest",
@@ -709,11 +862,11 @@
 							"query": [
 								{
 									"key": "sinceDatetime",
-									"value": "{{pastHour}}"
+									"value": "{{oneHourAgo}}"
 								},
 								{
 									"key": "access_token",
-									"value": "{{accessToken}}"
+									"value": "{{marketoAccessToken}}"
 								}
 							]
 						},
@@ -729,7 +882,7 @@
 							"script": {
 								"id": "9cbc4390-0752-4a23-b367-ea827ffd6f87",
 								"exec": [
-									""
+									"pm.variables.set(\"campaignEmailSent\", 7);"
 								],
 								"type": "text/javascript"
 							}
@@ -744,10 +897,8 @@
 									"",
 									"pm.test(\"Marketo has delivered emails within the last hour\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.result).to.be.an('array').that.is.not.empty;",
-									"});",
-									"",
-									"   "
+									"    pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"campaignEmailSent\"));",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -757,12 +908,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://248-ISZ-536.mktorest.com/rest/v1/activities.json?access_token={{accessToken}}&nextPageToken={{nextPageToken}}&activityTypeIds=7&=&&",
-							"protocol": "https",
+							"raw": "{{marketoApi}}/rest/v1/activities.json?access_token={{marketoAccessToken}}&nextPageToken={{nextPageToken}}&activityTypeIds={{campaignEmailSent}}",
 							"host": [
-								"248-ISZ-536",
-								"mktorest",
-								"com"
+								"{{marketoApi}}"
 							],
 							"path": [
 								"rest",
@@ -772,7 +920,7 @@
 							"query": [
 								{
 									"key": "access_token",
-									"value": "{{accessToken}}"
+									"value": "{{marketoAccessToken}}"
 								},
 								{
 									"key": "nextPageToken",
@@ -780,23 +928,69 @@
 								},
 								{
 									"key": "activityTypeIds",
-									"value": "7"
-								},
-								{
-									"key": "",
-									"value": ""
-								},
-								{
-									"key": null,
-									"value": null
-								},
-								{
-									"key": "",
-									"value": null
+									"value": "{{campaignEmailSent}}"
 								}
 							]
 						},
 						"description": "Verifying that marketo has attempted to send emails within the **last hour**."
+					},
+					"response": []
+				},
+				{
+					"name": "Get lead email address updated",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c9f0ac6a-546d-482f-8f18-ce16a9b6e13d",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "29535b0a-7fee-42ef-8c79-2bcc5a383f94",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"",
+									"pm.test(\"Verify Lead email updated in Marketo\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result[0].email).to.eql(pm.variables.get(\"newMarketoEmail\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{marketoApi}}/rest/v1/lead/{{leadId}}.json?access_token={{marketoAccessToken}}&fields=email",
+							"host": [
+								"{{marketoApi}}"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"lead",
+								"{{leadId}}.json"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{marketoAccessToken}}"
+								},
+								{
+									"key": "fields",
+									"value": "email"
+								}
+							]
+						}
 					},
 					"response": []
 				}
