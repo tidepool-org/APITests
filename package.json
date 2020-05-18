@@ -8,7 +8,7 @@
     "body-parser": "^1.19.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
-    "newman": "^4.5.7"
+    "newman": "^4.6.1"
   },
   "engines": {
     "node": "^13.6.0"
