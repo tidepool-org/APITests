@@ -20,8 +20,3 @@ jobs:
       name: "QA2"
     - script: node_modules/.bin/newman run tests/API_smoke_test.postman_collection.json -e tests/PRODUCTION.postman_environment.json --env-var "loginEmail=$PRODUCTION_USER_EMAIL" --env-var "loginPw=$PRODUCTION_USER_PASSWORD" --env-var "clinicEmail=$PRODUCTION_CLINIC_EMAIL" --env-var "clinicPw=$PRODUCTION_CLINIC_PASSWORD"
       name: "PRODUCTION"
-
-notifications:
-  slack: tidepoolteam:wzdydnsyuESYG3eD9XqKSi2W
-    on_success: change
-    on_failure: always
