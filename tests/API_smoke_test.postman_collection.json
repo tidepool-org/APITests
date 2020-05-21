@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "35e23581-413f-4acb-9c66-8865e59ea1cf",
+		"_postman_id": "fbc22dde-d18f-4a6e-80b4-f134bea518bb",
 		"name": "API_smoke_test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5875c19d-624c-4941-b2aa-f9dc2c263109",
+								"id": "e4d13014-e96d-448d-9111-9e7e7ad6b0d4",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -78,7 +78,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c3848609-36dc-4ef7-86d6-9a21656afffa",
+								"id": "5b06c4cb-d22f-4aaa-affd-21409f088ebb",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");",
@@ -120,7 +120,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "99a4bf66-ae97-4a85-8484-6f5cd07752dd",
+								"id": "b47e6bc6-1c25-4cfc-8108-c74526b62955",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");"
@@ -131,7 +131,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "046412cf-93d9-4a0f-bfb8-92d537d10a26",
+								"id": "67c1ccc0-0e8e-44f9-a0ce-886ea2da1e0b",
 								"exec": [
 									"const emailName = pm.environment.get(\"sharingEmailName\");",
 									"let emailAddress = emailName+ \"+sharing_\" + Date.now() + \"@tidepool.org\"",
@@ -178,7 +178,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3341c83a-bc9a-4043-8c8b-8020bf5c8639",
+								"id": "315a1b8e-22d1-4abf-93b1-58bd2eb5dd2b",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
@@ -224,7 +224,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "72de232c-c03c-48c1-bc41-017b8aeece31",
+								"id": "49096de6-a53b-4493-a7c1-1627631c2094",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");"
@@ -265,7 +265,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8b9cf43a-8c79-47b0-9e17-02f9fb0214ba",
+								"id": "5eec4f64-9ca9-4b90-8c8c-4f184d1cf424",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
@@ -281,7 +281,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d0b1561e-efe4-496b-89f7-986d2badf171",
+								"id": "a21e1e5d-4c57-47bf-8a38-96791c8583c4",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -325,7 +325,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1e19b771-d4bf-4f62-815b-066a9cf2a7ff",
+								"id": "a72235ed-4133-4143-bdfa-540bbbbe5163",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -338,16 +338,6 @@
 									"});",
 									"",
 									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3433a954-3a9e-49f4-a76b-3dd76c7b493a",
-								"exec": [
 									""
 								],
 								"type": "text/javascript"
@@ -405,7 +395,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "05a9c738-74ab-403a-9f63-7e963c699683",
+								"id": "02ffe106-2550-4588-8f2e-e2dec4073e3c",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -445,7 +435,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "49c33b7f-2689-4615-97e2-9cae0611c109",
+						"id": "f490c89e-1add-4378-8e78-76aa9c109d81",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -455,7 +445,541 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3c4b721d-fa7b-47fd-9afa-a3e644e52681",
+						"id": "263e4689-3703-45f6-89f9-d17b16c8cf54",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "User email notification integration",
+			"item": [
+				{
+					"name": "Retrieve marketo access token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "db7332d2-a5d2-4772-afb1-0064493b958a",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"marketoAccessToken\", jsonData.access_token);",
+									"if (pm.environment.get('api') == \"https://stg-api.tidepool.org\") {",
+									"    postman.setNextRequest(\"Retrieve paging token for the last 12 hours\");",
+									"} else if (pm.environment.get('api') == \"https://dev-api.tidepool.org\") {",
+									"    postman.setNextRequest(\"Retrieve paging token for the last 12 hours\");",
+									"};"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{marketoApi}}/identity/oauth/token?grant_type=client_credentials&client_id={{marketoClientId}}&client_secret={{marketoClientSecret}}",
+							"host": [
+								"{{marketoApi}}"
+							],
+							"path": [
+								"identity",
+								"oauth",
+								"token"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials"
+								},
+								{
+									"key": "client_id",
+									"value": "{{marketoClientId}}"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{marketoClientSecret}}"
+								}
+							]
+						},
+						"description": "Retrieve unique access token from marketo. This token is valid for only **1 hour**."
+					},
+					"response": []
+				},
+				{
+					"name": "Get lead email address initial",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc94c77d-e43d-4616-8c2d-95e04831d4f6",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"currentMarketoEmail\", jsonData.result[0].email);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{marketoApi}}/rest/v1/lead/{{leadId}}.json?access_token={{marketoAccessToken}}&fields=email",
+							"host": [
+								"{{marketoApi}}"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"lead",
+								"{{leadId}}.json"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{marketoAccessToken}}"
+								},
+								{
+									"key": "fields",
+									"value": "email"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login to tidepool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a5e77262-db2c-4f38-b5ad-d95767451f36",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"userId\", jsonData.userid);",
+									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{marketoEmailPw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{currentMarketoEmail}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{api}}/auth/login",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change email address in Tidepool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0612a6ff-ff5c-4c03-85ad-3cffaf1be7e5",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, null,\"\");",
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"newMarketoEmail\", jsonData.username);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ad6e657f-c9e1-4ddb-9054-88b1430336e9",
+								"exec": [
+									"var moment = require('moment');",
+									"pm.variables.set(\"currentTimestamp\", moment().unix());",
+									"pm.variables.set(\"newMarketoEmail\", \"qa+automated+marketo{{currentTimestamp}}@tidepool.org.test-google-a.com\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"updates\":{\"username\":\"{{newMarketoEmail}}\",\"emails\":[\"{{newMarketoEmail}}\"]}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/auth/user",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"user"
+							]
+						},
+						"description": "Setting up Name, clinic name, role and telephone number."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve paging token for the last 12 hours",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "a0e28c8f-5fbd-4598-9ef6-6d3edbff9b18",
+								"exec": [
+									"var moment = require('moment');\r",
+									"pm.variables.set(\"current_timestamp\", moment().format());\r",
+									"pm.variables.set(\"twelveHoursAgo\", moment().subtract(12, 'hours').format());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "51239610-4980-4382-b4ec-88af7151cefa",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"nextPageToken\", jsonData.nextPageToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{marketoApi}}/rest/v1/activities/pagingtoken.json?sinceDatetime={{twelveHoursAgo}}&access_token={{marketoAccessToken}}",
+							"host": [
+								"{{marketoApi}}"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"activities",
+								"pagingtoken.json"
+							],
+							"query": [
+								{
+									"key": "sinceDatetime",
+									"value": "{{twelveHoursAgo}}"
+								},
+								{
+									"key": "access_token",
+									"value": "{{marketoAccessToken}}"
+								}
+							]
+						},
+						"description": "returning paging token for last 12 hours in order to get lead changes in the following request"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify new lead activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "51f1dd2c-6dc0-4573-a195-1b608fc22a97",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"",
+									"pm.test(\"User created within last 12 Hours\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"newUserActivity\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8f529f11-ce59-47d4-a663-e3bfa958b844",
+								"exec": [
+									"pm.variables.set(\"newUserActivity\", 12);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{marketoApi}}/rest/v1/activities.json?access_token={{marketoAccessToken}}&nextPageToken={{nextPageToken}}&activityTypeIds={{newUserActivity}}",
+							"host": [
+								"{{marketoApi}}"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"activities.json"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{marketoAccessToken}}"
+								},
+								{
+									"key": "nextPageToken",
+									"value": "{{nextPageToken}}"
+								},
+								{
+									"key": "activityTypeIds",
+									"value": "{{newUserActivity}}"
+								}
+							]
+						},
+						"description": "making sure new users have been added to the marketo database wihthin the last 12 hours"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve paging token for the last hour",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1818eee7-d7b6-485e-9375-7a27f87355e6",
+								"exec": [
+									"var moment = require('moment');\r",
+									"pm.variables.set(\"current_timestamp\", moment().format());\r",
+									"pm.variables.set(\"oneHourAgo\", moment().subtract(1, 'hour').format());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "3ffe6d0c-87eb-49b1-8a4a-90088e5dcf30",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"nextPageToken\", jsonData.nextPageToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{marketoApi}}/rest/v1/activities/pagingtoken.json?sinceDatetime={{oneHourAgo}}&access_token={{marketoAccessToken}}",
+							"host": [
+								"{{marketoApi}}"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"activities",
+								"pagingtoken.json"
+							],
+							"query": [
+								{
+									"key": "sinceDatetime",
+									"value": "{{oneHourAgo}}"
+								},
+								{
+									"key": "access_token",
+									"value": "{{marketoAccessToken}}"
+								}
+							]
+						},
+						"description": "returning paging token for last hour in order to get lead changes in the following request"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify campaign emails being sent",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "98943c0a-1680-45c2-b3b0-7c27fca3c06f",
+								"exec": [
+									"pm.variables.set(\"campaignEmailSent\", 7);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "bd139c6b-b7bb-4d1a-82d9-b80c359eeefd",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"",
+									"pm.test(\"Marketo has delivered emails within the last hour\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"campaignEmailSent\"));",
+									"});",
+									"if (pm.environment.get('api') == \"https://stg-api.tidepool.org\") {",
+									"    postman.setNextRequest(null);",
+									"} else if (pm.environment.get('api') == \"https://dev-api.tidepool.org\") {",
+									"    postman.setNextRequest(null);",
+									"};"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{marketoApi}}/rest/v1/activities.json?access_token={{marketoAccessToken}}&nextPageToken={{nextPageToken}}&activityTypeIds={{campaignEmailSent}}",
+							"host": [
+								"{{marketoApi}}"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"activities.json"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{marketoAccessToken}}"
+								},
+								{
+									"key": "nextPageToken",
+									"value": "{{nextPageToken}}"
+								},
+								{
+									"key": "activityTypeIds",
+									"value": "{{campaignEmailSent}}"
+								}
+							]
+						},
+						"description": "Verifying that marketo has attempted to send emails within the **last hour**."
+					},
+					"response": []
+				},
+				{
+					"name": "Get lead email address updated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eae713a3-f55d-4cad-8f62-03737aed5ae7",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null, \"\");",
+									"pm.test(\"Verify Lead email updated in Marketo\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result[0].email).to.eql(pm.variables.get(\"newMarketoEmail\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{marketoApi}}/rest/v1/lead/{{leadId}}.json?access_token={{marketoAccessToken}}&fields=email",
+							"host": [
+								"{{marketoApi}}"
+							],
+							"path": [
+								"rest",
+								"v1",
+								"lead",
+								"{{leadId}}.json"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{marketoAccessToken}}"
+								},
+								{
+									"key": "fields",
+									"value": "email"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "A series of tests designed around making sure new clinicians and DSAs are being connected via shoreline to our marketing campaigns.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a122569-2a89-4377-bcb5-8fecc3197dd3",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -470,7 +994,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "85b478fc-ac96-4614-bacc-c1e101204a8b",
+				"id": "f987ed1e-6c19-4265-b810-526efc61f5c5",
 				"type": "text/javascript",
 				"exec": [
 					"const userSchema = { \"required\": [\"userid\", \"username\", \"emails\", \"emailVerified\", \"termsAccepted\"], \"properties\": { \"emailVerified\": { \"type\": \"boolean\" }, \"emails\": { \"type\": \"array\" }, \"userid\": { \"type\": \"string\" }, \"username\": { \"type\": \"string\" }, \"termsAccepted\": { \"type\": \"string\" } } };",
@@ -544,7 +1068,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "45b7dd35-b3b4-4115-bbff-92d4e2158b6f",
+				"id": "b04618b8-a2c4-4490-b326-590f904d632c",
 				"type": "text/javascript",
 				"exec": [
 					""
