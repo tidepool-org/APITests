@@ -20,8 +20,7 @@
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");",
-									""
+									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -81,8 +80,7 @@
 								"id": "7856a3bb-7fee-4078-a57e-670498f4eec7",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");",
-									""
+									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -134,7 +132,7 @@
 								"id": "04b3c212-67ae-41e7-a23a-899654efda51",
 								"exec": [
 									"const emailName = pm.environment.get(\"sharingEmailName\");",
-									"let emailAddress = emailName+ \"+sharing_\" + Date.now() + \"@tidepool.org\"",
+									"let emailAddress = emailName+ \"+sharing_\" + Date.now() + \"@tidepool.org\";",
 									"pm.variables.set(\"sharingEmailAddress\", emailAddress);"
 								],
 								"type": "text/javascript"
@@ -181,8 +179,7 @@
 								"id": "ae9f7330-6024-487a-9b06-5ead283ce44e",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
-									""
+									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -273,7 +270,6 @@
 									"let now = moment();",
 									"pm.variables.set(\"uploadDeviceDataItemTime\", now.format());",
 									"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", now.format('YYYY-MM-DDThh:mm:ss'));",
-									""
 								],
 								"type": "text/javascript"
 							}
@@ -330,16 +326,12 @@
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, jsonData,\"smbgsSchema\");",
-									"",
 									"pm.test(\"one item is returned\", function () {",
-									"    pm.expect(jsonData.length).to.eql(1);",
+									"pm.expect(jsonData.length).to.eql(1);",
 									"});",
 									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
-									"});",
-									"",
-									"",
-									""
+									"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -434,16 +426,6 @@
 			"description": "Non-specific usage of the tidepool API with the goal of giving it a quick smoke test so see that its is working as many clients would execpt it too. We are looking at\n\n - response code\n - response timing \n - headers, specificcally the x-tidepool-session and content type\n - response json data to make sure it matches our schema expectations at a high level",
 			"event": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"id": "15ff3c18-37fa-40fd-9020-44d425c28669",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
 					"listen": "test",
 					"script": {
 						"id": "a9b4ea30-b625-49e9-bede-e6cced02a62b",
@@ -471,9 +453,7 @@
 										"id": "1384d9c5-ed1c-434d-91a3-4b8eb7f6b2cd",
 										"exec": [
 											"var moment = require('moment');",
-											"",
-											"    pm.variables.set(\"currentTimestamp\", moment().unix());",
-											""
+											"pm.variables.set(\"currentTimestamp\", moment().unix());"
 										],
 										"type": "text/javascript"
 									}
@@ -487,10 +467,7 @@
 											"assert.common(201, 1000, true, null,\"\");",
 											"let jsonData = pm.response.json();",
 											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
-											"pm.variables.set(\"userId\", jsonData.userid);",
-											"",
-											"",
-											""
+											"pm.variables.set(\"userId\", jsonData.userid);"
 										],
 										"type": "text/javascript"
 									}
@@ -531,9 +508,7 @@
 										"id": "d1ecd0c9-bef1-4d34-b9b7-b76e9dcb9904",
 										"exec": [
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 1000, false, null,\"\");",
-											"    ",
-											"    "
+											"assert.common(200, 1000, false, null,\"\");"
 										],
 										"type": "text/javascript"
 									}
@@ -848,16 +823,6 @@
 					],
 					"description": "Clinician signs up for tidepool, and fills out profile.",
 					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "daad11f0-e984-4dd7-88ef-cb932e5e3840",
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
 						{
 							"listen": "test",
 							"script": {
@@ -1218,24 +1183,12 @@
 											"let jsonData = pm.response.json();",
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, jsonData,\"smbgsSchema\");",
-											"",
 											"pm.test(\"one item is returned\", function () {",
-											"    pm.expect(jsonData.length).to.eql(1);",
+											"pm.expect(jsonData.length).to.eql(1);",
 											"});",
-											"",
 											"pm.test(\"the returned item is the same that we uploaded\", function () {",
-											"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
 											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "0a47dc5d-d9af-4ffb-bff0-b385c27eedba",
-										"exec": [
-											""
 										],
 										"type": "text/javascript"
 									}
@@ -1298,24 +1251,12 @@
 											"let jsonData = pm.response.json();",
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, jsonData,\"cbgSchema\");",
-											"",
 											"pm.test(\"one item is returned\", function () {",
-											"    pm.expect(jsonData.length).to.eql(1);",
+											"pm.expect(jsonData.length).to.eql(1);",
 											"});",
-											"",
 											"pm.test(\"the returned item is the same that we uploaded\", function () {",
-											"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
 											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "7ef783a8-83cc-41e7-ace0-bc3744ac8828",
-										"exec": [
-											""
 										],
 										"type": "text/javascript"
 									}
@@ -1378,23 +1319,12 @@
 											"let jsonData = pm.response.json();",
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, jsonData,\"bolusSchema\");",
-											"",
 											"pm.test(\"one item is returned\", function () {",
 											"    pm.expect(jsonData.length).to.eql(1);",
 											"});",
 											"pm.test(\"the returned item is the same that we uploaded\", function () {",
 											"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
 											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "37efbc9c-6df4-447b-8adf-c47f42b258b4",
-										"exec": [
-											""
 										],
 										"type": "text/javascript"
 									}
@@ -1457,8 +1387,7 @@
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
 											"let jsonData = pm.response.json();",
-											"pm.variables.set(\"messageId\", jsonData.id);",
-											""
+											"pm.variables.set(\"messageId\", jsonData.id);"
 										],
 										"type": "text/javascript"
 									}
@@ -1518,10 +1447,9 @@
 										"exec": [
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
-											"",
 											"pm.test(\"Note retrieved is the same one we created\", function () {",
-											"    let jsonData = pm.response.json();",
-											"    pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
+											"let jsonData = pm.response.json();",
+											"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
 											"});"
 										],
 										"type": "text/javascript"
@@ -1585,11 +1513,7 @@
 											"assert.common(201, 1000, true, null,\"\");",
 											"let jsonData = pm.response.json();",
 											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
-											"pm.variables.set(\"userId\", jsonData.userid);",
-											"",
-											"",
-											"",
-											""
+											"pm.variables.set(\"userId\", jsonData.userid);"
 										],
 										"type": "text/javascript"
 									}
@@ -1758,8 +1682,7 @@
 										"id": "72c670e2-6124-4542-8129-8d988033eaa1",
 										"exec": [
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 500, false, pm.response.json(),\"userSchema\");",
-											""
+											"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
 										],
 										"type": "text/javascript"
 									}
@@ -1771,7 +1694,7 @@
 										"exec": [
 											"var moment = require('moment');\r",
 											"\r",
-											"    pm.variables.set(\"currentTimestamp\", moment().format());"
+											"pm.variables.set(\"currentTimestamp\", moment().format());"
 										],
 										"type": "text/javascript"
 									}
@@ -1976,10 +1899,9 @@
 										"exec": [
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");",
-											"",
 											"pm.test(\"Verify settings change to mmol\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.units.bg).to.eql(\"mmol/L\");",
+											"var jsonData = pm.response.json();",
+											"pm.expect(jsonData.units.bg).to.eql(\"mmol/L\");",
 											"});"
 										],
 										"type": "text/javascript"
@@ -2013,16 +1935,6 @@
 						{
 							"name": "Tidepool data donation opt-in",
 							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "321830da-1cf8-4657-aeed-8842df917423",
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
 								{
 									"listen": "test",
 									"script": {
@@ -2072,16 +1984,6 @@
 							"name": "Data donation selection",
 							"event": [
 								{
-									"listen": "prerequest",
-									"script": {
-										"id": "0a1f8da8-1d26-407e-a396-40e9d03b90ab",
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
 									"listen": "test",
 									"script": {
 										"id": "dab4b424-6558-42e5-936b-03241188dfad",
@@ -2130,16 +2032,6 @@
 							"name": "Tidepool data donation opt-out",
 							"event": [
 								{
-									"listen": "prerequest",
-									"script": {
-										"id": "71102455-49f1-4b0c-b1eb-38b4b8b9dae1",
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
 									"listen": "test",
 									"script": {
 										"id": "73cf331e-df83-4f3c-8ef1-976789e04f9d",
@@ -2179,16 +2071,6 @@
 						{
 							"name": "Remove data donation selection",
 							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "2dc55a38-65ee-4826-aeab-bdb64b5e20db",
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
 								{
 									"listen": "test",
 									"script": {
@@ -2269,16 +2151,6 @@
 					],
 					"description": "The initial interactions a user goes through to sign up for tidepool and set up their profile.",
 					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "7379ae5d-55a4-4c71-8e38-e64eefdb866c",
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
 						{
 							"listen": "test",
 							"script": {
@@ -2472,24 +2344,12 @@
 											"let jsonData = pm.response.json();",
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, jsonData,\"smbgsSchema\");",
-											"",
 											"pm.test(\"one item is returned\", function () {",
-											"    pm.expect(jsonData.length).to.eql(1);",
+											"pm.expect(jsonData.length).to.eql(1);",
 											"});",
-											"",
 											"pm.test(\"the returned item is the same that we uploaded\", function () {",
-											"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
 											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "64a3139e-b269-4ec5-a84d-13aad63dbc19",
-										"exec": [
-											""
 										],
 										"type": "text/javascript"
 									}
@@ -2552,24 +2412,12 @@
 											"let jsonData = pm.response.json();",
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, jsonData,\"cbgSchema\");",
-											"",
 											"pm.test(\"one item is returned\", function () {",
-											"    pm.expect(jsonData.length).to.eql(1);",
+											"pm.expect(jsonData.length).to.eql(1);",
 											"});",
-											"",
 											"pm.test(\"the returned item is the same that we uploaded\", function () {",
-											"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
 											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "34c264f7-be59-4be3-ae5a-342dfd3f429d",
-										"exec": [
-											""
 										],
 										"type": "text/javascript"
 									}
@@ -2632,23 +2480,12 @@
 											"let jsonData = pm.response.json();",
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, jsonData,\"bolusSchema\");",
-											"",
 											"pm.test(\"one item is returned\", function () {",
-											"    pm.expect(jsonData.length).to.eql(1);",
+											"pm.expect(jsonData.length).to.eql(1);",
 											"});",
 											"pm.test(\"the returned item is the same that we uploaded\", function () {",
-											"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
 											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "86c1f903-b9b1-4588-9186-b780c295b580",
-										"exec": [
-											""
 										],
 										"type": "text/javascript"
 									}
@@ -2711,8 +2548,7 @@
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
 											"let jsonData = pm.response.json();",
-											"pm.variables.set(\"messageId\", jsonData.id);",
-											""
+											"pm.variables.set(\"messageId\", jsonData.id);"
 										],
 										"type": "text/javascript"
 									}
@@ -2772,10 +2608,9 @@
 										"exec": [
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
-											"",
 											"pm.test(\"Note retrieved is the same one we created\", function () {",
-											"    let jsonData = pm.response.json();",
-											"    pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
+											"let jsonData = pm.response.json();",
+											"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
 											"});"
 										],
 										"type": "text/javascript"
@@ -2820,16 +2655,6 @@
 											"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");",
 											"let jsonData = pm.response.json();",
 											"pm.variables.set(\"inviteKey\", jsonData.key);"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "68b2b9e4-f5b2-44ab-90c8-8579c1a40a46",
-										"exec": [
-											""
 										],
 										"type": "text/javascript"
 									}
@@ -3066,23 +2891,12 @@
 											"let jsonData = pm.response.json();",
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, jsonData,\"smbgsSchema\");",
-											"",
 											"pm.test(\"one item is returned\", function () {",
-											"    pm.expect(jsonData.length).to.eql(1);",
+											"pm.expect(jsonData.length).to.eql(1);",
 											"});",
 											"pm.test(\"the returned item is the same that we uploaded\", function () {",
-											"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
 											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "a89d336e-fef8-4af7-819d-dbd37e7f113a",
-										"exec": [
-											""
 										],
 										"type": "text/javascript"
 									}
@@ -3145,23 +2959,12 @@
 											"let jsonData = pm.response.json();",
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, jsonData,\"cbgSchema\");",
-											"",
 											"pm.test(\"one item is returned\", function () {",
-											"    pm.expect(jsonData.length).to.eql(1);",
+											"pm.expect(jsonData.length).to.eql(1);",
 											"});",
 											"pm.test(\"the returned item is the same that we uploaded\", function () {",
-											"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
 											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "015c5659-93f8-4aaf-909c-f47d05a34909",
-										"exec": [
-											""
 										],
 										"type": "text/javascript"
 									}
@@ -3224,24 +3027,12 @@
 											"let jsonData = pm.response.json();",
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, jsonData,\"bolusSchema\");",
-											"",
 											"pm.test(\"one item is returned\", function () {",
-											"    pm.expect(jsonData.length).to.eql(1);",
+											"pm.expect(jsonData.length).to.eql(1);",
 											"});",
-											"",
 											"pm.test(\"the returned item is the same that we uploaded\", function () {",
-											"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
 											"});"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "1c9dcf92-a5ea-48f1-a420-adab56271a9b",
-										"exec": [
-											""
 										],
 										"type": "text/javascript"
 									}
@@ -3303,10 +3094,9 @@
 										"exec": [
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
-											"",
 											"pm.test(\"Note retrieved is the same one we created\", function () {",
-											"    let jsonData = pm.response.json();",
-											"    pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
+											"let jsonData = pm.response.json();",
+											"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
 											"});"
 										],
 										"type": "text/javascript"
@@ -3450,8 +3240,7 @@
 											"pm.variables.set(\"userId\", jsonData.userid);",
 											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 1000, true, jsonData,\"userSchema\");",
-											""
+											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
 										],
 										"type": "text/javascript"
 									}
@@ -3519,16 +3308,6 @@
 										"exec": [
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 1000, false, null,\"\");"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "b1d4bf00-d8c8-4938-a47b-430ac4cffbb0",
-										"exec": [
-											""
 										],
 										"type": "text/javascript"
 									}
@@ -3869,10 +3648,9 @@
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
-									"",
 									"pm.test(\"User created within last 12 Hours\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"newUserActivity\"));",
+									"var jsonData = pm.response.json();",
+									"pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"newUserActivity\"));",
 									"});"
 								],
 								"type": "text/javascript"
@@ -3999,15 +3777,14 @@
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
-									"",
 									"pm.test(\"Marketo has delivered emails within the last hour\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"campaignEmailSent\"));",
+									"var jsonData = pm.response.json();",
+									"pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"campaignEmailSent\"));",
 									"});",
 									"if (pm.environment.get('api') == \"https://stg-api.tidepool.org\") {",
-									"    postman.setNextRequest(null);",
+									"postman.setNextRequest(null);",
 									"} else if (pm.environment.get('api') == \"https://dev-api.tidepool.org\") {",
-									"    postman.setNextRequest(null);",
+									"postman.setNextRequest(null);",
 									"};"
 								],
 								"type": "text/javascript"
