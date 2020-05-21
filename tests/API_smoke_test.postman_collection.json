@@ -342,16 +342,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3433a954-3a9e-49f4-a76b-3dd76c7b493a",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -479,7 +469,10 @@
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
 									"let jsonData = pm.response.json();",
-									"pm.variables.set(\"marketoAccessToken\", jsonData.access_token);"
+									"pm.variables.set(\"marketoAccessToken\", jsonData.access_token);",
+									"if (pm.environment.get('api') == \"https://stg-api.tidepool.org\"){",
+									"    postman.setNextRequest(\"Retrieve paging token for the last 12 hours\");",
+									"};"
 								],
 								"type": "text/javascript"
 							}
@@ -520,16 +513,6 @@
 				{
 					"name": "Get lead email address initial",
 					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "c9f0ac6a-546d-482f-8f18-ce16a9b6e13d",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
 						{
 							"listen": "test",
 							"script": {
@@ -898,7 +881,10 @@
 									"pm.test(\"Marketo has delivered emails within the last hour\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"campaignEmailSent\"));",
-									"});"
+									"});",
+									"if (pm.environment.get('api') == \"https://stg-api.tidepool.org\"){",
+									"    postman.setNextRequest(null);",
+									"};"
 								],
 								"type": "text/javascript"
 							}
@@ -940,23 +926,12 @@
 					"name": "Get lead email address updated",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"id": "c9f0ac6a-546d-482f-8f18-ce16a9b6e13d",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
 								"id": "29535b0a-7fee-42ef-8c79-2bcc5a383f94",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
-									"",
 									"pm.test(\"Verify Lead email updated in Marketo\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.result[0].email).to.eql(pm.variables.get(\"newMarketoEmail\"));",
@@ -997,16 +972,6 @@
 			],
 			"description": "A series of tests designed around making sure new clinicians and DSAs are being connected via shoreline to our marketing campaigns.",
 			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "1aa215b0-df87-4014-b78a-0236be1b78af",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
 				{
 					"listen": "test",
 					"script": {
