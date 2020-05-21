@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "fbc22dde-d18f-4a6e-80b4-f134bea518bb",
+		"_postman_id": "d776a224-095a-4bba-8a69-152f44c943e5",
 		"name": "API_smoke_test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "clients smoke test",
+			"name": "Clients smoke test",
 			"item": [
 				{
 					"name": "login to tidepool",
@@ -14,14 +14,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e4d13014-e96d-448d-9111-9e7e7ad6b0d4",
+								"id": "ad900ab3-33fc-49aa-ae9e-2439709e48a9",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");",
-									""
+									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -78,11 +77,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5b06c4cb-d22f-4aaa-affd-21409f088ebb",
+								"id": "7856a3bb-7fee-4078-a57e-670498f4eec7",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");",
-									""
+									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -120,7 +118,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b47e6bc6-1c25-4cfc-8108-c74526b62955",
+								"id": "6b0fc2eb-293a-4f4c-b930-df7b744846de",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");"
@@ -131,10 +129,10 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "67c1ccc0-0e8e-44f9-a0ce-886ea2da1e0b",
+								"id": "04b3c212-67ae-41e7-a23a-899654efda51",
 								"exec": [
 									"const emailName = pm.environment.get(\"sharingEmailName\");",
-									"let emailAddress = emailName+ \"+sharing_\" + Date.now() + \"@tidepool.org\"",
+									"let emailAddress = emailName+ \"+sharing_\" + Date.now() + \"@tidepool.org\";",
 									"pm.variables.set(\"sharingEmailAddress\", emailAddress);"
 								],
 								"type": "text/javascript"
@@ -178,11 +176,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "315a1b8e-22d1-4abf-93b1-58bd2eb5dd2b",
+								"id": "ae9f7330-6024-487a-9b06-5ead283ce44e",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
-									""
+									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -224,7 +221,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "49096de6-a53b-4493-a7c1-1627631c2094",
+								"id": "16fdcecc-ca9e-4f87-86ac-6ba682fec251",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");"
@@ -265,15 +262,14 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "5eec4f64-9ca9-4b90-8c8c-4f184d1cf424",
+								"id": "3788e978-0b8c-4ab1-b137-410196aaafab",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
 									"const moment = require('moment');",
 									"let now = moment();",
 									"pm.variables.set(\"uploadDeviceDataItemTime\", now.format());",
-									"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", now.format('YYYY-MM-DDThh:mm:ss'));",
-									""
+									"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", now.format('YYYY-MM-DDThh:mm:ss'));"
 								],
 								"type": "text/javascript"
 							}
@@ -281,7 +277,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a21e1e5d-4c57-47bf-8a38-96791c8583c4",
+								"id": "f8160b1e-88da-40a0-8fb0-29b189f3b636",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -325,20 +321,17 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a72235ed-4133-4143-bdfa-540bbbbe5163",
+								"id": "c2272e7d-435d-4cfb-933f-575232eccb36",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, jsonData,\"smbgsSchema\");",
 									"pm.test(\"one item is returned\", function () {",
-									"    pm.expect(jsonData.length).to.eql(1);",
+									"pm.expect(jsonData.length).to.eql(1);",
 									"});",
 									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
-									"});",
-									"",
-									"",
-									""
+									"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -395,7 +388,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "02ffe106-2550-4588-8f2e-e2dec4073e3c",
+								"id": "2342750f-fa3a-41db-97c2-7c4e8394b1ac",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -433,24 +426,2930 @@
 			"description": "Non-specific usage of the tidepool API with the goal of giving it a quick smoke test so see that its is working as many clients would execpt it too. We are looking at\n\n - response code\n - response timing \n - headers, specificcally the x-tidepool-session and content type\n - response json data to make sure it matches our schema expectations at a high level",
 			"event": [
 				{
-					"listen": "prerequest",
-					"script": {
-						"id": "f490c89e-1add-4378-8e78-76aa9c109d81",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
 					"listen": "test",
 					"script": {
-						"id": "263e4689-3703-45f6-89f9-d17b16c8cf54",
+						"id": "a9b4ea30-b625-49e9-bede-e6cced02a62b",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Contract tests",
+			"item": [
+				{
+					"name": "Clinician signup and setup",
+					"item": [
+						{
+							"name": "Clinician sign up",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "1384d9c5-ed1c-434d-91a3-4b8eb7f6b2cd",
+										"exec": [
+											"var moment = require('moment');",
+											"pm.variables.set(\"currentTimestamp\", moment().unix());"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "7e9e7045-f302-481e-b9d7-cb5e70cf54e7",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(201, 1000, true, null,\"\");",
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"pm.variables.set(\"userId\", jsonData.userid);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"qa+automatedclinician{{currentTimestamp}}@tidepool.org\",\n    \"password\": \"{{$randomPassword}}\",\n    \"emails\": [\n        \"qa+automatedclinician{{currentTimestamp}}@tidepool.org\"\n    ],\n    \"roles\": [\n        \"clinic\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Initial sign-up for the clinician account, which includes creation of the \n    \n    `userId`\n    "
+							},
+							"response": []
+						},
+						{
+							"name": "Send email verification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d1ecd0c9-bef1-4d34-b9b7-b76e9dcb9904",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/send/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Send the email confirmation using the `userId` we picked up in the last request."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve email key",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5794ec4f-5237-4f8d-bd02-6a59b1891044",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");",
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"emailKey\", jsonData[0].key);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Get `emailKey` to use in next request to confirm email"
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "bbad86d8-40e5-4c98-a6bb-a41905bb5f20",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/accept/signup/{{emailKey}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"accept",
+										"signup",
+										"{{emailKey}}"
+									]
+								},
+								"description": "Using `emailKey` to confirm email."
+							},
+							"response": []
+						},
+						{
+							"name": "Accept terms",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d7c417a5-d1e7-4169-a251-957a5970ee19",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "bf7ab999-caf7-4d28-a592-dc5d7bc2b2be",
+										"exec": [
+											"var moment = require('moment');\r",
+											"pm.variables.set(\"currentTimestamp\", moment().format());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"updates\":{\"termsAccepted\":\"{{currentTimestamp}}\"}}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Accepting Terms and conditions"
+							},
+							"response": []
+						},
+						{
+							"name": "Initial clinic profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5eec2d2b-f472-49a3-af16-07ad02a8e275",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "dedc6267-7a74-41ac-8120-5cf13edec5a7",
+										"exec": [
+											"var moment = require('moment');\r",
+											"let newMoment = moment().subtract(18, 'years');\r",
+											"pm.variables.set(\"birthdate\", newMoment.format('YYYY-MM-DD'));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fullName\":\"{{$randomFullName}}\",\"clinic\":{\"role\":\"endocrinologist\",\"name\":\"{{$randomCompanyName}} Clinic\",\"telephone\":\"{{$randomPhoneNumber}}\"}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve user profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4a5b6feb-0868-4c60-aaeb-46b17faa1710",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								},
+								"description": "Verify user profile stored successfully."
+							},
+							"response": []
+						},
+						{
+							"name": "Logout of tidepool",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b96d623a-e084-4259-a2a0-39fbe5b25100",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 300, false, null, \"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{api}}/auth/logout",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Clinician signs up for tidepool, and fills out profile.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bc7828d9-8623-4a21-a0ac-77858c256cfb",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Clinicians new patient appt",
+					"item": [
+						{
+							"name": "Clincian login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "522458dd-72b9-429a-afab-2f3c7a79a975",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{clinicPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{clinicEmail}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/auth/login",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve user profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c6301818-6014-4194-a8d9-7858f7e63bce",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								},
+								"description": "Verify user profile stored successfully."
+							},
+							"response": []
+						},
+						{
+							"name": "Create custodial user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "33dcaff0-d65e-4ad9-9008-404e7004f767",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"custodialUserId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(201, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user/{{userId}}/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user",
+										"{{userId}}",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clinician login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "84630da1-a648-4c4e-8b22-3198f5ea3571",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{clinicPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{clinicEmail}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/auth/login",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create custodial profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "83cd7da6-66b3-4d41-adb6-13e6a6b073c8",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "8c7de871-136d-4464-aee0-973c76e03a1a",
+										"exec": [
+											"var moment = require('moment');\r",
+											"let newMoment = moment().subtract(18, 'years');\r",
+											"pm.variables.set(\"birthdate\", newMoment.format('YYYY-MM-DD'));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fullName\":\"{{$randomFullName}}\",\"patient\":{\"birthday\":\"{{birthdate}}\",\"mrn\":\"{{$randomInt}}\",\"targetTimezone\":\"US/Eastern\"}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/metadata/{{custodialUserId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{custodialUserId}}",
+										"profile"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "Upload device data",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "d6c174f8-858d-4d09-b939-8e123c71a6c8",
+										"exec": [
+											"const uuid = require('uuid');",
+											"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
+											"const moment = require('moment');",
+											"let now = moment();",
+											"pm.variables.set(\"uploadDeviceDataItemTime\", now.format());",
+											"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", now.format('YYYY-MM-DDThh:mm:ss'));",
+											"pm.variables.set(\"uploadId\", uuid.v4().replace(/-/g, '').slice(0,12));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "d749b280-314d-4521-b63b-422351bc27bd",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null, \"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  {\n    \"type\": \"smbg\",\n    \"subType\": \"manual\",\n    \"units\": \"mg/dL\",\n    \"value\": 205.331314156239124,\n    \"clockDriftOffset\": -579000,\n    \"conversionOffset\": 0,\n    \"deviceId\": \"meter-123\",\n    \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n    \"guid\": \"{{uploadDeviceDataItemId}}\",\n    \"id\": \"{{uploadDeviceDataItemId}}\",\n    \"time\": \"{{uploadDeviceDataItemTime}}\",\n    \"timezoneOffset\": 600,\n    \"uploadId\": \"{{uploadId}}\"\n},\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{uploadDeviceDataItemId}}\",\n        \"normal\": 2.47,\n        \"payload\": {\n            \"logIndices\": [\n                2\n            ]\n        },\n        \"subType\": \"normal\",\n        \"time\": \"{{uploadDeviceDataItemTime}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"bolus\",\n        \"uploadId\": \"{{uploadId}}\"\n    },\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{uploadDeviceDataItemId}}\",\n        \"payload\": {\n            \"logIndices\": [\n                1\n            ],\n            \"type\": [\n                \"Five Minute Reading (FMR)\"\n            ]\n        },\n        \"time\": \"{{uploadDeviceDataItemTime}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"cbg\",\n        \"units\": \"mmol/L\",\n        \"uploadId\": \"{{uploadId}}\",\n        \"value\": 8.437136946389211\n    }\n]"
+								},
+								"url": {
+									"raw": "{{api}}/data/{{custodialUserId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{custodialUserId}}"
+									]
+								},
+								"description": "uploading smbg, cbg and bolus data"
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last SMBG data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5f2e8e6b-bb21-4c9d-8cdb-0f5150a22d13",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, jsonData,\"smbgsSchema\");",
+											"pm.test(\"one item is returned\", function () {",
+											"pm.expect(jsonData.length).to.eql(1);",
+											"});",
+											"pm.test(\"the returned item is the same that we uploaded\", function () {",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/data/{{custodialUserId}}?latest=true&type=smbg",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{custodialUserId}}"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "{{dDataStartDate}}",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "{{dDataEndDate}}",
+											"disabled": true
+										},
+										{
+											"key": "latest",
+											"value": "true"
+										},
+										{
+											"key": "type",
+											"value": "smbg"
+										}
+									]
+								},
+								"description": "Verifying the data was stored from previous request to upload meter data."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last CBG data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f6ea9f5d-9abf-47fe-b2a2-d9da77c5dd00",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, jsonData,\"cbgSchema\");",
+											"pm.test(\"one item is returned\", function () {",
+											"pm.expect(jsonData.length).to.eql(1);",
+											"});",
+											"pm.test(\"the returned item is the same that we uploaded\", function () {",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/data/{{custodialUserId}}?latest=true&type=cbg",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{custodialUserId}}"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "{{dDataStartDate}}",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "{{dDataEndDate}}",
+											"disabled": true
+										},
+										{
+											"key": "latest",
+											"value": "true"
+										},
+										{
+											"key": "type",
+											"value": "cbg"
+										}
+									]
+								},
+								"description": "Verifying the data was stored from previous request to upload pump data."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last bolus data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1be8ca42-ded7-4a2b-adb1-7c6d885632a7",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, jsonData,\"bolusSchema\");",
+											"pm.test(\"one item is returned\", function () {",
+											"    pm.expect(jsonData.length).to.eql(1);",
+											"});",
+											"pm.test(\"the returned item is the same that we uploaded\", function () {",
+											"    pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/data/{{custodialUserId}}?latest=true&type=bolus",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{custodialUserId}}"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "{{dDataStartDate}}",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "{{dDataEndDate}}",
+											"disabled": true
+										},
+										{
+											"key": "latest",
+											"value": "true"
+										},
+										{
+											"key": "type",
+											"value": "bolus"
+										}
+									]
+								},
+								"description": "Verifying the data was stored from previous request to upload pump data."
+							},
+							"response": []
+						},
+						{
+							"name": "Create note",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "81320078-ef55-45e4-bdcd-2b58a4670b09",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"messageId\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "12240f8d-ad1e-4837-b187-5897d9a42cd4",
+										"exec": [
+											"const uuid = require('uuid');",
+											"pm.variables.set(\"messageGUI\", uuid.v4());",
+											"const moment = require('moment');",
+											"let now = moment();",
+											"pm.variables.set(\"noteCreationTime\", now.format());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"message\": {\n        \"guid\": \"{{messageGUI}}\",\n        \"userid\": \"{{userId}}\",\n        \"groupid\":\"{{userId}}\",\n        \"timestamp\": \"{{noteCreationTime}}}\",\n        \"messagetext\": \"Increasing nighttime basal rate\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{api}}/message/send/{{custodialUserId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"message",
+										"send",
+										"{{custodialUserId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last note",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "719593a0-40b3-4ab6-8d8f-70df43997c31",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
+											"pm.test(\"Note retrieved is the same one we created\", function () {",
+											"let jsonData = pm.response.json();",
+											"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/message/thread/{{messageId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"message",
+										"thread",
+										"{{messageId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Clinician adds new custodial patient, uploads data, and creates notes. Custodial patient claims account.",
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "DSA signup and setup",
+					"item": [
+						{
+							"name": "DSA sign-up",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "bc7b1f58-fbc9-4693-8bfa-e3b84b4bf956",
+										"exec": [
+											"var moment = require('moment');",
+											"pm.variables.set(\"currentTimestamp\", moment().unix());"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "a8de9528-ea58-49b8-ac94-9cfaf5ee467e",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(201, 1000, true, null,\"\");",
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"pm.variables.set(\"userId\", jsonData.userid);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"username\":\"qa+automated{{currentTimestamp}}@tidepool.org\",\"password\":\"tidepoolrocks\",\"emails\":[\"qa+automated{{currentTimestamp}}@tidepool.org\"],\"roles\":[]}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Initial sign-up for a data storage account, which includes creation of the \n    \n    `userId`\n    "
+							},
+							"response": []
+						},
+						{
+							"name": "Send email verification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "94c0f7f2-2e3c-42f9-8994-c45d2f2e2158",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/send/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Send the email confirmation using the `userId` we picked up in the last request."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve email key",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3f480664-20be-4b60-a881-ee84fb0e95a4",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");",
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"emailKey\", jsonData[0].key);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Get `emailKey` to use in next request to confirm email"
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4035d84f-7be0-412f-b80d-0d723368c245",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/accept/signup/{{emailKey}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"accept",
+										"signup",
+										"{{emailKey}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Using `emailKey` to confirm email."
+							},
+							"response": []
+						},
+						{
+							"name": "Accept terms",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "72c670e2-6124-4542-8129-8d988033eaa1",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "1480e5e2-93a5-45b3-86a5-073ee4180be2",
+										"exec": [
+											"var moment = require('moment');\r",
+											"\r",
+											"pm.variables.set(\"currentTimestamp\", moment().format());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"updates\":{\"termsAccepted\":\"{{currentTimestamp}}\"}}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Accepting Terms and conditions"
+							},
+							"response": []
+						},
+						{
+							"name": "Initial DSA profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3e4d7c43-b62d-4a26-ae9a-4244089b0d30",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "911ade11-35ae-4e9b-a977-335580365105",
+										"exec": [
+											"var moment = require('moment');\r",
+											"let newMoment = moment().subtract(18, 'years');\r",
+											"pm.variables.set(\"birthdate\", newMoment.format('YYYY-MM-DD'));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fullName\":\"{{$randomFullName}}\",\"patient\":{\"birthday\":\"{{birthdate}}\",\"diagnosis date\":\"{{birthdate}}\"}}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								},
+								"description": "Setting up Name and birthdate (18 years old) for the new user."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve user profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6686dd4e-5364-4854-a696-55efa8b5e853",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								},
+								"description": "Verify user profile stored successfully."
+							},
+							"response": []
+						},
+						{
+							"name": "Change BG Units",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9ba289e7-17ae-4543-b3d0-d70c2ebc72c6",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"bgTarget\":{\"high\":10,\"low\":3.9},\"units\":{\"bg\":\"mmol/L\"}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/settings",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"settings"
+									]
+								},
+								"description": "Changing BG units to mmol/L, another aspect a user can change in the user profile."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve settings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "488039d6-eed4-4ec1-b47b-0e0e6816349a",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");",
+											"pm.test(\"Verify settings change to mmol\", function () {",
+											"var jsonData = pm.response.json();",
+											"pm.expect(jsonData.units.bg).to.eql(\"mmol/L\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/settings",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"settings"
+									]
+								},
+								"description": "Verifying the change to mmol/L was stored."
+							},
+							"response": []
+						},
+						{
+							"name": "Tidepool data donation opt-in",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1b515972-8e68-4e51-a57d-c2ef4b8a7e36",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"email\":\"{{dataDonationEmail}}\",\"permissions\":{\"view\":{},\"note\":{}}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/confirm/send/invite/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"invite",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Data donation selection",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dab4b424-6558-42e5-936b-03241188dfad",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"email\":\"{{dataDonationOrgEmail}}\",\"permissions\":{\"view\":{},\"note\":{}}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/confirm/send/invite/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"invite",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Tidepool data donation opt-out",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "73cf331e-df83-4f3c-8ef1-976789e04f9d",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/{{userId}}/invited/{{dataDonationEmail}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"{{userId}}",
+										"invited",
+										"{{dataDonationEmail}}"
+									]
+								},
+								"description": "This removes the data donation option and makes sure our test accounts aren't being added to the data pool."
+							},
+							"response": []
+						},
+						{
+							"name": "Remove data donation selection",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "65068ca1-dea3-46a8-a9ac-573691858798",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/{{userId}}/invited/{{dataDonationOrgEmail}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"{{userId}}",
+										"invited",
+										"{{dataDonationOrgEmail}}"
+									]
+								},
+								"description": "This removes the data donation selection 'JDRF' and makes sure our test accounts aren't being added to the data pool."
+							},
+							"response": []
+						},
+						{
+							"name": "Logout of tidepool",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e34b8f89-2424-44c2-825c-c2a8ba893cbc",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 300, false, null, \"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{api}}/auth/logout",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "The initial interactions a user goes through to sign up for tidepool and set up their profile.",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b919ba9d-2239-48d5-9617-5d59f5c0fec7",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "DSAs clincian appt",
+					"item": [
+						{
+							"name": "DSA login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "aa55e7ba-1ebf-4515-8abc-9f36f206ba7f",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{loginPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{loginEmail}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{api}}/auth/login",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve user profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "701b823d-fd3e-446b-af7f-a989d2124728",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload device data",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "06df33c1-7046-4838-b067-26571d95841f",
+										"exec": [
+											"const uuid = require('uuid');",
+											"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
+											"const moment = require('moment');",
+											"let now = moment();",
+											"pm.variables.set(\"uploadDeviceDataItemTime\", now.format());",
+											"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", now.format('YYYY-MM-DDThh:mm:ss'));",
+											"pm.variables.set(\"uploadId\", uuid.v4().replace(/-/g, '').slice(0,12));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "16955a7d-4e95-49e5-84b8-0e728c66e828",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null, \"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  {\n    \"type\": \"smbg\",\n    \"subType\": \"manual\",\n    \"units\": \"mg/dL\",\n    \"value\": 205.331314156239124,\n    \"clockDriftOffset\": -579000,\n    \"conversionOffset\": 0,\n    \"deviceId\": \"meter-123\",\n    \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n    \"guid\": \"{{uploadDeviceDataItemId}}\",\n    \"id\": \"{{uploadDeviceDataItemId}}\",\n    \"time\": \"{{uploadDeviceDataItemTime}}\",\n    \"timezoneOffset\": 600,\n    \"uploadId\": \"{{uploadId}}\"\n},\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{uploadDeviceDataItemId}}\",\n        \"normal\": 2.47,\n        \"payload\": {\n            \"logIndices\": [\n                2\n            ]\n        },\n        \"subType\": \"normal\",\n        \"time\": \"{{uploadDeviceDataItemTime}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"bolus\",\n        \"uploadId\": \"{{uploadId}}\"\n    },\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{uploadDeviceDataItemId}}\",\n        \"payload\": {\n            \"logIndices\": [\n                1\n            ],\n            \"type\": [\n                \"Five Minute Reading (FMR)\"\n            ]\n        },\n        \"time\": \"{{uploadDeviceDataItemTime}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"cbg\",\n        \"units\": \"mmol/L\",\n        \"uploadId\": \"{{uploadId}}\",\n        \"value\": 8.437136946389211\n    }\n]"
+								},
+								"url": {
+									"raw": "{{api}}/data/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{userId}}"
+									]
+								},
+								"description": "uploading smbg, cbg and bolus data"
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last SMBG data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "34aeccd6-4ae9-4bab-a251-9c1b90906d50",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, jsonData,\"smbgsSchema\");",
+											"pm.test(\"one item is returned\", function () {",
+											"pm.expect(jsonData.length).to.eql(1);",
+											"});",
+											"pm.test(\"the returned item is the same that we uploaded\", function () {",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/data/{{userId}}?latest=true&type=smbg",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{userId}}"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "{{dDataStartDate}}",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "{{dDataEndDate}}",
+											"disabled": true
+										},
+										{
+											"key": "latest",
+											"value": "true"
+										},
+										{
+											"key": "type",
+											"value": "smbg"
+										}
+									]
+								},
+								"description": "Verifying the data was stored from previous request to upload meter data."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last CBG data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "07e4a23e-292a-499c-bce2-9dbcaabbe243",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, jsonData,\"cbgSchema\");",
+											"pm.test(\"one item is returned\", function () {",
+											"pm.expect(jsonData.length).to.eql(1);",
+											"});",
+											"pm.test(\"the returned item is the same that we uploaded\", function () {",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/data/{{userId}}?latest=true&type=cbg",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{userId}}"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "{{dDataStartDate}}",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "{{dDataEndDate}}",
+											"disabled": true
+										},
+										{
+											"key": "latest",
+											"value": "true"
+										},
+										{
+											"key": "type",
+											"value": "cbg"
+										}
+									]
+								},
+								"description": "Verifying the data was stored from previous request to upload pump data."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last bolus data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d38f3586-f7ee-4c54-9440-36aa13983bd1",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, jsonData,\"bolusSchema\");",
+											"pm.test(\"one item is returned\", function () {",
+											"pm.expect(jsonData.length).to.eql(1);",
+											"});",
+											"pm.test(\"the returned item is the same that we uploaded\", function () {",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/data/{{userId}}?latest=true&type=bolus",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{userId}}"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "{{dDataStartDate}}",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "{{dDataEndDate}}",
+											"disabled": true
+										},
+										{
+											"key": "latest",
+											"value": "true"
+										},
+										{
+											"key": "type",
+											"value": "bolus"
+										}
+									]
+								},
+								"description": "Verifying the data was stored from previous request to upload pump data."
+							},
+							"response": []
+						},
+						{
+							"name": "Create note",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7e9c979e-b563-4e9a-889f-1291779cc87b",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"messageId\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "66aca928-837a-4c66-9f2b-244aaa1d448a",
+										"exec": [
+											"const uuid = require('uuid');",
+											"pm.variables.set(\"messageGUI\", uuid.v4());",
+											"const moment = require('moment');",
+											"let now = moment();",
+											"pm.variables.set(\"noteCreationTime\", now.format());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"message\": {\n        \"guid\": \"{{messageGUI}}\",\n        \"userid\": \"{{userId}}\",\n        \"groupid\":\"{{userId}}\",\n        \"timestamp\": \"{{noteCreationTime}}}\",\n        \"messagetext\": \"Forgot to Bolus for Meal\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{api}}/message/send/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"message",
+										"send",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last note",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1b7ac879-4e86-4ae3-87df-1baaa1a587af",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
+											"pm.test(\"Note retrieved is the same one we created\", function () {",
+											"let jsonData = pm.response.json();",
+											"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/message/thread/{{messageId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"message",
+										"thread",
+										"{{messageId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invite clinician to see data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4e746d79-8d9a-4a7d-b363-c71be2db24d8",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");",
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"inviteKey\", jsonData.key);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"qa+clinician@tidepool.org\",\n  \"permissions\": {\n    \"view\": {},\n    \"note\":{},\n    \"upload\":{}\n  }\n}"
+								},
+								"url": {
+									"raw": "{{api}}/confirm/send/invite/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"invite",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout of tidepool",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cd3b6985-171f-4450-89c0-5f85a788ff01",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 300, false, null, \"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{api}}/auth/logout",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clincian login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8e63a616-b09e-45b0-9c89-e6e4aef23f49",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"clinicUserId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{clinicPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{clinicEmail}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{api}}/auth/login",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm invitation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1e09a3b7-1632-47dc-beff-78c9f1176a6c",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"key\":\"{{inviteKey}}\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/confirm/accept/invite/{{clinicUserId}}/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"accept",
+										"invite",
+										"{{clinicUserId}}",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve user profile (clinic)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "99b7bbb0-9b1b-4b4b-b02f-cdb67e2c2771",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last SMBG data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "13f73d9b-d89c-4bf6-b009-988700db4648",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, jsonData,\"smbgsSchema\");",
+											"pm.test(\"one item is returned\", function () {",
+											"pm.expect(jsonData.length).to.eql(1);",
+											"});",
+											"pm.test(\"the returned item is the same that we uploaded\", function () {",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/data/{{userId}}?latest=true&type=smbg",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{userId}}"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "{{dDataStartDate}}",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "{{dDataEndDate}}",
+											"disabled": true
+										},
+										{
+											"key": "latest",
+											"value": "true"
+										},
+										{
+											"key": "type",
+											"value": "smbg"
+										}
+									]
+								},
+								"description": "Verifying the data was stored from previous request to upload meter data."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last CBG data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3506c287-9dc6-4e27-a804-b7a1f318dde5",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, jsonData,\"cbgSchema\");",
+											"pm.test(\"one item is returned\", function () {",
+											"pm.expect(jsonData.length).to.eql(1);",
+											"});",
+											"pm.test(\"the returned item is the same that we uploaded\", function () {",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/data/{{userId}}?latest=true&type=cbg",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{userId}}"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "{{dDataStartDate}}",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "{{dDataEndDate}}",
+											"disabled": true
+										},
+										{
+											"key": "latest",
+											"value": "true"
+										},
+										{
+											"key": "type",
+											"value": "cbg"
+										}
+									]
+								},
+								"description": "Verifying the data was stored from previous request to upload pump data."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last bolus data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "32e935cf-05a2-4e96-9f44-d3f8053145f7",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, jsonData,\"bolusSchema\");",
+											"pm.test(\"one item is returned\", function () {",
+											"pm.expect(jsonData.length).to.eql(1);",
+											"});",
+											"pm.test(\"the returned item is the same that we uploaded\", function () {",
+											"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/data/{{userId}}?latest=true&type=bolus",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{userId}}"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "{{dDataStartDate}}",
+											"disabled": true
+										},
+										{
+											"key": "endDate",
+											"value": "{{dDataEndDate}}",
+											"disabled": true
+										},
+										{
+											"key": "latest",
+											"value": "true"
+										},
+										{
+											"key": "type",
+											"value": "bolus"
+										}
+									]
+								},
+								"description": "Verifying the data was stored from previous request to upload pump data."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve last note",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "96784c5f-ecd5-4f08-add7-4157c7d990e4",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
+											"pm.test(\"Note retrieved is the same one we created\", function () {",
+											"let jsonData = pm.response.json();",
+											"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/message/thread/{{messageId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"message",
+										"thread",
+										"{{messageId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create comment on note",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6dfcf4c0-dd3b-4bd4-abfb-c1c03c76dbcd",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "02f08e3e-e0b2-48da-a80e-d9d0a17a543b",
+										"exec": [
+											"const uuid = require('uuid');",
+											"pm.variables.set(\"messageGUI\", uuid.v4());",
+											"const moment = require('moment');",
+											"let now = moment();",
+											"pm.variables.set(\"noteCreationTime\", now.format());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"message\": {\n        \"parentmessage\": \"{{messageId}}\",\n        \"userid\": \"{{userId}}\",\n        \"groupid\": \"{{clinicUserId}}\",\n        \"messagetext\": \"Clinician comment\",\n        \"timestamp\": \"{{noteCreationTime}}\",\n        \"guid\": \"{{messageGUI}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{api}}/message/reply/{{messageId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"message",
+										"reply",
+										"{{messageId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout of tidepool",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "11e904b1-eb98-4e9c-ab48-dd29499fd65b",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 300, false, null, \"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{api}}/auth/logout",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DSA login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d0b3c123-b3ed-4c37-8896-c7f29909b466",
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{loginPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{loginEmail}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{api}}/auth/login",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									],
+									"query": [
+										{
+											"key": "x-tidepool-session-token",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove clinician from share",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cf550926-753f-4269-812b-5c98e289af0a",
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/access/{{userId}}/{{clinicUserId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"access",
+										"{{userId}}",
+										"{{clinicUserId}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "DSA that uploads data to their Tidepool Account, adds notes and shares data with their clinician in preparation for a clinic appointment.",
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -464,7 +3363,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "db7332d2-a5d2-4772-afb1-0064493b958a",
+								"id": "58e4be9e-7692-4845-8bf3-aa3c4b57e6f8",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
@@ -518,7 +3417,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cc94c77d-e43d-4616-8c2d-95e04831d4f6",
+								"id": "6aa509ac-43ad-466d-919b-eecf3b0ff6f3",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
@@ -563,7 +3462,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a5e77262-db2c-4f38-b5ad-d95767451f36",
+								"id": "d8943c06-ed86-4d81-8a5d-dd428a4041ed",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -626,7 +3525,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0612a6ff-ff5c-4c03-85ad-3cffaf1be7e5",
+								"id": "41abdaf6-02aa-47e5-ae5a-5d1f20395b35",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");",
@@ -639,7 +3538,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "ad6e657f-c9e1-4ddb-9054-88b1430336e9",
+								"id": "06687fba-74ff-4978-b62f-4ee661a5320a",
 								"exec": [
 									"var moment = require('moment');",
 									"pm.variables.set(\"currentTimestamp\", moment().unix());",
@@ -687,7 +3586,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "a0e28c8f-5fbd-4598-9ef6-6d3edbff9b18",
+								"id": "7d170240-3176-4e85-9509-4323fed3da83",
 								"exec": [
 									"var moment = require('moment');\r",
 									"pm.variables.set(\"current_timestamp\", moment().format());\r",
@@ -699,7 +3598,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "51239610-4980-4382-b4ec-88af7151cefa",
+								"id": "8a2775c7-ea11-4cc6-8c2f-c15fc057da7c",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
@@ -745,14 +3644,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "51f1dd2c-6dc0-4573-a195-1b608fc22a97",
+								"id": "09f768b8-380e-4541-8c8b-5f3957bc9fd9",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
-									"",
 									"pm.test(\"User created within last 12 Hours\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"newUserActivity\"));",
+									"var jsonData = pm.response.json();",
+									"pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"newUserActivity\"));",
 									"});"
 								],
 								"type": "text/javascript"
@@ -761,7 +3659,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8f529f11-ce59-47d4-a663-e3bfa958b844",
+								"id": "e97affef-ac21-4cd5-9375-c92183f050ff",
 								"exec": [
 									"pm.variables.set(\"newUserActivity\", 12);"
 								],
@@ -807,7 +3705,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "1818eee7-d7b6-485e-9375-7a27f87355e6",
+								"id": "76a2b31d-b636-4f8e-b26f-005d31b288fa",
 								"exec": [
 									"var moment = require('moment');\r",
 									"pm.variables.set(\"current_timestamp\", moment().format());\r",
@@ -819,7 +3717,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3ffe6d0c-87eb-49b1-8a4a-90088e5dcf30",
+								"id": "4af2e894-f1ec-4d76-89a5-eeca3c041ea5",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
@@ -865,7 +3763,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "98943c0a-1680-45c2-b3b0-7c27fca3c06f",
+								"id": "5c30b566-6263-4261-801b-2442d472171a",
 								"exec": [
 									"pm.variables.set(\"campaignEmailSent\", 7);"
 								],
@@ -875,19 +3773,18 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bd139c6b-b7bb-4d1a-82d9-b80c359eeefd",
+								"id": "6d102e17-fa28-4cc8-87e4-e61463cdfb3c",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
-									"",
 									"pm.test(\"Marketo has delivered emails within the last hour\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"campaignEmailSent\"));",
+									"var jsonData = pm.response.json();",
+									"pm.expect(jsonData.result[0].activityTypeId).to.eql(pm.variables.get(\"campaignEmailSent\"));",
 									"});",
 									"if (pm.environment.get('api') == \"https://stg-api.tidepool.org\") {",
-									"    postman.setNextRequest(null);",
+									"postman.setNextRequest(null);",
 									"} else if (pm.environment.get('api') == \"https://dev-api.tidepool.org\") {",
-									"    postman.setNextRequest(null);",
+									"postman.setNextRequest(null);",
 									"};"
 								],
 								"type": "text/javascript"
@@ -932,7 +3829,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "eae713a3-f55d-4cad-8f62-03737aed5ae7",
+								"id": "dfc36652-9f8f-4865-a809-a193276bee78",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");",
@@ -979,7 +3876,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1a122569-2a89-4377-bcb5-8fecc3197dd3",
+						"id": "32f8f7f8-f3f9-4af9-b283-f8e2fdf4d408",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -994,23 +3891,29 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "f987ed1e-6c19-4265-b810-526efc61f5c5",
+				"id": "50402a27-a94d-47fc-963d-10ca72b323f9",
 				"type": "text/javascript",
 				"exec": [
 					"const userSchema = { \"required\": [\"userid\", \"username\", \"emails\", \"emailVerified\", \"termsAccepted\"], \"properties\": { \"emailVerified\": { \"type\": \"boolean\" }, \"emails\": { \"type\": \"array\" }, \"userid\": { \"type\": \"string\" }, \"username\": { \"type\": \"string\" }, \"termsAccepted\": { \"type\": \"string\" } } };",
 					"const messageAddedSchema = { \"required\": [\"id\"], \"properties\": { \"id\": { \"type\": \"string\" } } };",
 					"const messagesSchema = { \"type\": \"array\", \"items\": { \"required\": [\"id\", \"guid\", \"parentmessage\", \"userid\", \"groupid\", \"timestamp\", \"createdtime\", \"messagetext\", \"user\"], \"properties\": { \"id\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"userid\": { \"type\": \"string\" }, \"groupid\": { \"type\": \"string\" }, \"timestamp\": { \"type\": \"string\" }, \"createdtime\": { \"type\": \"string\" }, \"messagetext\": { \"type\": \"string\" }, \"user\": { \"type\": \"object\" } } } };",
 					"const smbgsSchema = { \"type\": \"array\", \"items\": { \"required\": [\"clockDriftOffset\", \"deviceId\", \"deviceTime\", \"guid\", \"id\", \"subType\", \"time\", \"type\", \"units\", \"uploadId\", \"value\"], \"properties\": { \"clockDriftOffset\": { \"type\": \"integer\" }, \"conversionOffset\": { \"type\": \"integer\" }, \"deviceId\": { \"type\": \"string\" }, \"deviceTime\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"id\": { \"type\": \"string\" }, \"subType\": { \"type\": \"string\" }, \"time\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"units\": { \"type\": \"string\" }, \"uploadId\": { \"type\": \"string\" }, \"value\": { \"type\": \"number\" } } } };",
+					"const cbgSchema = { \"type\": \"array\", \"items\": { \"required\": [\"clockDriftOffset\", \"deviceId\", \"deviceTime\", \"guid\", \"id\", \"time\", \"type\", \"units\", \"uploadId\", \"value\"], \"properties\": { \"clockDriftOffset\": { \"type\": \"integer\" }, \"conversionOffset\": { \"type\": \"integer\" }, \"deviceId\": { \"type\": \"string\" }, \"deviceTime\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"id\": { \"type\": \"string\" }, \"time\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"units\": { \"type\": \"string\" }, \"uploadId\": { \"type\": \"string\" }, \"value\": { \"type\": \"number\" } } } };",
+					"const bolusSchema = { \"type\": \"array\", \"items\": { \"required\": [\"clockDriftOffset\", \"deviceId\", \"deviceTime\", \"guid\", \"id\", \"subType\", \"time\", \"type\", \"uploadId\"], \"properties\": { \"clockDriftOffset\": { \"type\": \"integer\" }, \"conversionOffset\": { \"type\": \"integer\" }, \"deviceId\": { \"type\": \"string\" }, \"deviceTime\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"id\": { \"type\": \"string\" }, \"normal\": {\"type\": \"number\"}, \"extended\":{\"type\": \"integer\"}, \"expectedExtended\":{\"type\": \"integer\"}, \"duration\":{\"type\": \"integer\"}, \"expectedDuration\":{\"type\": \"integer\"}, \"subType\": { \"type\": \"string\" }, \"time\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"uploadId\": { \"type\": \"string\" } } } }",
 					"const userProfileSchema = {\"required\": [\"fullName\"], \"properties\": { \"fullName\": { \"type\": \"string\" },",
-					"\"patient\": { \"type\": \"object\" }}};",
+					"\"patient\": { \"type\": \"object\" }, \"clinic\": {\"type\": \"object\"}}};",
 					"const careteamInviteSchema = { \"required\": [\"key\", \"type\", \"email\", \"creatorId\", \"creator\", \"context\", \"created\"], \"properties\": { \"key\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"email\": { \"type\": \"string\" }, \"creatorId\": { \"type\": \"string\" }, \"creator\": { \"type\": \"object\" }, \"context\": { \"type\": \"object\" }, \"created\": { \"type\": \"string\" } } };",
+					"const userSettingsSchema = { \"required\": [\"bgTarget\", \"units\"], \"properties\": { \"bgTarget\": { \"type\": \"object\" }, \"units\": { \"type\": \"object\" } } };",
 					"",
 					"pm.globals.set(\"userSchema\", JSON.stringify(userSchema));",
 					"pm.globals.set(\"userProfileSchema\", JSON.stringify(userProfileSchema));",
 					"pm.globals.set(\"messageAddedSchema\", JSON.stringify(messageAddedSchema));",
 					"pm.globals.set(\"messagesSchema\", JSON.stringify(messagesSchema));",
 					"pm.globals.set(\"smbgsSchema\", JSON.stringify(smbgsSchema));",
+					"pm.globals.set(\"cbgSchema\", JSON.stringify(cbgSchema));",
+					"pm.globals.set(\"bolusSchema\", JSON.stringify(bolusSchema));",
 					"pm.globals.set(\"careteamInviteSchema\", JSON.stringify(careteamInviteSchema));",
+					"pm.globals.set(\"userSettingsSchema\", JSON.stringify(userSettingsSchema));",
 					"",
 					"pm.globals.set('loadAsserts', function loadAsserts() {",
 					"    let asserts = {};",
@@ -1068,7 +3971,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "b04618b8-a2c4-4490-b326-590f904d632c",
+				"id": "8fce08b3-9917-4b65-80cb-b84a8e6ab513",
 				"type": "text/javascript",
 				"exec": [
 					""
