@@ -453,7 +453,9 @@
 										"id": "b856d2f3-4ca7-45c4-a60a-678c096bf5bf",
 										"exec": [
 											"var moment = require('moment');",
-											"pm.variables.set(\"currentTimestamp\", moment().unix());"
+											"pm.variables.set(\"currentTimestamp\", moment().unix());",
+											"const uuid = require('uuid');",
+											"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));"
 										],
 										"type": "text/javascript"
 									}
@@ -478,7 +480,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"username\": \"qa+automatedclinician{{currentTimestamp}}@tidepool.org\",\n    \"password\": \"{{$randomPassword}}\",\n    \"emails\": [\n        \"qa+automatedclinician{{currentTimestamp}}@tidepool.org\"\n    ],\n    \"roles\": [\n        \"clinic\"\n    ]\n}",
+									"raw": "{\n    \"username\": \"qa+automatedclinician{{currentTimestamp}}@tidepool.org\",\n    \"password\": \"{{signupPw}}\",\n    \"emails\": [\n        \"qa+automatedclinician{{currentTimestamp}}@tidepool.org\"\n    ],\n    \"roles\": [\n        \"clinic\"\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -786,7 +788,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "f71b3fa0-2b90-4e5d-abcc-5f664b092e06",
+										"id": "9329af22-7c59-495d-914a-8bb900606ec0",
 										"exec": [
 											"const assert = eval(globals.loadAsserts);",
 											"assert.common(200, 300, false, null, \"\");"
@@ -1498,8 +1500,10 @@
 									"script": {
 										"id": "8d46169c-f84f-4f5b-86e9-80ffe5fb2193",
 										"exec": [
-											"var moment = require('moment');",
-											"pm.variables.set(\"currentTimestamp\", moment().unix());"
+											"const moment = require('moment');",
+											"pm.variables.set(\"currentTimestamp\", moment().unix());",
+											"const uuid = require('uuid');",
+											"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));"
 										],
 										"type": "text/javascript"
 									}
@@ -1524,7 +1528,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"username\":\"qa+automated{{currentTimestamp}}@tidepool.org\",\"password\":\"tidepoolrocks\",\"emails\":[\"qa+automated{{currentTimestamp}}@tidepool.org\"],\"roles\":[]}",
+									"raw": "{\"username\":\"qa+automated{{currentTimestamp}}@tidepool.org\",\"password\":\"{{signupPw}}\",\"emails\":[\"qa+automated{{currentTimestamp}}@tidepool.org\"],\"roles\":[]}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2109,40 +2113,54 @@
 							"response": []
 						},
 						{
-							"name": "Logout of tidepool",
+							"name": "Delete User",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "e7fae2fe-0a46-4c31-aa87-6d6fd8f915a6",
+										"id": "4a976bef-4188-4fc2-88f7-dc79f18a48e7",
 										"exec": [
-											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 300, false, null, \"\");"
+											"if (pm.environment.get(\"api\") == \"https://api.tidepool.org\") {\r",
+											"  pm.test(\"Delete user successful, timeout is expected\", function () {\r",
+											"    pm.response.to.have.status(504);\r",
+											"  });\r",
+											"} else {\r",
+											"  pm.test(\"Delete user successful\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"  });\r",
+											"}"
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
 							"request": {
-								"method": "POST",
+								"method": "DELETE",
 								"header": [
 									{
 										"key": "x-tidepool-session-token",
+										"type": "text",
 										"value": "{{sessionToken}}"
 									}
 								],
 								"body": {
-									"mode": "formdata",
-									"formdata": []
+									"mode": "raw",
+									"raw": "{\"password\":\"{{signupPw}}\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
 								"url": {
-									"raw": "{{api}}/auth/logout",
+									"raw": "{{api}}/v1/users/{{userId}}",
 									"host": [
 										"{{api}}"
 									],
 									"path": [
-										"auth",
-										"logout"
+										"v1",
+										"users",
+										"{{userId}}"
 									]
 								}
 							},
@@ -3307,7 +3325,7 @@
 										"id": "e8478158-ab8f-4437-83e9-bcfabf8cd301",
 										"exec": [
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 1000, false, null,\"\");"
+											"assert.common(200, 1000, false, null, \"\");"
 										],
 										"type": "text/javascript"
 									}
