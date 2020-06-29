@@ -10,17 +10,19 @@ before_script:
 jobs:
   include:
 - stage: "API smoke test"
+      name: "DEV1"
+      if: type != api OR env(TEST_JOB) == "dev1"
+    - script: node_modules/.bin/newman run tests/API_contract_tests.postman_collection.json -e tests/DEV1.postman_environment.json --env-var "loginEmail=$QA2_USER_EMAIL" --env-var "loginPw=$QA2_USER_PASSWORD" --env-var "marketoClientId=$MARKETO_CLIENT_ID" --env-var "marketoClientSecret=$MARKETO_CLIENT_SECRET" --env-var "clinicEmail=$QA2_CLINIC_EMAIL" --env-var "clinicPw=$QA2_CLINIC_PASSWORD"
       name: "QA1"
       if: type != api OR env(TEST_JOB) == "qa1"
-      script: node_modules/.bin/newman run tests/API_contract_tests.postman_collection.json -e tests/QA1.postman_environment.json --env-var "loginEmail=$QA1_USER_EMAIL" --env-var "loginPw=$QA1_USER_PASSWORD" --env-var "marketoClientId=$MARKETO_CLIENT_ID" --env-var "marketoClientSecret=$MARKETO_CLIENT_SECRET" --env-var "clinicEmail=$QA1_CLINIC_EMAIL" --env-var "clinicPw=$QA1_CLINIC_PASSWORD"
-    - script: node_modules/.bin/newman run tests/API_contract_tests.postman_collection.json -e tests/QA2.postman_environment.json --env-var "loginEmail=$QA2_USER_EMAIL" --env-var "loginPw=$QA2_USER_PASSWORD" --env-var "marketoClientId=$MARKETO_CLIENT_ID" --env-var "marketoClientSecret=$MARKETO_CLIENT_SECRET" --env-var "clinicEmail=$QA2_CLINIC_EMAIL" --env-var "clinicPw=$QA2_CLINIC_PASSWORD"
+    - script: node_modules/.bin/newman run tests/API_contract_tests.postman_collection.json -e tests/QA1.postman_environment.json --env-var "loginEmail=$QA1_USER_EMAIL" --env-var "loginPw=$QA1_USER_PASSWORD" --env-var "marketoClientId=$MARKETO_CLIENT_ID" --env-var "marketoClientSecret=$MARKETO_CLIENT_SECRET" --env-var "clinicEmail=$QA1_CLINIC_EMAIL" --env-var "clinicPw=$QA1_CLINIC_PASSWORD"
       name: "QA2"
       if: type != api OR env(TEST_JOB) == "qa2"
+    - script: node_modules/.bin/newman run tests/API_contract_tests.postman_collection.json -e tests/QA2.postman_environment.json --env-var "loginEmail=$QA2_USER_EMAIL" --env-var "loginPw=$QA2_USER_PASSWORD" --env-var "marketoClientId=$MARKETO_CLIENT_ID" --env-var "marketoClientSecret=$MARKETO_CLIENT_SECRET" --env-var "clinicEmail=$QA2_CLINIC_EMAIL" --env-var "clinicPw=$QA2_CLINIC_PASSWORD"
+      name: "PRODUCTION"
     - script: node_modules/.bin/newman run tests/API_contract_tests.postman_collection.json -e tests/PRODUCTION.postman_environment.json --env-var "loginEmail=$PRODUCTION_USER_EMAIL" --env-var "loginPw=$PRODUCTION_USER_PASSWORD" --env-var "clinicEmail=$PRODUCTION_CLINIC_EMAIL" --env-var "clinicPw=$PRODUCTION_CLINIC_PASSWORD" --env-var "marketoClientId=$MARKETO_CLIENT_ID" --env-var "marketoClientSecret=$MARKETO_CLIENT_SECRET" --env-var "marketoEmailPw=$MARKETO_EMAIL_PASSWORD"
       if: type != api OR env(TEST_JOB) == "production"
-      name: "PRODUCTION"
 notifications:
   slack:
     secure: cEsWARJlhTbkxpMkCLLdedX/p1BzlSk2kuJAYQNsysYrxXq2jfTW8/Kynibb3jsfh7BeUWToyiiP2qMBDUTJy+A/lToCxgwlhQAsuyvbAidoiYjXi6kWok8VH6gjz9MZc5TRs5uZ7BXPcdHCXmmjdJJq20KAXfjrQFjQ3Gkbyp78TAiEdzboXGLzYuX91vaSrP1W+TUg09BRkhTA0AFohdXn/XJhL1eORM81GxaX8shKJI0QMtoxUvu5QJI7I05MUbOS83+BxN/RezV+oibGahN6H8iseUa1w39O8VSWAnLc8tSHjeEf7jLFSfDoGR70KWke4DaqhUpi55yOxv2Rl5Hhb611ZOjFOxPgiroX8M3cHOfyiqvlPs8aRXDbDoJqic1iDwCSr9vckrzZ2sHKJQnRz3heHIe757+7cECbju87ZqBvjQtrcJMpi7XHWDq12BO8mpYQAzPjjRRLxd5r8ENP2DIDYUHU+EA8HiEI0uao3P1SqyJHNmkKN0kC4Z1fL/BNpxU3nU89zsesUH3YJkIY3+0RhpUblFIa0shWET7zgZy10YDeflRkqGyFAeH8P4Gkl9zwCSMknwAg85UHm6a31MQFn68gymfYF8ifjw4z0fTJc1zzdV6HZBvYj2NYBqtJbfkr3MbkjvGGMEHS18spjr8jC6VbH2S4OYDUk6A=
     on_success: change
-    on_failure: change
