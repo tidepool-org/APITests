@@ -1615,15 +1615,6 @@
 								"value": "{{sessionToken}}"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"404\":[]}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{api}}/confirm/send/signup/{{custodialUserId}}",
 							"host": [
