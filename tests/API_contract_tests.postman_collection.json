@@ -1544,16 +1544,6 @@
 					"name": "Update custodial profile with email",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"id": "d16bbc28-e5fb-42bd-bb61-68d04f0911dd",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
 								"id": "feb82c61-8bd0-4c58-81f7-3ab5c2917ef2",
