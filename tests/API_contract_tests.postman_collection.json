@@ -3900,16 +3900,6 @@
 					"} + '; loadAsserts();');"
 				]
 			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"id": "e46e7b95-416d-4985-baf0-bfd89f16f89f",
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
 		}
 	],
 	"protocolProfileBehavior": {}
