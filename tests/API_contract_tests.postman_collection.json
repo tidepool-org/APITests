@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bc07d189-dadd-442e-b8ab-2b78fd8b9ad5",
+		"_postman_id": "e3e09c0e-ec82-4db5-bc44-f71eababf3e9",
 		"name": "API_contract_tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c11ab7c2-4263-46dc-9b29-cd13218a878c",
+								"id": "12a13a36-b2d1-4110-905b-92b1245d0056",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -77,7 +77,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3004fe53-1df3-4cf5-be61-3c1ea7e6256e",
+								"id": "1ef42ebc-e713-406b-b57d-8ab3db89eaff",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -118,7 +118,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "defff566-7589-4dab-a6dd-88806e782237",
+								"id": "223e3d45-1061-4b54-928b-22506cba60ff",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");"
@@ -129,7 +129,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "ce8c6043-0eaf-4eaa-bc0b-f65148151263",
+								"id": "ac6d32ed-4812-4060-ba2c-cdbcb3921e24",
 								"exec": [
 									"const emailName = pm.environment.get(\"sharingEmailName\");",
 									"let emailAddress = emailName+ \"+sharing_\" + Date.now() + \"@tidepool.org\";",
@@ -176,7 +176,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d5ab07e6-428f-4a7f-841e-2dade19e6d9b",
+								"id": "28ada450-d448-4d55-8bfe-352d714348f7",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");"
@@ -221,7 +221,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c06f953a-6559-4b55-98d4-ac7769ec16df",
+								"id": "7b03f890-9925-4307-b5ae-88ae9c0e70dc",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");"
@@ -262,7 +262,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "78bf7d77-a9ad-4ddb-906b-ab155fe11d50",
+								"id": "5b950abf-17d4-4c16-9c43-f4a3ded24577",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
@@ -277,7 +277,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "012a6017-7ae0-438d-b888-546d7877ab01",
+								"id": "ebcc132e-2a0f-459a-84da-462bbd14c9a1",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -321,7 +321,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a3e3a513-948d-4c42-8ba6-45341d487522",
+								"id": "6a31a951-7c8e-4d64-bca6-ef46cb2378e4",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -388,7 +388,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4dc789fe-8143-470d-9b03-563a31809bb0",
+								"id": "d1dcc7ec-ccac-413e-bdbe-594e3f9b72da",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -428,7 +428,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "417bbbfc-bf08-4668-aeef-618272a55428",
+						"id": "f7491271-1204-4e87-baee-0d8bdce22a10",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -447,7 +447,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "7ea0d483-b535-4050-8e60-c676e090365a",
+								"id": "739a0004-f6b2-47f4-b304-3eb9b23f7693",
 								"exec": [
 									"var moment = require('moment');",
 									"pm.variables.set(\"currentTimestamp\", moment().unix());",
@@ -460,7 +460,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b279b70b-5938-41cc-a421-72413351f797",
+								"id": "65b25446-ea7f-4a18-8ce8-25e40bc2411d",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 1000, true, null,\"\");",
@@ -504,7 +504,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8020a6ad-8ecc-48c9-83d6-6631d6960f46",
+								"id": "84dc70ce-c8e7-40dc-8847-1d3874cd44db",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -544,7 +544,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "93ffa834-870a-4c36-92be-c27e8f19ce12",
+								"id": "5374c207-e563-4c3e-a9e4-ee8b6baab71c",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");",
@@ -585,7 +585,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a66f6e31-0de6-4c8e-8555-91330abc4d85",
+								"id": "263c3592-ac3c-49af-8472-34872dbaebe2",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -625,7 +625,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "50e8e901-5f9e-47c5-a7de-3e1eb694ba81",
+								"id": "4a07a6c0-4019-4dd2-81cd-058667c07093",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
@@ -636,7 +636,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "e19c8a0f-58e7-4139-9e02-1cf104686fd9",
+								"id": "da334c8f-1d26-4cd7-a5c0-ab592966e9ce",
 								"exec": [
 									"var moment = require('moment');\r",
 									"pm.variables.set(\"currentTimestamp\", moment().format());"
@@ -683,7 +683,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0dbae9b8-c7fd-45d1-90eb-b5f0d109c21e",
+								"id": "0c088a8d-7fbf-4985-a503-007db5576625",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
@@ -694,7 +694,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "ee40f3a2-6108-4ce0-b993-017040df6f9f",
+								"id": "56965d3d-a69e-47ca-8148-8ac6a1e4a7e1",
 								"exec": [
 									"var moment = require('moment');\r",
 									"let newMoment = moment().subtract(18, 'years');\r",
@@ -743,7 +743,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "86e3ad1d-784f-4cb7-b822-107e7a91ef3a",
+								"id": "2ddfe082-e631-48d3-a335-3972f8f8248a",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -785,7 +785,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "84ca6905-bf91-47c9-9ba0-6a67933c7d28",
+								"id": "dd974012-206f-44d6-8c7d-b1530a304935",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -825,7 +825,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "65a99f23-e10e-486f-86cc-50bae49142c0",
+						"id": "a7010c2c-f878-492a-9495-d3ff989c6242",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -844,7 +844,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "960a633e-4aa2-4bce-b60d-9061600f39e1",
+								"id": "5de168d7-8b57-4e4a-a063-9a26b46c6cbc",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -903,7 +903,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fed00559-a764-4d70-8e4d-8cb322457768",
+								"id": "75f8896f-87db-4c2b-bbaf-a0114bc23433",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -945,7 +945,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3176bbbe-42d2-422f-b4e0-7a35f5ef5bd1",
+								"id": "5f74dcb9-9818-4fc0-96a6-38e353f2d81b",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"custodialUserId\", jsonData.userid);",
@@ -996,7 +996,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "40c3e92d-74bd-4da0-96b0-70671c434c87",
+								"id": "47d293fe-8fa0-40ae-baa3-50d430da35dc",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -1055,7 +1055,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7ca80af9-14e9-444f-a148-eefefafadf8c",
+								"id": "ed4fa215-f1ba-4c66-9a3e-99010b29cbe4",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
@@ -1066,7 +1066,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "2023a9cc-fe7d-4fb9-894f-98239663a6f9",
+								"id": "453c5c93-fbe7-4f9c-8a86-1975761d8e00",
 								"exec": [
 									"var moment = require('moment');\r",
 									"let newMoment = moment().subtract(18, 'years');\r",
@@ -1115,7 +1115,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "b9d5fa0e-02d7-4a4e-8cb2-d9e45bfe2e56",
+								"id": "0b3db29a-34c6-4172-9305-76714e5210c1",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
@@ -1131,7 +1131,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "78858036-2fec-4412-a60c-69f137db410c",
+								"id": "10f7961b-474e-476e-909e-bb3b45b62786",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -1176,7 +1176,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ecd13959-5771-42d8-97df-d4daf6073bcc",
+								"id": "c22d8c9f-f359-4cb7-b8f4-ab7f13fb23f8",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -1244,7 +1244,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "de2290e0-6826-49d4-81ad-d93999b48a03",
+								"id": "f526375b-708a-4728-9813-8b4458ad0524",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -1312,7 +1312,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2017bbe7-bf59-4b2c-9e48-4a6d0f9a91d1",
+								"id": "01e67682-0f76-419e-a298-efa079d17d0f",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -1380,7 +1380,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "72deee31-7afe-4e8b-97b4-ec5b3be8bcd4",
+								"id": "629137c9-c1f3-415c-bd14-79e4e38a8200",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
@@ -1393,7 +1393,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "ef306570-9dc4-412b-95e5-fe2c1b8e7c36",
+								"id": "b3efbf40-abc1-42b8-b4e7-dd8d6adf24eb",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"messageGUI\", uuid.v4());",
@@ -1441,7 +1441,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "be2e545e-43ac-4ca6-b85d-a77808e7c49b",
+								"id": "1a016b2e-6014-4fc1-9f5e-cdc999ee065a",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
@@ -1486,7 +1486,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3d23d040-112e-4ad0-9b59-86c07e908241",
+								"id": "c5fce56a-75dc-4698-be8a-8e14c7fb2c12",
 								"exec": [
 									"const moment = require('moment');\r",
 									"pm.variables.set(\"currentTimestamp\", moment().unix());"
@@ -1497,7 +1497,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "94f83f5a-f664-47db-9522-fd1e906fa49c",
+								"id": "eb0e1fa4-7ccb-424c-a4bb-924dfa0fbf79",
 								"exec": [
 									"let jsonData = pm.response.json();\r",
 									"pm.variables.set(\"custodialEmail\", jsonData.emails[0]);\r",
@@ -1544,19 +1544,9 @@
 					"name": "Update custodial profile with email",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"id": "ab2e9641-b4a8-49f4-bf23-0aca771d62d7",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
-								"id": "f072ff8e-dc43-4d67-a8ee-d90a6d9048ea",
+								"id": "949acec6-55d0-45f9-83da-01b61b9e45a5",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);\r",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");\r",
@@ -1607,7 +1597,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e67cb028-effc-45f1-a695-d12f327897c4",
+								"id": "91e2c194-3766-43b4-b0f0-435d5ead2910",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -1647,7 +1637,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8fc6c669-9862-48d1-b897-eeebf5f5b80a",
+								"id": "dfae4b9c-b994-4839-bda6-d2c1c9540e23",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -1694,7 +1684,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "78db73fa-5e8d-4e6f-9cc2-914c18e75ac5",
+								"id": "a1ec444d-589e-4b65-8793-ce6857916013",
 								"exec": [
 									"const moment = require('moment');",
 									"pm.variables.set(\"currentTimestamp\", moment().unix());",
@@ -1707,7 +1697,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8c069b75-dc83-4280-8e64-5451651b7c91",
+								"id": "a0432ff2-867a-4b99-9af9-ee49025500eb",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 1000, true, null,\"\");",
@@ -1751,7 +1741,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5d848488-0fca-43dc-b16d-8a4826b9fccd",
+								"id": "49138139-2497-4a0f-8b62-8a257aa152d8",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -1791,7 +1781,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2765efc2-ad39-4bf0-9ce3-6dbb7683f948",
+								"id": "656cb46c-7937-4a9d-925e-2583508018b9",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");",
@@ -1832,7 +1822,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "42253bf3-fe52-4600-8fad-326d13f7b731",
+								"id": "f8bf29db-fad4-44ef-954b-aec53129eecb",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -1879,7 +1869,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7b0a743d-1add-45f4-9145-2dc15213ee52",
+								"id": "33a8f9a0-a7f5-47d5-885c-c420d28966c1",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
@@ -1890,7 +1880,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "55543828-8d30-445e-95ee-ef333415faae",
+								"id": "9d7b63e8-4fee-41a5-a688-7ff5c088048b",
 								"exec": [
 									"var moment = require('moment');\r",
 									"\r",
@@ -1945,7 +1935,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f6f7c57b-3cc9-44ff-8eb7-80902264120b",
+								"id": "14ab035f-0ae4-42c2-9c92-58bf87f0aa08",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
@@ -1956,7 +1946,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "fd12e5c8-84ff-4e82-92c8-88cf4ba85884",
+								"id": "09983bc2-a793-40d5-a2f8-2f682b299077",
 								"exec": [
 									"var moment = require('moment');\r",
 									"let newMoment = moment().subtract(18, 'years');\r",
@@ -2005,7 +1995,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3584624e-40ea-441a-bc19-ac5460897721",
+								"id": "8cb5df9c-edd1-4b63-8807-f3558464a431",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -2047,7 +2037,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "017531b4-31c2-45cd-9034-004817f23123",
+								"id": "70ef481d-1599-427c-af15-a25a31ba4904",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");"
@@ -2095,7 +2085,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6697d100-9e8c-4b0d-98d8-59b8eaed327a",
+								"id": "b1e8fb0f-1ee5-412e-b830-061cc29831ff",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");",
@@ -2138,7 +2128,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cf04f897-4d3a-4392-b7e4-6a5a5f4c494a",
+								"id": "ce06e3ce-01df-40a5-abaf-2ea3a135f7e2",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
@@ -2186,7 +2176,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0475b562-580e-4057-a592-f4d0e9586b96",
+								"id": "581b0c0f-f76e-49d9-a2e6-566d44afd1de",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
@@ -2234,7 +2224,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d09fe4fb-0ea7-4c2d-bea6-574b3cbc7aa9",
+								"id": "dbf7c0d6-6d7f-4652-b67c-02d17f26c39d",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -2274,7 +2264,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "699dc517-9bdd-4753-aba5-3da6c8debe48",
+								"id": "73d36569-4c75-4e1d-90d3-38db46cc3d6d",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -2314,7 +2304,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3612c6fb-8168-435b-aa27-64f175c52676",
+								"id": "1bbee66e-95fc-42e6-ba9c-98ec580af998",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);\r",
 									"assert.common(204, 2000, false, null,\"\");"
@@ -2361,7 +2351,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2d121967-d933-4bac-8f1e-48683b6fa802",
+						"id": "d4751c9a-8e56-479f-ba52-871081c9cca8",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -2380,7 +2370,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a0b1a5e1-5e0f-4d84-9ea7-091288e5d8f6",
+								"id": "f2bb57c6-e4eb-4eee-ad10-ac0c1d7047e3",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -2443,7 +2433,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "de57db05-7193-4691-9c55-c8c6d2de21ee",
+								"id": "df9b5920-2d33-4c2f-8c06-12ab05772860",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -2484,7 +2474,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3b3d0c00-5ccd-45a0-9757-04f92cd401bb",
+								"id": "ed5d98b8-e40c-4388-87a4-cf5d038a058a",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
@@ -2500,7 +2490,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "407f2baa-befa-4669-9801-0e2735372192",
+								"id": "2838d8ac-6453-4d44-88fa-cf12c377ea12",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -2545,7 +2535,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "74f4c0a7-b392-4182-9c1d-83f3318aec4f",
+								"id": "4cbb358a-52e9-4363-b6e4-d226a0d50077",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -2613,7 +2603,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "771ecda7-b761-419f-a6da-e88ca5442655",
+								"id": "ae5f8eb5-1a0f-4ef7-9f4a-6137d0d81596",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -2681,7 +2671,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "81d786f2-a900-4572-91d1-767ea6dedb59",
+								"id": "6955fb48-3b32-4acc-aafb-51349fde0e62",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -2749,7 +2739,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cf77966c-6025-48ba-b1c2-a5da4ffb8f73",
+								"id": "531d8fa3-7d71-4edf-8533-cf1dcdd49bc0",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
@@ -2762,7 +2752,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "6abd168b-1cf2-4191-bd07-7ea1b24f5625",
+								"id": "ab4e7b2e-1894-4f7d-895f-ffa3d3663e86",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"messageGUI\", uuid.v4());",
@@ -2810,7 +2800,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "311e47e3-9944-4345-840c-255c4acdddd5",
+								"id": "e05bc9bb-a6e7-4f12-b882-e270ca3a393d",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
@@ -2855,7 +2845,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b53c9b85-9b56-4991-bddc-c7d264233481",
+								"id": "7f2e0980-7622-4295-b732-1b11b717ccf5",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");",
@@ -2903,7 +2893,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e574e908-0246-40ce-b121-82d72a026bfe",
+								"id": "3dbc7da2-99f2-461f-9827-441080fade41",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -2943,7 +2933,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "336ec7e7-7b19-43ba-9624-8f07b870a3ed",
+								"id": "e7ae046f-fef1-40a5-8aa8-c1ab3c14ac62",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"clinicUserId\", jsonData.userid);",
@@ -3002,7 +2992,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7fbff77b-a628-4f56-9a65-2652b1edca4c",
+								"id": "f206c334-b073-4bb4-a722-d04c4b5590d5",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -3051,7 +3041,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "41c0872a-9125-4fc2-80f6-d4b3bb32cd36",
+								"id": "efe28e5e-c1f7-40aa-b19f-0036cd34f1d1",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -3092,7 +3082,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c0e9ef4c-b045-435c-a27d-500422cb7a1c",
+								"id": "088400f8-96fb-4090-b3f1-61d198eddba2",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -3160,7 +3150,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3215b9df-1ac2-454d-a20c-f2f66340e3fc",
+								"id": "aee3a6b0-451f-45dd-bf25-5b9caf207cbd",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -3228,7 +3218,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b1b79690-85b0-44f6-a1f5-ba508335ac5a",
+								"id": "65364389-c212-457d-9796-05c299a03853",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -3296,7 +3286,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c88947b3-ba72-4812-a99a-964617dcd4aa",
+								"id": "fff27eb3-ec26-4631-a63d-286b8f9a062d",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
@@ -3341,7 +3331,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "48dbc2fc-5e3c-4b4d-a8b3-133836e89b5a",
+								"id": "c2bfef1e-73e6-45e9-9720-5c1c08922207",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");"
@@ -3352,7 +3342,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "68378fd6-2bd7-4d26-abe7-e9f7d42158fd",
+								"id": "cbc44760-6528-4b9e-a48c-6d89e3396bab",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"messageGUI\", uuid.v4());",
@@ -3400,7 +3390,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c9b07201-4d50-4314-a4e9-3c94084f177b",
+								"id": "34df95fb-e9b4-4c42-bb3c-4ff0ec4aadfe",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -3440,7 +3430,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ac1ecb22-b078-4d09-af62-324453738bf2",
+								"id": "e7d7749c-2964-4c45-bcf7-96c2d311833e",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -3510,7 +3500,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2a8e5de4-f343-4b19-944e-9bf94421c4ce",
+								"id": "cfadc0e9-3df0-4c7f-b8cb-5188d3888016",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -3558,7 +3548,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3165e15d-9fc0-41fe-8bcf-ec595f5c1a86",
+								"id": "f87bf9a2-b2cb-4351-959b-471e3c9fca36",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -3613,11 +3603,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "dc915f3c-cbe6-454b-8174-fad6045d7e68",
+								"id": "64fd7c8e-255c-4a88-ba4d-320d5fc0266a",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3645,11 +3634,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "86b39ddd-4536-4e2a-a334-df3a857307a3",
+								"id": "fd247acf-248c-43a0-ae86-0fc247d6dad3",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3677,11 +3665,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fa7baa99-df91-4947-8b1c-059d06572f86",
+								"id": "a5a08ba9-3099-4f5a-9fea-d0a23ced694d",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3709,11 +3696,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c0ffd21e-b6ed-4474-b8ea-6b8cf05e02e8",
+								"id": "1cd3c5ce-f876-4cb1-bc21-ec5947057a5e",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3741,11 +3727,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "012d5c6d-99f4-43a0-94e5-892e75a6a525",
+								"id": "4ce0ef58-5135-4733-b426-32896d900202",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3773,11 +3758,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "582c060e-848b-418b-bc81-caaa0246dc62",
+								"id": "7a3d1a2d-c087-4eb7-9f82-69e63084253a",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3805,11 +3789,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7b9babe9-bb55-4a42-ad34-a17fa8177ffd",
+								"id": "c888ebc3-84ff-4548-9cbb-8db7ddaa2707",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3839,7 +3822,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "b87173eb-8d2e-4c2f-939f-3f188c98211f",
+				"id": "16aac706-7bda-44ab-9ffb-2fbecdc05f76",
 				"type": "text/javascript",
 				"exec": [
 					"const userSchema = { \"required\": [\"userid\", \"username\", \"emails\", \"emailVerified\", \"termsAccepted\"], \"properties\": { \"emailVerified\": { \"type\": \"boolean\" }, \"emails\": { \"type\": \"array\" }, \"userid\": { \"type\": \"string\" }, \"username\": { \"type\": \"string\" }, \"termsAccepted\": { \"type\": \"string\" } } };",
@@ -3921,7 +3904,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "c1ba5bf2-0e5f-4bc8-8868-b4c7b173c0df",
+				"id": "e46e7b95-416d-4985-baf0-bfd89f16f89f",
 				"type": "text/javascript",
 				"exec": [
 					""
