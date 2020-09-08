@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bdd8d2d6-37fe-4300-99c7-c14540f25412",
+		"_postman_id": "b49b3b84-5043-4f01-b59d-7e0182ae9644",
 		"name": "API_contract_tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c743a47e-d618-4e96-97cb-cc94347bee8a",
+								"id": "60775e54-e25e-4d3a-a017-c6019ae4910f",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -77,7 +77,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2ca758d5-846b-4c24-946f-3cd9a0452995",
+								"id": "1222a10f-b3de-4d99-b053-9b61d2c28797",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -118,7 +118,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ea0e10ad-b12e-42cd-bc84-4bcda05a5b2e",
+								"id": "4bcdbceb-ee6d-40a6-9f6b-12b712aae2c9",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");"
@@ -129,7 +129,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "d215e1bb-41dd-4293-9329-374d394d5c15",
+								"id": "b6ffac5f-fa20-47d0-aad9-73c6f0ef52d8",
 								"exec": [
 									"const emailName = pm.environment.get(\"sharingEmailName\");",
 									"let emailAddress = emailName+ \"+sharing_\" + Date.now() + \"@tidepool.org\";",
@@ -176,7 +176,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9d9283b3-dbc9-41b7-9c7c-9a3bf802d815",
+								"id": "61e860a4-ef80-4ab9-bc88-4c5be7fe9a8b",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");"
@@ -221,7 +221,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5782602b-c991-4cb8-855e-09ac3c68e676",
+								"id": "8352a2e0-19a7-4b8a-9273-26eb0e9c1141",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");"
@@ -262,7 +262,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "7acbcbc9-bf29-43c4-9499-ac44c2104b01",
+								"id": "16f5bd35-389d-4f79-bb39-8a7cb9b7e716",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
@@ -277,7 +277,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2500d2a6-0e48-47d8-b6fc-a0685ed6bcc0",
+								"id": "575e1fa4-b888-4e70-b72f-b763d8225a39",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -321,7 +321,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e68784ac-6320-49a5-9d69-f239cdf16306",
+								"id": "bc2b7a81-3a7f-4753-8a9e-055ad29014c2",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -388,7 +388,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "da55602a-1fc6-48e4-b5f9-472f878d5ca3",
+								"id": "94f846e3-5d71-448b-9555-4c3ed04d26d9",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -428,7 +428,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "155a02b0-5764-4440-951a-a185fa0975db",
+						"id": "94403f0c-c11b-4032-b269-6a064f07c5ed",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -447,7 +447,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "d9ec90bc-7099-48fb-b9db-9577d43c0790",
+								"id": "e1335fdd-733b-4ccc-b217-f14bdcc52384",
 								"exec": [
 									"var moment = require('moment');",
 									"pm.variables.set(\"currentTimestamp\", moment().unix());",
@@ -460,7 +460,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "52e1af9a-610c-42d9-9d14-0c7245cd83c4",
+								"id": "e766bde6-f2c4-4ef7-84d1-1691847a80d3",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 1000, true, null,\"\");",
@@ -504,7 +504,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "59d0e8f9-8d7b-41d6-b036-70529af985de",
+								"id": "58625121-4ec9-48d5-8e45-4c6bcc45dfd2",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -544,7 +544,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b9d89298-cd83-45c2-b14b-9c381c9b2e18",
+								"id": "a4ad6fce-905f-4c9b-b53a-7bb8115110ac",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");",
@@ -585,7 +585,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6bc8d9e7-8248-49df-9a84-302e7c77ec39",
+								"id": "a077e2d5-7bd3-4532-91cd-d575ff01eb73",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -625,7 +625,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cb8080ec-ae2a-4514-9a79-3cce2a6d427d",
+								"id": "13d127c6-1560-474f-8d1f-1cd9ff632481",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
@@ -636,7 +636,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "617e4e44-18bc-4a02-8ba7-040b9cdfb1ef",
+								"id": "a696da2b-9ea9-45ce-a2e4-994c49bc101b",
 								"exec": [
 									"var moment = require('moment');\r",
 									"pm.variables.set(\"currentTimestamp\", moment().format());"
@@ -683,7 +683,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d3cad63f-e930-4420-a10d-534826243ab6",
+								"id": "51bf8fa5-4d5a-4173-ab34-a0c059a54f6f",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
@@ -694,7 +694,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "dab2a94c-a8d1-42e4-b26b-79a983f68696",
+								"id": "644e5e42-cb16-48a5-be26-64a3e304ce0a",
 								"exec": [
 									"var moment = require('moment');\r",
 									"let newMoment = moment().subtract(18, 'years');\r",
@@ -743,7 +743,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "60bb535a-987c-4267-b56a-5470bcc989bb",
+								"id": "b1d466f1-c637-487f-88b6-b1721636e380",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -785,7 +785,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b209eff2-96b3-49f5-956a-96a6c6844e3a",
+								"id": "85c69858-34d6-4491-b3cf-ab163af2bfec",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -825,7 +825,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "677b712f-b533-40ee-86c1-86070527481e",
+						"id": "e5f1d501-f37b-4947-8bcd-6faa169d1381",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -844,7 +844,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "19484862-ed4e-482b-af7f-6de2f4303451",
+								"id": "7c419b10-86f5-4fc8-b564-6440d640d1f7",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -903,7 +903,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "49a6a370-bcdf-449c-a934-56f72d4cb316",
+								"id": "18cfdd01-1204-43aa-a5b1-6f57165bac05",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -945,7 +945,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0cc5862d-d8fe-499e-85a7-a3b905a8c16e",
+								"id": "f52138be-6e1e-4dde-9e17-a3567a26e684",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"custodialUserId\", jsonData.userid);",
@@ -996,7 +996,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d245b2ee-735d-4d58-9f7d-b810bd68f4c3",
+								"id": "b9c13df9-86ed-4e24-8e7c-bf3309aaf0ec",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -1055,7 +1055,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "54fd5ca6-8e96-434d-8d4f-95149afbb86f",
+								"id": "b3ba5d8f-6392-46f3-884d-50832a390365",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
@@ -1066,7 +1066,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "e47761e0-8b54-4e06-ba5d-c587d4b18da7",
+								"id": "cc3c46c0-7706-44d4-b34e-ed32a76a74a4",
 								"exec": [
 									"var moment = require('moment');\r",
 									"let newMoment = moment().subtract(18, 'years');\r",
@@ -1115,7 +1115,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f616d2dd-0a69-4a57-8149-5154c63da41f",
+								"id": "8b5b7490-bee8-425b-b13c-20369852c932",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
@@ -1131,7 +1131,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7f45bec4-8f7c-4600-8650-4fc42ef2ca13",
+								"id": "2ccfb55b-1d9c-403d-9655-10a02813e8bd",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -1176,7 +1176,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ba5ce38d-978a-436f-8a26-204e50fe905a",
+								"id": "fbe2f3d0-8f9a-406d-9ad6-6132d047bd01",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -1244,7 +1244,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "40d6a909-2792-4818-89b7-40e209cbf9d4",
+								"id": "55234533-5cb5-418c-a629-158d5e50fd26",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -1312,7 +1312,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c34e121b-d0ea-4740-b64a-6d849c44555c",
+								"id": "f0b716bb-3422-42b2-ab41-611b4d66b6ec",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -1380,7 +1380,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9f09a1f5-eb17-4a6d-b342-7ab0749d5163",
+								"id": "e671c552-bd94-4a2e-9df6-dde31702fcd6",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
@@ -1393,7 +1393,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "89da808a-6de9-4b48-87fb-f7d9a769d9b0",
+								"id": "758cc59b-94dd-478f-9573-45070c6949b0",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"messageGUI\", uuid.v4());",
@@ -1441,7 +1441,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e0c1d4c5-bacb-4112-bf09-04429f33063d",
+								"id": "20fe575a-86c6-4194-a904-b8d37ee062a6",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
@@ -1486,7 +1486,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f7e55e98-d325-4a45-aa5a-7810710c6cfb",
+								"id": "649aad80-0b59-4188-93f5-c1ecd2588654",
 								"exec": [
 									"const moment = require('moment');\r",
 									"pm.variables.set(\"currentTimestamp\", moment().unix());"
@@ -1497,7 +1497,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ac312293-dca4-4fd0-a016-643d5eac18d9",
+								"id": "8dd55ba8-d464-425c-8cff-f23a1c73c832",
 								"exec": [
 									"let jsonData = pm.response.json();\r",
 									"pm.variables.set(\"custodialEmail\", jsonData.emails[0]);\r",
@@ -1546,7 +1546,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5cf45d84-470a-49d4-8255-e34caddc7898",
+								"id": "a20d571e-8664-4d5c-bf00-cc1ea3b5faae",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);\r",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");\r",
@@ -1597,7 +1597,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cc210349-92e4-456f-a9a9-9418f18b95f6",
+								"id": "9383c806-0482-4fe4-ae95-09c377a6cb92",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -1637,7 +1637,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4a97d58a-2f43-48b8-9562-9246d77c2b5e",
+								"id": "effe0990-e718-4051-8fe3-ad8370351067",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -1684,7 +1684,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "e636a5ad-c19c-48d4-9845-d41b160688bd",
+								"id": "0ae5977e-52d5-4746-8de6-9a6dcfc0da7d",
 								"exec": [
 									"const moment = require('moment');",
 									"pm.variables.set(\"currentTimestamp\", moment().unix());",
@@ -1697,7 +1697,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9d1c170c-d6d5-4a1b-9058-bde065b03b13",
+								"id": "59f1a0fb-836d-4c76-9dee-187852af48a0",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 1000, true, null,\"\");",
@@ -1741,7 +1741,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ad6af62c-c88d-4f26-96b1-3b8a59f9abcf",
+								"id": "b9e5d7a3-b9be-460a-a1a9-f4c63970aaad",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -1781,7 +1781,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3676d0b4-de75-481a-9072-6d2d63fc7cc4",
+								"id": "5202d176-0c1e-45b3-b6e5-d4a59a866aab",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");",
@@ -1822,7 +1822,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "25499abd-2cbc-4f6b-ac78-f54ac6448426",
+								"id": "603799eb-0312-41aa-aaad-0a9f1ab96f65",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -1869,7 +1869,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d1196e0b-7aab-4d16-b3b8-9afd98642fbc",
+								"id": "aff0b83f-4211-4756-a6f1-b72a51296e6d",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
@@ -1880,7 +1880,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3c3cc24b-fe96-4595-b5a9-fdf0d2bec051",
+								"id": "6c30d80a-ff42-42a5-adaf-8f10d53aa5bf",
 								"exec": [
 									"var moment = require('moment');\r",
 									"\r",
@@ -1935,7 +1935,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e9df35b8-d60d-47d9-b497-a68d5368607f",
+								"id": "85ed3071-9eb9-4dbd-9f80-d94b985590af",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
@@ -1946,7 +1946,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "65cd629d-5028-4e7a-a4e7-022dcdfd9eaa",
+								"id": "b60e110d-52c9-40a8-a129-8e487cb93ea4",
 								"exec": [
 									"var moment = require('moment');\r",
 									"let newMoment = moment().subtract(18, 'years');\r",
@@ -1995,7 +1995,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "23a7894b-bddd-4a0f-8126-c17e4b836f2e",
+								"id": "873b145a-8745-4cd3-b240-296138e9fe49",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -2037,7 +2037,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f4fae19f-2cab-4bdf-996c-871609873480",
+								"id": "eb0dc0d7-9e8e-43b1-b945-00218137b310",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");"
@@ -2085,7 +2085,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "627e8eef-1764-45f7-845d-dfa102f0013a",
+								"id": "c5e97398-2fd4-44ba-a0d9-9cd5110e814c",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");",
@@ -2128,7 +2128,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6e4a25e5-4fd8-4b9a-86f0-962736ee8e93",
+								"id": "37f4ef2c-a176-4de8-accd-79e8e4b6ba29",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
@@ -2176,7 +2176,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7a735ba9-78b1-4b6c-949f-8fb6b2cdd3ad",
+								"id": "ef3bb011-f454-4073-ad12-bf2c3f748a9a",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
@@ -2224,7 +2224,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "34312ef5-ed9d-483f-ab17-0d4f6b1bcdfc",
+								"id": "1f7c2406-0a5f-4f14-9a6d-2e93dd32a072",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -2264,7 +2264,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "325ae1c9-db45-4100-b21a-918b5b116c24",
+								"id": "19c41b3a-bc83-4f85-b989-479885e39ffb",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -2304,7 +2304,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "64b450e8-e939-4572-8e5e-9b4d862e7031",
+								"id": "c98f8196-e684-44df-95a1-d429cf85f58a",
 								"exec": [
 									"let jsonData = pm.response.json();\r",
 									"pm.variables.set(\"uploadSessionId\", jsonData.data.id);"
@@ -2352,7 +2352,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "fa38e415-07b7-4357-b15f-b7d94a8a7087",
+								"id": "b600cc6e-af21-4327-a3b9-20fd85f1f039",
 								"exec": [
 									"const uuid = require('uuid');\r",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());\r",
@@ -2377,7 +2377,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[{\r\n\t\"id\": \"59ececd391f5f6b1cce17a6752d2b671\",\r\n\t\"origin\": {\r\n\t\t\"id\": \"E303EA1E-59AA-495C-897B-B73EE26B7617\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"payload\": {\r\n\t\t\t\"device\": {\r\n\t\t\t\t\"manufacturer\": \"Dexcom\",\r\n\t\t\t\t\"model\": \"G5 Mobile\",\r\n\t\t\t\t\"name\": \"CGMBLEKit\",\r\n\t\t\t\t\"softwareVersion\": \"20.0\",\r\n\t\t\t\t\"udiDeviceIdentifier\": \"00386270000002\"\r\n\t\t\t},\r\n\t\t\t\"sourceRevision\": {\r\n\t\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\t\"source\": {\r\n\t\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t\t},\r\n\t\t\t\t\"version\": \"56\"\r\n\t\t\t}\r\n\t\t},\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"41RQLJ 8332825\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n\t\t\"com.loudnate.GlucoseKit.HKMetadataKey.GlucoseIsDisplayOnly\": 0\r\n\t},\r\n\t\"time\": \"{{uploadDeviceDataItemTime}}\",\r\n\t\"type\": \"cbg\",\r\n\t\"units\": \"mmol/L\",\r\n\t\"uploadId\": \"{{uploadSessionId}}\",\r\n\t\"value\": 16.04166\r\n}, {\r\n\t\"deliveryType\": \"temp\",\r\n\t\"duration\": 300000,\r\n\t\"id\": \"31c8088d0637b8379581318e511638bb\",\r\n\t\"origin\": {\r\n\t\t\"id\": \"89151414-F392-429C-9CF2-924701542A8F\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"payload\": {\r\n\t\t\t\"device\": {\r\n\t\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t\t},\r\n\t\t\t\"sourceRevision\": {\r\n\t\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\t\"source\": {\r\n\t\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t\t},\r\n\t\t\t\t\"version\": \"56\"\r\n\t\t\t}\r\n\t\t},\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKInsulinDeliveryReason\": 1,\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"16011cc3174513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n\t\t\"HasLoopKitOrigin\": 1,\r\n\t\t\"com.loopkit.InsulinKit.MetadataKeyScheduledBasalRate\": \"1.4 IU/hr\"\r\n\t},\r\n\t\"rate\": 6,\r\n\t\"suppressed\": {\r\n\t\t\"deliveryType\": \"scheduled\",\r\n\t\t\"rate\": 1.4,\r\n\t\t\"type\": \"basal\"\r\n\t},\r\n\t\"time\": \"{{uploadDeviceDataItemTime}}\",\r\n\t\"type\": \"basal\",\r\n\t\"uploadId\": \"{{uploadSessionId}}\"\r\n}, {\r\n\t\"id\": \"d6f1a34668369c121a3757efdd946750\",\r\n\t\"normal\": 2,\r\n\t\"origin\": {\r\n\t\t\"id\": \"5872C4EF-D906-40CC-A7FF-804C4978E8BE\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"payload\": {\r\n\t\t\t\"device\": {\r\n\t\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t\t},\r\n\t\t\t\"sourceRevision\": {\r\n\t\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\t\"source\": {\r\n\t\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t\t},\r\n\t\t\t\t\"version\": \"56\"\r\n\t\t\t}\r\n\t\t},\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKInsulinDeliveryReason\": 2,\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"0100500050003c0035e7564513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n\t\t\"HasLoopKitOrigin\": 1\r\n\t},\r\n\t\"subType\": \"normal\",\r\n\t\"time\": \"{{uploadDeviceDataItemTime}}\",\r\n\t\"type\": \"bolus\",\r\n\t\"uploadId\": \"{{uploadSessionId}}\"\r\n}, {\r\n\t\"id\": \"ac0388012ed2a7ce524661d27b3af786\",\r\n\t\"name\": \"\\ud83e\\udd67\",\r\n\t\"nutrition\": {\r\n\t\t\"carbohydrate\": {\r\n\t\t\t\"net\": 30,\r\n\t\t\t\"units\": \"grams\"\r\n\t\t}\r\n\t},\r\n\t\"origin\": {\r\n\t\t\"id\": \"40D1259D-0E93-4A46-BEBC-785BE7896DE9\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"payload\": {\r\n\t\t\t\"sourceRevision\": {\r\n\t\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\t\"source\": {\r\n\t\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t\t},\r\n\t\t\t\t\"version\": \"56\"\r\n\t\t\t}\r\n\t\t},\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"35C3AE35-142B-4FF0-8B2E-784066849A50\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n\t\t\"com.loudnate.CarbKit.HKMetadataKey.AbsorptionTimeMinutes\": 7200\r\n\t},\r\n\t\"time\": \"{{uploadDeviceDataItemTime}}\",\r\n\t\"type\": \"food\",\r\n\t\"uploadId\": \"{{uploadSessionId}}\"\r\n}, {\r\n\t\"duration\": {\r\n\t\t\"units\": \"seconds\",\r\n\t\t\"value\": 518\r\n\t},\r\n\t\"energy\": {\r\n\t\t\"units\": \"kilocalories\",\r\n\t\t\"value\": 23\r\n\t},\r\n\t\"id\": \"1cb964b426b1848a6830c52c776cf06c\",\r\n\t\"name\": \"Traditional Strength Training\",\r\n\t\"origin\": {\r\n\t\t\"id\": \"39E31BE1-297E-421A-BF1F-C1E83769C686\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"payload\": {\r\n\t\t\t\"sourceRevision\": {\r\n\t\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\t\"source\": {\r\n\t\t\t\t\t\"bundleIdentifier\": \"com.oneothergame.7min-fitness\",\r\n\t\t\t\t\t\"name\": \"Workout for Women\"\r\n\t\t\t\t},\r\n\t\t\t\t\"version\": \"3.5.0.1\"\r\n\t\t\t}\r\n\t\t},\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"Workout Name\": \"NIGHT STRETCH\"\r\n\t},\r\n\t\"time\": \"{{uploadDeviceDataItemTime}}\",\r\n\t\"type\": \"physicalActivity\",\r\n\t\"uploadId\": \"{{uploadSessionId}}\"\r\n}, {\r\n\t\"from\": {\r\n\t\t\"timeZoneName\": \"Australia/Sydney\"\r\n\t},\r\n\t\"id\": \"72eb73daac07ff15c49cbbfa86039e5f\",\r\n\t\"subType\": \"timeChange\",\r\n\t\"time\": \"{{uploadDeviceDataItemTime}}\",\r\n\t\"to\": {\r\n\t\t\"timeZoneName\": \"Australia/Melbourne\"\r\n\t},\r\n\t\"type\": \"deviceEvent\",\r\n\t\"uploadId\": \"{{uploadSessionId}}\"\r\n}, {\r\n\t\"id\": \"a0446800308f1273e957113bed9f12a8\",\r\n\t\"origin\": {\r\n\t\t\"id\": \"7DAA8232-D5FC-4403-97F5-E8B2BBBF7DB5\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"payload\": {\r\n\t\t\t\"sourceRevision\": {\r\n\t\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\t\"source\": {\r\n\t\t\t\t\t\"bundleIdentifier\": \"com.Roche.Accu-Chek-C-AU\",\r\n\t\t\t\t\t\"name\": \"ACCU-CHEK\"\r\n\t\t\t\t},\r\n\t\t\t\t\"version\": \"1\"\r\n\t\t\t}\r\n\t\t},\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"App Version\": \"2.1.5.1\",\r\n\t\t\"Data Entry\": \"From Meter\",\r\n\t\t\"HKWasUserEntered\": 0,\r\n\t\t\"Meter Model\": \"500\",\r\n\t\t\"Meter Version\": \"5.87\",\r\n\t\t\"Original Units\": \"mmol/L\",\r\n\t\t\"Record ID\": \"441ae65c-2fe3-43b7-9454-9f38b1709857\"\r\n\t},\r\n\t\"time\": \"{{uploadDeviceDataItemTime}}\",\r\n\t\"type\": \"smbg\",\r\n\t\"units\": \"mmol/L\",\r\n\t\"uploadId\": \"{{uploadSessionId}}\",\r\n\t\"value\": 5.1622\r\n}, {\r\n\t\"_dataState\": \"open\",\r\n\t\"_deduplicator\": {\r\n\t\t\"name\": \"org.tidepool.deduplicator.dataset.delete.origin\",\r\n\t\t\"version\": \"1.0.0\"\r\n\t},\r\n\t\"_state\": \"open\",\r\n\t\"client\": {\r\n\t\t\"name\": \"org.tidepool.mobile\",\r\n\t\t\"version\": \"2.1.6\"\r\n\t},\r\n\t\"dataSetType\": \"continuous\",\r\n\t\"id\": \"f7825b06f189edf3ef5afc64f07930e1\",\r\n\t\"revision\": 1,\r\n\t\"type\": \"upload\",\r\n\t\"uploadId\": \"{{uploadSessionId}}\"\r\n}]",
+							"raw": "[{\r\n\t\"time\": \"2017-02-05T13:26:51.000Z\",\r\n\t\"timezoneOffset\": 660,\r\n\t\"clockDriftOffset\": 0,\r\n\t\"conversionOffset\": 0,\r\n\t\"deviceTime\": \"2017-02-06T00:26:51\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"cbg\",\r\n\t\"value\": 16.04166,\r\n\t\"units\": \"mmol/L\",\r\n\t\"origin\": {\r\n\t\t\"id\": \"06b10116-e85c-4abe-8a35-4eca838bd484\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"41RQLJ 8332825\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n\t\t\"com.loudnate.GlucoseKit.HKMetadataKey.GlucoseIsDisplayOnly\": 0,\r\n        \"device\": {\r\n\t\t\t\"manufacturer\": \"Dexcom\",\r\n\t\t\t\"model\": \"G5 Mobile\",\r\n\t\t\t\"name\": \"CGMBLEKit\",\r\n\t\t\t\"softwareVersion\": \"20.0\",\r\n\t\t\t\"udiDeviceIdentifier\": \"00386270000002\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n}, {\r\n\t\"time\": \"2017-02-05T13:26:51.000Z\",\r\n\t\"timezoneOffset\": 660,\r\n\t\"clockDriftOffset\": 0,\r\n\t\"conversionOffset\": 0,\r\n\t\"deviceTime\": \"2017-02-06T00:26:51\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"basal\",\r\n    \"deliveryType\": \"temp\",\r\n    \"duration\": 300000,\r\n\t\"rate\": 6,\r\n    \"surpressed\": {\r\n        \"deliveryType\": \"scheduled\",\r\n        \"rate\": 1.4,\r\n        \"type\": \"basal\"\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"89151414-F392-429C-9CF2-924701542A8F\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"16011cc3174513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 1,\r\n        \"com.loopkit.InsulinKit.MetadataKeyScheduledBasalRate\": \"1.4 IU/hr\",\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"2017-02-05T13:26:51.000Z\",\r\n\t\"timezoneOffset\": 660,\r\n\t\"clockDriftOffset\": 0,\r\n\t\"conversionOffset\": 0,\r\n\t\"deviceTime\": \"2017-02-06T00:26:51\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"bolus\",\r\n    \"subType\": \"normal\",\r\n    \"normal\": 2,\r\n\t\"origin\": {\r\n\t\t\"id\": \"5872C4EF-D906-40CC-A7FF-804C4978E8BE\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"0100500050003c0035e7564513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 2,\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"2017-02-05T13:26:51.000Z\",\r\n\t\"timezoneOffset\": 660,\r\n\t\"clockDriftOffset\": 0,\r\n\t\"conversionOffset\": 0,\r\n\t\"deviceTime\": \"2017-02-06T00:26:51\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n    \"name\": \"\\ud83e\\udd67\",\r\n\t\"type\": \"food\",\r\n    \"nutrition\": {\r\n        \"carbohydrate\": {\r\n            \"net\": 30,\r\n            \"units\": \"grams\"\r\n        }\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"40D1259D-0E93-4A46-BEBC-785BE7896DE9\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"35C3AE35-142B-4FF0-8B2E-784066849A50\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"com.loudnate.CarbKit.HKMetadataKey.AbsorptionTimeMinutes\": 7200,\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n}\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2406,7 +2406,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1246ab1c-0f78-4cc1-8629-b3acfdeb2d54",
+								"id": "6c9f99a6-0554-4319-9a9f-94f401619a91",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);\r",
 									"assert.common(204, 2000, false, null,\"\");"
@@ -2453,7 +2453,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "d03a40d4-5021-4b43-8ee3-f3519736c424",
+						"id": "1aa9f540-17cc-41ed-9e2a-40754ade531a",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -2463,7 +2463,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6add2c78-5798-4496-85b7-e8c3be580979",
+						"id": "dbf78eac-639a-4d84-9624-39acc6349d53",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -2482,7 +2482,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "081b93b1-78fa-4cc6-bace-00201993ffce",
+								"id": "10fa15ee-482d-4483-b06d-8ca9a08dba2a",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -2545,7 +2545,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "20a2f1f3-58cc-428f-959c-06cfdaff3375",
+								"id": "cdddcccc-a39f-4773-bf33-19711a9b22ff",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -2586,7 +2586,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "63515b14-20c0-49e7-bb42-4a1238b1084d",
+								"id": "1ef131d4-1294-475e-922b-b29dbcf269dc",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
@@ -2602,7 +2602,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "72af62c6-87d7-4fab-8de2-37ad650d6a7c",
+								"id": "f5c2f4bb-1f7c-42d3-915f-bd7e4a285a15",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -2647,7 +2647,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "48e9b9b8-5b3f-47da-83fa-cdeeafb757ee",
+								"id": "bdd4b725-8b51-4c75-971d-42e5d0ec3354",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -2715,7 +2715,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bbe99276-9f22-462b-98ef-f36cc9da9a34",
+								"id": "01b13e58-d053-47df-a96f-25263177838b",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -2783,7 +2783,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3f02025e-3c9f-4dcb-8157-34e7df92eb0e",
+								"id": "1944bfd0-10e1-419b-9fe8-2bda2b11c7b7",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -2851,7 +2851,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c1964d11-7d12-47b8-b865-a714408805ae",
+								"id": "fd3c901f-04a5-4732-920c-a8005a095391",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
@@ -2864,7 +2864,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "7121daa1-1a55-4787-b7bd-cd24ea6034a3",
+								"id": "e40b5478-23c7-4dac-8bd4-bc623128a0e6",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"messageGUI\", uuid.v4());",
@@ -2912,7 +2912,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9dcc2776-9ac1-49b9-aef1-7f979b96154c",
+								"id": "02388f42-769c-4212-b885-8f031a2b9869",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
@@ -2957,7 +2957,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fbe19992-90e9-4988-b63c-4c4a3663d70c",
+								"id": "205e6461-a380-437e-8489-b7d36848260d",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");",
@@ -3005,7 +3005,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "08baa072-5545-45c0-b146-25c97c1df5dd",
+								"id": "d736493a-638a-4cbd-bff6-04094ccfcfb6",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -3045,7 +3045,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "97573c80-2f9d-4797-a40f-b49889f46f42",
+								"id": "ead25cbd-f3cf-4074-b619-2d381a9cbefd",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"clinicUserId\", jsonData.userid);",
@@ -3104,7 +3104,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0efa8f31-7688-4649-801a-4a3c84ff24f7",
+								"id": "42c88ee6-6710-4be4-b1b6-7104230ec974",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -3153,7 +3153,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "91dd110d-082a-4105-ab2b-b6119b15ec84",
+								"id": "4fd8c19a-6ad5-4b24-8756-77949aaf8169",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -3194,7 +3194,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b7259d89-7435-46cc-990d-45eb93467e37",
+								"id": "afb4b786-a67b-4d5d-8eb2-8b05d3ba627c",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -3262,7 +3262,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "54a846b2-5509-429b-b52a-dc6adb095bc6",
+								"id": "6deed3f5-1faf-473d-a970-0e80ea2e9896",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -3330,7 +3330,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ef8481de-0e24-46e4-8bdd-fa375f77138a",
+								"id": "94ad9dba-89bf-4769-a1eb-8187ec885891",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -3398,7 +3398,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "490ecdda-11f6-4269-ba61-93b10b93b23e",
+								"id": "b7c1b889-bf91-4d06-9de5-5c3d152136ab",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
@@ -3443,7 +3443,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c15e2e43-a15a-4a5d-bd9b-c3a894d07f46",
+								"id": "375b70f7-3874-4328-994a-91ffab9ee5ee",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");"
@@ -3454,7 +3454,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "5ae52e0e-c2ab-4362-850c-4ba143d11966",
+								"id": "06e6f0e6-efb3-4dbb-8b03-bdc24dccef67",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"messageGUI\", uuid.v4());",
@@ -3502,7 +3502,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5d5a2985-1577-45fa-ad55-bfe6a92410ec",
+								"id": "585fed7e-21f4-43e7-963c-d051c886d8e7",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -3542,7 +3542,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d118ff92-0dce-4e63-aa64-35ab92a1649c",
+								"id": "2d8d8943-5210-45b6-a686-95ccd2101622",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -3612,7 +3612,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b729ffa0-1587-4677-a23a-40deebb7ddb2",
+								"id": "9a9e5a92-a913-4c43-8444-565209608447",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -3660,7 +3660,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "efdc5f50-3806-4141-b6e1-1999102fa547",
+								"id": "2b02d097-3554-48ed-862d-caac5413a055",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -3711,7 +3711,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "437234e9-bfe9-43ea-bf4d-0f4303cad053",
+				"id": "c1bb5b8d-7ce9-469d-a404-c3c2ddc88c30",
 				"type": "text/javascript",
 				"exec": [
 					"const userSchema = { \"required\": [\"userid\", \"username\", \"emails\", \"emailVerified\", \"termsAccepted\"], \"properties\": { \"emailVerified\": { \"type\": \"boolean\" }, \"emails\": { \"type\": \"array\" }, \"userid\": { \"type\": \"string\" }, \"username\": { \"type\": \"string\" }, \"termsAccepted\": { \"type\": \"string\" } } };",
@@ -3793,7 +3793,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "98c5d003-6463-4b4e-a551-7c1bf3e7b27d",
+				"id": "a3c78883-ba39-4877-8ced-7943d5476a87",
 				"type": "text/javascript",
 				"exec": [
 					""
