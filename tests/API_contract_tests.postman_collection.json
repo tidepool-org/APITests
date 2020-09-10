@@ -2757,28 +2757,6 @@
 				}
 			],
 			"description": "The initial interactions a user goes through to sign up for tidepool and set up their profile.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "a2a55ad4-0c69-4b8b-8d8a-a0bec90b07aa",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "ea5ca060-9287-4916-a243-a632e09b5488",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			],
 			"protocolProfileBehavior": {}
 		},
 		{
@@ -4109,16 +4087,6 @@
 					"    };",
 					"    return asserts;",
 					"} + '; loadAsserts();');"
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"id": "7024f3af-35ec-402d-a0a5-08d47177d822",
-				"type": "text/javascript",
-				"exec": [
-					""
 				]
 			}
 		}
