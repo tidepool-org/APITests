@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b49b3b84-5043-4f01-b59d-7e0182ae9644",
+		"_postman_id": "198e0e0e-4668-4a60-9f79-6685fddb65d9",
 		"name": "API_contract_tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "60775e54-e25e-4d3a-a017-c6019ae4910f",
+								"id": "2eb7f7aa-35cd-4cb9-925f-1c9df6722529",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -77,7 +77,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1222a10f-b3de-4d99-b053-9b61d2c28797",
+								"id": "29ea408c-0409-47e7-a57d-48a903fc19bb",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -118,7 +118,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4bcdbceb-ee6d-40a6-9f6b-12b712aae2c9",
+								"id": "4d82b96b-ba29-4ce8-a384-faa1a3e86ecc",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");"
@@ -129,7 +129,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "b6ffac5f-fa20-47d0-aad9-73c6f0ef52d8",
+								"id": "46568836-d9fb-412a-b994-b5b9d0cc1d14",
 								"exec": [
 									"const emailName = pm.environment.get(\"sharingEmailName\");",
 									"let emailAddress = emailName+ \"+sharing_\" + Date.now() + \"@tidepool.org\";",
@@ -176,7 +176,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "61e860a4-ef80-4ab9-bc88-4c5be7fe9a8b",
+								"id": "e55f221c-23b2-4829-8abd-fcfbcdbbc7f4",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");"
@@ -221,7 +221,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8352a2e0-19a7-4b8a-9273-26eb0e9c1141",
+								"id": "261aaff1-b162-42f3-a4dd-dffefb09c6c1",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");"
@@ -262,7 +262,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "16f5bd35-389d-4f79-bb39-8a7cb9b7e716",
+								"id": "0fe94694-38ed-42c2-9ec9-3a1f666dbd40",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
@@ -277,7 +277,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "575e1fa4-b888-4e70-b72f-b763d8225a39",
+								"id": "e6f1f65b-3ea0-4eab-9710-50810bd84fad",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -321,7 +321,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bc2b7a81-3a7f-4753-8a9e-055ad29014c2",
+								"id": "a35170fe-c333-4793-9d65-b2b937510ebf",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -388,7 +388,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "94f846e3-5d71-448b-9555-4c3ed04d26d9",
+								"id": "02ff904c-6c51-49dc-acbe-67d095ded07e",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -428,7 +428,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "94403f0c-c11b-4032-b269-6a064f07c5ed",
+						"id": "a3f89883-036f-4440-a9a9-577613fa63cd",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -447,7 +447,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "e1335fdd-733b-4ccc-b217-f14bdcc52384",
+								"id": "8af513e2-563f-4b15-9ddf-61b4e238eafd",
 								"exec": [
 									"var moment = require('moment');",
 									"pm.variables.set(\"currentTimestamp\", moment().unix());",
@@ -460,7 +460,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e766bde6-f2c4-4ef7-84d1-1691847a80d3",
+								"id": "00401792-60b2-48ef-86ac-5811dd42fca9",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 1000, true, null,\"\");",
@@ -504,7 +504,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "58625121-4ec9-48d5-8e45-4c6bcc45dfd2",
+								"id": "87c3b85e-ca8e-4a23-9de9-89da49be8348",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -544,7 +544,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a4ad6fce-905f-4c9b-b53a-7bb8115110ac",
+								"id": "a0b2b143-a7e2-48e2-b008-53e1dc62eddd",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");",
@@ -585,7 +585,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a077e2d5-7bd3-4532-91cd-d575ff01eb73",
+								"id": "8c5c6505-d023-47b9-853f-cfde86484707",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -625,7 +625,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "13d127c6-1560-474f-8d1f-1cd9ff632481",
+								"id": "20b20fe5-bee1-49ab-909b-50c35bf53680",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
@@ -636,7 +636,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "a696da2b-9ea9-45ce-a2e4-994c49bc101b",
+								"id": "7557dd7d-1b30-4d18-aa5d-f663e161e0a2",
 								"exec": [
 									"var moment = require('moment');\r",
 									"pm.variables.set(\"currentTimestamp\", moment().format());"
@@ -683,7 +683,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "51bf8fa5-4d5a-4173-ab34-a0c059a54f6f",
+								"id": "de22dae2-f8ff-463d-8e40-78ef8245c69e",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
@@ -694,7 +694,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "644e5e42-cb16-48a5-be26-64a3e304ce0a",
+								"id": "9c83b660-6710-46d4-bde6-582ed3aab0ed",
 								"exec": [
 									"var moment = require('moment');\r",
 									"let newMoment = moment().subtract(18, 'years');\r",
@@ -743,7 +743,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b1d466f1-c637-487f-88b6-b1721636e380",
+								"id": "958d5751-8735-4dfa-9489-62546df9a636",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -785,7 +785,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "85c69858-34d6-4491-b3cf-ab163af2bfec",
+								"id": "6049130c-6e7e-4eeb-aa8a-43c08825a35a",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -825,7 +825,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e5f1d501-f37b-4947-8bcd-6faa169d1381",
+						"id": "025d183d-228a-4924-9af5-6ececa8ada0b",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -844,7 +844,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7c419b10-86f5-4fc8-b564-6440d640d1f7",
+								"id": "eb5067ef-85a3-4034-8658-8d77a4dbdcd1",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -903,7 +903,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "18cfdd01-1204-43aa-a5b1-6f57165bac05",
+								"id": "1aea470a-b3c8-4e67-b826-808b6e6467f6",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -945,7 +945,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f52138be-6e1e-4dde-9e17-a3567a26e684",
+								"id": "bd14fb9b-dc8c-425c-85b1-2afa232502f5",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"custodialUserId\", jsonData.userid);",
@@ -996,7 +996,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b9c13df9-86ed-4e24-8e7c-bf3309aaf0ec",
+								"id": "0bf8dbe5-9b31-4e25-b369-022cd6dd900c",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -1055,7 +1055,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b3ba5d8f-6392-46f3-884d-50832a390365",
+								"id": "931709c5-2a1a-4e0d-8273-61f5ddd35a73",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
@@ -1066,7 +1066,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "cc3c46c0-7706-44d4-b34e-ed32a76a74a4",
+								"id": "cb9d6515-a4ce-4813-9d94-78c28fc1707f",
 								"exec": [
 									"var moment = require('moment');\r",
 									"let newMoment = moment().subtract(18, 'years');\r",
@@ -1115,7 +1115,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8b5b7490-bee8-425b-b13c-20369852c932",
+								"id": "c5a6c833-3759-404f-bc39-dc76f65878d0",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
@@ -1131,7 +1131,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2ccfb55b-1d9c-403d-9655-10a02813e8bd",
+								"id": "f4ead843-a5b5-4431-9573-2aa79eb68511",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -1171,80 +1171,12 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve last SMBG data",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "fbe2f3d0-8f9a-406d-9ad6-6132d047bd01",
-								"exec": [
-									"let jsonData = pm.response.json();",
-									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, jsonData,\"smbgsSchema\");",
-									"pm.test(\"one item is returned\", function () {",
-									"pm.expect(jsonData.length).to.eql(1);",
-									"});",
-									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "x-tidepool-session-token",
-								"value": "{{sessionToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{api}}/data/{{custodialUserId}}?latest=true&type=smbg",
-							"host": [
-								"{{api}}"
-							],
-							"path": [
-								"data",
-								"{{custodialUserId}}"
-							],
-							"query": [
-								{
-									"key": "startDate",
-									"value": "{{dDataStartDate}}",
-									"disabled": true
-								},
-								{
-									"key": "endDate",
-									"value": "{{dDataEndDate}}",
-									"disabled": true
-								},
-								{
-									"key": "latest",
-									"value": "true"
-								},
-								{
-									"key": "type",
-									"value": "smbg"
-								}
-							]
-						},
-						"description": "Verifying the data was stored from previous request to upload meter data."
-					},
-					"response": []
-				},
-				{
 					"name": "Retrieve last CBG data",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "55234533-5cb5-418c-a629-158d5e50fd26",
+								"id": "f9aa28dd-f54b-423c-958d-c596d55f6bb1",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -1283,16 +1215,6 @@
 							],
 							"query": [
 								{
-									"key": "startDate",
-									"value": "{{dDataStartDate}}",
-									"disabled": true
-								},
-								{
-									"key": "endDate",
-									"value": "{{dDataEndDate}}",
-									"disabled": true
-								},
-								{
 									"key": "latest",
 									"value": "true"
 								},
@@ -1307,12 +1229,70 @@
 					"response": []
 				},
 				{
+					"name": "Retrieve last SMBG data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a95776fc-185b-49ec-b24f-24d2cafe690e",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"smbgsSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].guid).to.eql(pm.variables.get(\"uploadDeviceDataItemId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{custodialUserId}}?latest=true&type=smbg",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{custodialUserId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "smbg"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload meter data."
+					},
+					"response": []
+				},
+				{
 					"name": "Retrieve last bolus data",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "f0b716bb-3422-42b2-ab41-611b4d66b6ec",
+								"id": "e81064db-f40d-4287-b12f-256be0899df5",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -1351,16 +1331,6 @@
 							],
 							"query": [
 								{
-									"key": "startDate",
-									"value": "{{dDataStartDate}}",
-									"disabled": true
-								},
-								{
-									"key": "endDate",
-									"value": "{{dDataEndDate}}",
-									"disabled": true
-								},
-								{
 									"key": "latest",
 									"value": "true"
 								},
@@ -1380,7 +1350,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e671c552-bd94-4a2e-9df6-dde31702fcd6",
+								"id": "f762be5d-4526-4f1e-8005-818faaa0db80",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
@@ -1393,7 +1363,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "758cc59b-94dd-478f-9573-45070c6949b0",
+								"id": "e407e94a-8d4b-4ac8-89d2-b8796c0b193d",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"messageGUI\", uuid.v4());",
@@ -1441,7 +1411,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "20fe575a-86c6-4194-a904-b8d37ee062a6",
+								"id": "9db30d16-5442-41dd-b24f-b0382ff77b96",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
@@ -1486,7 +1456,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "649aad80-0b59-4188-93f5-c1ecd2588654",
+								"id": "8c1ab0bc-5c76-4e98-85d7-ba95c7b134f2",
 								"exec": [
 									"const moment = require('moment');\r",
 									"pm.variables.set(\"currentTimestamp\", moment().unix());"
@@ -1497,7 +1467,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8dd55ba8-d464-425c-8cff-f23a1c73c832",
+								"id": "17b8b781-f5fb-448b-b678-c81226c949d9",
 								"exec": [
 									"let jsonData = pm.response.json();\r",
 									"pm.variables.set(\"custodialEmail\", jsonData.emails[0]);\r",
@@ -1546,7 +1516,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a20d571e-8664-4d5c-bf00-cc1ea3b5faae",
+								"id": "53f85a38-a68a-4bb2-b8a5-70b516992f31",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);\r",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");\r",
@@ -1597,7 +1567,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9383c806-0482-4fe4-ae95-09c377a6cb92",
+								"id": "c61c0882-468b-4e50-9c7f-4bfc63bfe6fb",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -1637,7 +1607,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "effe0990-e718-4051-8fe3-ad8370351067",
+								"id": "df00e7c4-ccf3-4acb-ae81-cd9897b5f04d",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -1684,7 +1654,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "0ae5977e-52d5-4746-8de6-9a6dcfc0da7d",
+								"id": "3c1e5252-2bd6-46db-964f-c83c88611543",
 								"exec": [
 									"const moment = require('moment');",
 									"pm.variables.set(\"currentTimestamp\", moment().unix());",
@@ -1697,7 +1667,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "59f1a0fb-836d-4c76-9dee-187852af48a0",
+								"id": "98cc3902-d148-4666-b7d7-7447d1b86bd9",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 1000, true, null,\"\");",
@@ -1741,7 +1711,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b9e5d7a3-b9be-460a-a1a9-f4c63970aaad",
+								"id": "9001b204-3b99-4484-a487-77c35d3daf8f",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null,\"\");"
@@ -1781,7 +1751,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5202d176-0c1e-45b3-b6e5-d4a59a866aab",
+								"id": "4d7c34ad-f044-48fd-a4b5-fffb6b7341b6",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");",
@@ -1822,7 +1792,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "603799eb-0312-41aa-aaad-0a9f1ab96f65",
+								"id": "bb9c8619-64f9-4cea-b9a5-c2007e255c1c",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -1869,7 +1839,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "aff0b83f-4211-4756-a6f1-b72a51296e6d",
+								"id": "bc3985fc-68a7-407f-ad6f-028b562364cb",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
@@ -1880,7 +1850,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "6c30d80a-ff42-42a5-adaf-8f10d53aa5bf",
+								"id": "8ece067f-3c25-49a0-bb0a-74024ed04b53",
 								"exec": [
 									"var moment = require('moment');\r",
 									"\r",
@@ -1935,7 +1905,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "85ed3071-9eb9-4dbd-9f80-d94b985590af",
+								"id": "9f0ae9fe-8b84-4f2d-a61f-2525051c7120",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
@@ -1946,7 +1916,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "b60e110d-52c9-40a8-a129-8e487cb93ea4",
+								"id": "241a9462-e786-47e9-ba6b-e6000fc3c4d0",
 								"exec": [
 									"var moment = require('moment');\r",
 									"let newMoment = moment().subtract(18, 'years');\r",
@@ -1995,7 +1965,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "873b145a-8745-4cd3-b240-296138e9fe49",
+								"id": "543e0248-a7e5-4ae9-9d36-d03f9eed3cdd",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -2037,7 +2007,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "eb0dc0d7-9e8e-43b1-b945-00218137b310",
+								"id": "d0c98274-f25d-417d-981b-fd85441f6d87",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");"
@@ -2085,7 +2055,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c5e97398-2fd4-44ba-a0d9-9cd5110e814c",
+								"id": "977cd217-3728-40c8-855d-f0c2753fe5b8",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");",
@@ -2128,7 +2098,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "37f4ef2c-a176-4de8-accd-79e8e4b6ba29",
+								"id": "d7412e88-1bd8-4611-8c6c-ebe89cdd98d6",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
@@ -2176,7 +2146,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ef3bb011-f454-4073-ad12-bf2c3f748a9a",
+								"id": "3b54adb1-60ec-4c53-8e00-a2b2a3d8176a",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
@@ -2224,7 +2194,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1f7c2406-0a5f-4f14-9a6d-2e93dd32a072",
+								"id": "48cc925f-5bc0-412b-964a-6b688d0210b5",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -2264,7 +2234,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "19c41b3a-bc83-4f85-b989-479885e39ffb",
+								"id": "3eb4e5d7-c8f1-4ea8-bf04-f6ccc8c4a620",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -2304,10 +2274,12 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c98f8196-e684-44df-95a1-d429cf85f58a",
+								"id": "73ebbbdf-3732-463b-b579-84c293b91eaa",
 								"exec": [
 									"let jsonData = pm.response.json();\r",
-									"pm.variables.set(\"uploadSessionId\", jsonData.data.id);"
+									"pm.variables.set(\"uploadSessionId\", jsonData.data.id);\r",
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(201, 500, false, null,\"uploadSessionStartSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -2347,20 +2319,74 @@
 					"response": []
 				},
 				{
+					"name": "retrieve existing continous session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d1595842-7533-47dc-b521-85d892aa2485",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"uploadSessionSchema\");\r",
+									"pm.test(\"Upload session retrieved is the same one we created\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].id).to.eql(pm.variables.get(\"uploadSessionId\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/v1/users/{{userId}}/data_sets",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{userId}}",
+								"data_sets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "upload healthkit data",
 					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "b600cc6e-af21-4327-a3b9-20fd85f1f039",
+								"id": "d4fb81d4-95d9-482c-b1b9-68b124be706e",
 								"exec": [
 									"const uuid = require('uuid');\r",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());\r",
 									"const moment = require('moment');\r",
 									"let now = moment();\r",
-									"pm.variables.set(\"uploadDeviceDataItemTime\", now.format());\r",
-									"pm.variables.set(\"basalRateEndTime\", now.add(6, 'm').format());\r",
-									"pm.variables.set(\"uploadId\", uuid.v4().replace(/-/g, ''));"
+									"pm.variables.set(\"uploadDeviceTime\", now.format('YYYY-MM-DDTHH:mm:ss'));\r",
+									"pm.variables.set(\"uploadTime\", now.format());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "638873ba-d60d-4718-a327-1da67c5a7da1",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 500, false, null,'');"
 								],
 								"type": "text/javascript"
 							}
@@ -2377,7 +2403,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[{\r\n\t\"time\": \"2017-02-05T13:26:51.000Z\",\r\n\t\"timezoneOffset\": 660,\r\n\t\"clockDriftOffset\": 0,\r\n\t\"conversionOffset\": 0,\r\n\t\"deviceTime\": \"2017-02-06T00:26:51\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"cbg\",\r\n\t\"value\": 16.04166,\r\n\t\"units\": \"mmol/L\",\r\n\t\"origin\": {\r\n\t\t\"id\": \"06b10116-e85c-4abe-8a35-4eca838bd484\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"41RQLJ 8332825\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n\t\t\"com.loudnate.GlucoseKit.HKMetadataKey.GlucoseIsDisplayOnly\": 0,\r\n        \"device\": {\r\n\t\t\t\"manufacturer\": \"Dexcom\",\r\n\t\t\t\"model\": \"G5 Mobile\",\r\n\t\t\t\"name\": \"CGMBLEKit\",\r\n\t\t\t\"softwareVersion\": \"20.0\",\r\n\t\t\t\"udiDeviceIdentifier\": \"00386270000002\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n}, {\r\n\t\"time\": \"2017-02-05T13:26:51.000Z\",\r\n\t\"timezoneOffset\": 660,\r\n\t\"clockDriftOffset\": 0,\r\n\t\"conversionOffset\": 0,\r\n\t\"deviceTime\": \"2017-02-06T00:26:51\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"basal\",\r\n    \"deliveryType\": \"temp\",\r\n    \"duration\": 300000,\r\n\t\"rate\": 6,\r\n    \"surpressed\": {\r\n        \"deliveryType\": \"scheduled\",\r\n        \"rate\": 1.4,\r\n        \"type\": \"basal\"\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"89151414-F392-429C-9CF2-924701542A8F\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"16011cc3174513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 1,\r\n        \"com.loopkit.InsulinKit.MetadataKeyScheduledBasalRate\": \"1.4 IU/hr\",\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"2017-02-05T13:26:51.000Z\",\r\n\t\"timezoneOffset\": 660,\r\n\t\"clockDriftOffset\": 0,\r\n\t\"conversionOffset\": 0,\r\n\t\"deviceTime\": \"2017-02-06T00:26:51\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"bolus\",\r\n    \"subType\": \"normal\",\r\n    \"normal\": 2,\r\n\t\"origin\": {\r\n\t\t\"id\": \"5872C4EF-D906-40CC-A7FF-804C4978E8BE\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"0100500050003c0035e7564513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 2,\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"2017-02-05T13:26:51.000Z\",\r\n\t\"timezoneOffset\": 660,\r\n\t\"clockDriftOffset\": 0,\r\n\t\"conversionOffset\": 0,\r\n\t\"deviceTime\": \"2017-02-06T00:26:51\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n    \"name\": \"\\ud83e\\udd67\",\r\n\t\"type\": \"food\",\r\n    \"nutrition\": {\r\n        \"carbohydrate\": {\r\n            \"net\": 30,\r\n            \"units\": \"grams\"\r\n        }\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"40D1259D-0E93-4A46-BEBC-785BE7896DE9\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"35C3AE35-142B-4FF0-8B2E-784066849A50\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"com.loudnate.CarbKit.HKMetadataKey.AbsorptionTimeMinutes\": 7200,\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n}\r\n]",
+							"raw": "[{\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"cbg\",\r\n\t\"value\": 16.04166,\r\n\t\"units\": \"mmol/L\",\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{uploadDeviceDataItemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"41RQLJ 8332825\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n\t\t\"com.loudnate.GlucoseKit.HKMetadataKey.GlucoseIsDisplayOnly\": 0,\r\n        \"device\": {\r\n\t\t\t\"manufacturer\": \"Dexcom\",\r\n\t\t\t\"model\": \"G5 Mobile\",\r\n\t\t\t\"name\": \"CGMBLEKit\",\r\n\t\t\t\"softwareVersion\": \"20.0\",\r\n\t\t\t\"udiDeviceIdentifier\": \"00386270000002\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n}, {\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"basal\",\r\n    \"deliveryType\": \"temp\",\r\n    \"duration\": 300000,\r\n\t\"rate\": 6,\r\n    \"surpressed\": {\r\n        \"deliveryType\": \"scheduled\",\r\n        \"rate\": 1.4,\r\n        \"type\": \"basal\"\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{uploadDeviceDataItemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"16011cc3174513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 1,\r\n        \"com.loopkit.InsulinKit.MetadataKeyScheduledBasalRate\": \"1.4 IU/hr\",\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"bolus\",\r\n    \"subType\": \"normal\",\r\n    \"normal\": 2,\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{uploadDeviceDataItemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"0100500050003c0035e7564513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 2,\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"{{uploadTime}}\",\r\n    \"name\": \"\\ud83e\\udd67\",\r\n\t\"type\": \"food\",\r\n    \"nutrition\": {\r\n        \"carbohydrate\": {\r\n            \"net\": 30,\r\n            \"units\": \"grams\"\r\n        }\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{uploadDeviceDataItemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"35C3AE35-142B-4FF0-8B2E-784066849A50\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"com.loudnate.CarbKit.HKMetadataKey.AbsorptionTimeMinutes\": 7200,\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},\r\n{\r\n\t\"time\": \"{{uploadTime}}\",\r\n    \"name\": \"Traditional Strength Training\",\r\n\t\"type\": \"physicalActivity\",\r\n    \"duration\": {\r\n        \"units\": \"seconds\",\r\n        \"value\": 518\r\n    },\r\n    \"energy\": {\r\n        \"units\": \"kilocalories\",\r\n        \"value\": 23\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{uploadDeviceDataItemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n        \"Workout Name\": \"Quick Abs\",\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.oneothergame.7min-fitness\",\r\n\t\t\t\t\"name\": \"Workout for Women\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"3.5.0.1\"\r\n\t\t}\r\n\t}\r\n}\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2401,12 +2427,295 @@
 					"response": []
 				},
 				{
+					"name": "Retrieve last cbg healthkit data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8f7b3c7e-5a5d-4283-90cd-fa39df8c4e02",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"cbgHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=cbg",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "cbg"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload pump data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last bolus healthkit data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b275d3ca-6c8f-4980-b0b5-64c9af9a2196",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"bolusHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=bolus",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "bolus"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload pump data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last basal healthkit data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b5207d8c-5930-4e4e-b345-d576547937db",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"basalHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=basal",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "basal"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload pump data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last food data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d6a12833-7fa7-4346-aa0b-fb0e6774cb15",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"foodHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=food",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "food"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload pump data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last physical activity data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4a221cf8-f8f8-472d-8a09-77300de41822",
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 500, false, jsonData,\"activityHKSchema\");\r",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {\r",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=physicalActivity",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "physicalActivity"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete User",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "6c9f99a6-0554-4319-9a9f-94f401619a91",
+								"id": "26785e15-08b0-4ebd-913f-290ca140069d",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);\r",
 									"assert.common(204, 2000, false, null,\"\");"
@@ -2453,7 +2762,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "1aa9f540-17cc-41ed-9e2a-40754ade531a",
+						"id": "a2a55ad4-0c69-4b8b-8d8a-a0bec90b07aa",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -2463,7 +2772,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "dbf78eac-639a-4d84-9624-39acc6349d53",
+						"id": "ea5ca060-9287-4916-a243-a632e09b5488",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -2482,7 +2791,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "10fa15ee-482d-4483-b06d-8ca9a08dba2a",
+								"id": "4c4e2221-5cb5-412e-b0ff-6184f6100ce1",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -2545,7 +2854,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cdddcccc-a39f-4773-bf33-19711a9b22ff",
+								"id": "83f8c83d-c3ad-4f6e-bfde-209c76f795db",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -2586,7 +2895,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "1ef131d4-1294-475e-922b-b29dbcf269dc",
+								"id": "3637b769-85ef-4052-911b-d5813c6594c8",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
@@ -2602,7 +2911,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f5c2f4bb-1f7c-42d3-915f-bd7e4a285a15",
+								"id": "da80c05b-aa6e-4d6f-9499-19bdf4d142e6",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -2647,7 +2956,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bdd4b725-8b51-4c75-971d-42e5d0ec3354",
+								"id": "3585a661-2138-491a-8868-8ccfdf31606f",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -2715,7 +3024,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "01b13e58-d053-47df-a96f-25263177838b",
+								"id": "75ac3591-245f-469f-a8c1-d7dcadc5da00",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -2783,7 +3092,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1944bfd0-10e1-419b-9fe8-2bda2b11c7b7",
+								"id": "fe446fd8-0024-4c73-b92f-06df4723aa84",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -2851,7 +3160,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fd3c901f-04a5-4732-920c-a8005a095391",
+								"id": "519def48-6aa2-4919-bb62-021e5e2ab388",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
@@ -2864,7 +3173,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "e40b5478-23c7-4dac-8bd4-bc623128a0e6",
+								"id": "7f87cfa4-02bd-4ab8-83c4-bad95fbfc0d9",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"messageGUI\", uuid.v4());",
@@ -2912,7 +3221,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "02388f42-769c-4212-b885-8f031a2b9869",
+								"id": "63324d86-9d82-4200-a749-5328a33df308",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
@@ -2957,7 +3266,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "205e6461-a380-437e-8489-b7d36848260d",
+								"id": "f05a39e1-1f28-4cf9-8098-444215d3572c",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");",
@@ -3005,7 +3314,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d736493a-638a-4cbd-bff6-04094ccfcfb6",
+								"id": "5f70ece2-7586-416b-8f56-9bb4d30330af",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -3045,7 +3354,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ead25cbd-f3cf-4074-b619-2d381a9cbefd",
+								"id": "3ac127e5-c4dd-466a-b4b5-b552d35b9136",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"clinicUserId\", jsonData.userid);",
@@ -3104,7 +3413,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "42c88ee6-6710-4be4-b1b6-7104230ec974",
+								"id": "b1ed5af3-d286-4cf7-a4be-3891bfdc5f7f",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -3153,7 +3462,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4fd8c19a-6ad5-4b24-8756-77949aaf8169",
+								"id": "41e6285e-d30f-49ad-bac6-fb5c3b2341e2",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
@@ -3194,7 +3503,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "afb4b786-a67b-4d5d-8eb2-8b05d3ba627c",
+								"id": "ce431076-04b2-40d5-9fee-f0a11fa1908c",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -3262,7 +3571,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6deed3f5-1faf-473d-a970-0e80ea2e9896",
+								"id": "b0080ad4-a9ab-42e6-b26f-fb1cd35d3a92",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -3330,7 +3639,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "94ad9dba-89bf-4769-a1eb-8187ec885891",
+								"id": "f7c9e73c-0e46-4e2f-88be-f91872ba303d",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
@@ -3398,7 +3707,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b7c1b889-bf91-4d06-9de5-5c3d152136ab",
+								"id": "62d8ad6d-bccb-4e87-a253-6055eab5eca1",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
@@ -3443,7 +3752,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "375b70f7-3874-4328-994a-91ffab9ee5ee",
+								"id": "2ce669e6-a995-458f-8d95-77cdfe98401b",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");"
@@ -3454,7 +3763,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "06e6f0e6-efb3-4dbb-8b03-bdc24dccef67",
+								"id": "a95a10de-9433-469b-9fe8-d1035555fc5b",
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"messageGUI\", uuid.v4());",
@@ -3502,7 +3811,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "585fed7e-21f4-43e7-963c-d051c886d8e7",
+								"id": "9e0c402e-011c-430c-a03e-585e62380171",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 300, false, null, \"\");"
@@ -3542,7 +3851,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2d8d8943-5210-45b6-a686-95ccd2101622",
+								"id": "33a37d94-5818-49bf-992b-afc30b8fe2bf",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"userId\", jsonData.userid);",
@@ -3612,7 +3921,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9a9e5a92-a913-4c43-8444-565209608447",
+								"id": "4832c434-64bd-47f7-b1fe-2bd412e09494",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, false, null, \"\");"
@@ -3660,7 +3969,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2b02d097-3554-48ed-862d-caac5413a055",
+								"id": "764128e3-125b-4e31-a77d-21633d0d4d5e",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, null,\"\");"
@@ -3711,7 +4020,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "c1bb5b8d-7ce9-469d-a404-c3c2ddc88c30",
+				"id": "565b97fa-e78b-4360-99c1-5132ddd594ca",
 				"type": "text/javascript",
 				"exec": [
 					"const userSchema = { \"required\": [\"userid\", \"username\", \"emails\", \"emailVerified\", \"termsAccepted\"], \"properties\": { \"emailVerified\": { \"type\": \"boolean\" }, \"emails\": { \"type\": \"array\" }, \"userid\": { \"type\": \"string\" }, \"username\": { \"type\": \"string\" }, \"termsAccepted\": { \"type\": \"string\" } } };",
@@ -3720,11 +4029,18 @@
 					"const messagesSchema = { \"type\": \"array\", \"items\": { \"required\": [\"id\", \"guid\", \"parentmessage\", \"userid\", \"groupid\", \"timestamp\", \"createdtime\", \"messagetext\", \"user\"], \"properties\": { \"id\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"userid\": { \"type\": \"string\" }, \"groupid\": { \"type\": \"string\" }, \"timestamp\": { \"type\": \"string\" }, \"createdtime\": { \"type\": \"string\" }, \"messagetext\": { \"type\": \"string\" }, \"user\": { \"type\": \"object\" } } } };",
 					"const smbgsSchema = { \"type\": \"array\", \"items\": { \"required\": [\"clockDriftOffset\", \"deviceId\", \"deviceTime\", \"guid\", \"id\", \"subType\", \"time\", \"type\", \"units\", \"uploadId\", \"value\"], \"properties\": { \"clockDriftOffset\": { \"type\": \"integer\" }, \"conversionOffset\": { \"type\": \"integer\" }, \"deviceId\": { \"type\": \"string\" }, \"deviceTime\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"id\": { \"type\": \"string\" }, \"subType\": { \"type\": \"string\" }, \"time\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"units\": { \"type\": \"string\" }, \"uploadId\": { \"type\": \"string\" }, \"value\": { \"type\": \"number\" } } } };",
 					"const cbgSchema = { \"type\": \"array\", \"items\": { \"required\": [\"clockDriftOffset\", \"deviceId\", \"deviceTime\", \"guid\", \"id\", \"time\", \"type\", \"units\", \"uploadId\", \"value\"], \"properties\": { \"clockDriftOffset\": { \"type\": \"integer\" }, \"conversionOffset\": { \"type\": \"integer\" }, \"deviceId\": { \"type\": \"string\" }, \"deviceTime\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"id\": { \"type\": \"string\" }, \"time\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"units\": { \"type\": \"string\" }, \"uploadId\": { \"type\": \"string\" }, \"value\": { \"type\": \"number\" } } } };",
+					"const cbgHKSchema = {\"type\": \"array\",\"items\": {\"anyOf\": [{\"type\": \"object\",\"required\": [\"deviceId\",\"id\",\"origin\",\"payload\",\"time\",\"type\",\"units\",\"uploadId\",\"value\"], \"properties\": {\"deviceId\": {\"type\": \"string\"}, \"id\": {\"type\": \"string\"}, \"origin\": {\"type\": \"object\", \"required\": [\"id\",\"name\",\"type\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}}}, \"payload\": {\"type\":\"object\", \"required\":[\"HKMetadataKeySyncIdentifier\", \"device\",\"sourceRevision\"], \"properties\":{\"HKMetadataKeySyncIdentifier\": {\"type\": \"string\"}, \"device\":{\"type\": \"object\", \"required\": [\"manufacturer\", \"model\"], \"properties\": {\"manufacturer\": {\"type\": \"string\"}, \"model\":{\"type\":\"string\"}}}, \"sourceRevision\":{\"type\": \"object\"}, \"properties\":{\"source\":{\"type\":\"string\"}}}}, \"time\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}, \"units\":{\"type\":\"string\"}, \"uploadId\":{\"type\": \"string\"}, \"value\": {\"type\":\"number\"}}}]}}",
 					"const bolusSchema = { \"type\": \"array\", \"items\": { \"required\": [\"clockDriftOffset\", \"deviceId\", \"deviceTime\", \"guid\", \"id\", \"subType\", \"time\", \"type\", \"uploadId\"], \"properties\": { \"clockDriftOffset\": { \"type\": \"integer\" }, \"conversionOffset\": { \"type\": \"integer\" }, \"deviceId\": { \"type\": \"string\" }, \"deviceTime\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"id\": { \"type\": \"string\" }, \"normal\": {\"type\": \"number\"}, \"extended\":{\"type\": \"integer\"}, \"expectedExtended\":{\"type\": \"integer\"}, \"duration\":{\"type\": \"integer\"}, \"expectedDuration\":{\"type\": \"integer\"}, \"subType\": { \"type\": \"string\" }, \"time\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"uploadId\": { \"type\": \"string\" } } } }",
+					"const bolusHKSchema = {\"type\": \"array\",\"items\": {\"anyOf\": [{\"type\": \"object\",\"required\": [\"deviceId\",\"id\", \"normal\",\"origin\",\"payload\",\"subType\", \"time\",\"type\",\"uploadId\"], \"properties\": {\"deviceId\": {\"type\": \"string\"}, \"id\": {\"type\": \"string\"}, \"normal\":{\"type\":\"number\"}, \"origin\": {\"type\": \"object\", \"required\": [\"id\",\"name\",\"type\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}}}, \"payload\": {\"type\":\"object\", \"required\":[\"HKInsulinDeliveryReason\",\"HKMetadataKeySyncIdentifier\", \"device\",\"sourceRevision\"], \"properties\":{\"HKInsulinDeliveryReason\":{\"type\": \"integer\"}, \"HKMetadataKeySyncIdentifier\": {\"type\": \"string\"}, \"device\":{\"type\": \"object\", \"required\": [\"manufacturer\", \"model\"], \"properties\": {\"manufacturer\": {\"type\": \"string\"}, \"model\":{\"type\":\"string\"}}}, \"sourceRevision\":{\"type\": \"object\"}, \"properties\":{\"source\":{\"type\":\"string\"}}}}, \"subType\":{\"type\":\"string\"}, \"time\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}, \"uploadId\":{\"type\": \"string\"}}}]}}",
+					"const basalHKSchema = {\"type\": \"array\",\"items\": {\"anyOf\": [{\"type\": \"object\",\"required\": [\"deviceId\",\"id\",\"origin\",\"payload\", \"rate\", \"time\",\"type\",\"uploadId\"], \"properties\": {\"deviceId\": {\"type\": \"string\"}, \"id\": {\"type\": \"string\"}, \"origin\": {\"type\": \"object\", \"required\": [\"id\",\"name\",\"type\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}}}, \"payload\": {\"type\":\"object\", \"required\":[\"HKInsulinDeliveryReason\",\"HKMetadataKeySyncIdentifier\", \"device\",\"sourceRevision\"], \"properties\":{\"HKInsulinDeliveryReason\":{\"type\": \"integer\"}, \"HKMetadataKeySyncIdentifier\": {\"type\": \"string\"}, \"device\":{\"type\": \"object\", \"required\": [\"manufacturer\", \"model\"], \"properties\": {\"manufacturer\": {\"type\": \"string\"}, \"model\":{\"type\":\"string\"}}}, \"sourceRevision\":{\"type\": \"object\"}, \"properties\":{\"source\":{\"type\":\"string\"}}}}, \"rate\":{\"type\":\"number\"}, \"time\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}, \"uploadId\":{\"type\": \"string\"}}}]}}",
+					"const foodHKSchema = {\"type\": \"array\",\"items\": {\"anyOf\": [{\"type\": \"object\",\"required\": [\"id\",\"name\", \"nutrition\",\"origin\",\"payload\", \"time\",\"type\",\"uploadId\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\":{\"type\":\"string\"},\"nutrition\":{\"type\":\"object\", \"required\":[\"carbohydrate\"], \"properties\":{\"carbohydrate\":{\"type\":\"object\", \"required\":[\"net\", \"units\"], \"properties\":{\"net\":{\"type\":\"number\"}, \"units\":{\"type\":\"string\"}}}}}, \"origin\": {\"type\": \"object\", \"required\": [\"id\",\"name\",\"type\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}}}, \"payload\": {\"type\":\"object\", \"required\":[\"HKMetadataKeySyncIdentifier\", \"sourceRevision\"], \"properties\":{\"HKMetadataKeySyncIdentifier\": {\"type\": \"string\"},\"sourceRevision\":{\"type\": \"object\"}, \"properties\":{\"source\":{\"type\":\"string\"}}}}, \"time\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}, \"uploadId\":{\"type\": \"string\"}}}]}}",
+					"const activityHKSchema = {\"type\": \"array\",\"items\": {\"anyOf\": [{\"type\": \"object\",\"required\": [\"duration\", \"energy\",\"id\",\"name\", \"origin\",\"payload\", \"time\",\"type\",\"uploadId\"], \"properties\": {\"duration\":{\"type\":\"object\", \"required\":[\"units\", \"value\"], \"properties\":{\"units\":{\"type\":\"string\"}, \"value\":{\"type\":\"number\"}}},\"energy\":{\"type\":\"object\", \"required\":[\"units\", \"value\"], \"properties\":{\"units\":{\"type\":\"string\"}, \"value\":{\"type\":\"number\"}}}, \"id\": {\"type\": \"string\"}, \"name\":{\"type\":\"string\"}, \"origin\": {\"type\": \"object\", \"required\": [\"id\",\"name\",\"type\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}}}, \"payload\": {\"type\":\"object\", \"required\":[\"sourceRevision\"], \"properties\":{\"sourceRevision\":{\"type\": \"object\"}, \"properties\":{\"source\":{\"type\":\"object\", \"required\":[\"name\"], \"properties\":{\"name\":{\"type\":\"string\"}}}}}}, \"time\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}, \"uploadId\":{\"type\": \"string\"}}}]}}",
 					"const userProfileSchema = {\"required\": [\"fullName\"], \"properties\": { \"fullName\": { \"type\": \"string\" },",
 					"\"patient\": { \"type\": \"object\" }, \"clinic\": {\"type\": \"object\"}}};",
 					"const careteamInviteSchema = { \"required\": [\"key\", \"type\", \"email\", \"creatorId\", \"creator\", \"context\", \"created\"], \"properties\": { \"key\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"email\": { \"type\": \"string\" }, \"creatorId\": { \"type\": \"string\" }, \"creator\": { \"type\": \"object\" }, \"context\": { \"type\": \"object\" }, \"created\": { \"type\": \"string\" } } };",
 					"const userSettingsSchema = { \"required\": [\"bgTarget\", \"units\"], \"properties\": { \"bgTarget\": { \"type\": \"object\" }, \"units\": { \"type\": \"object\" } } };",
+					"const uploadSessionStartSchema = { \"type\": \"object\", \"required\": [\"data\", \"meta\"], \"properties\": {\"data\": {\"type\": \"object\"}, \"required\": [\"createdTime\", \"deduplicator\", \"id\", \"modifiedTime\", \"type\", \"uploadId\", \"client\", \"dataSetType\"], \"properties\": {\"createdTime\": {\"type\":\"string\"}, \"deduplicator\": {\"type\": \"object\", \"required\":[\"name\", \"version\"], \"properties\": {\"name\":{\"type\": \"string\"}, \"version\":{\"type\": \"string\"}}}, \"id\": {\"type\":\"string\"}, \"modifiedTime\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}, \"uploadId\": {\"type\": \"string\"},\"client\": {\"type\": \"object\", \"required\": [\"name\", \"version\"], \"properties\": {\"name\": { \"type\": \"string\"}, \"version\": {\"type\": \"string\"}}}, \"dataSetType\": {\"type\": \"string\"}}, \"meta\": {\"type\": \"object\"}, \"required\": [\"trace\"], \"properties\": {\"trace\":{\"type\": \"object\"}, \"required\": [\"request\"], \"properties\": {\"type\": \"string\"}}}}",
+					"const uploadSessionSchema = {\"type\": \"array\", \"items\": { \"anyOf\": [{\"type\": \"object\",\"default\": {}, \"required\": [\"client\",\"createdTime\",\"dataSetType\",\"deduplicator\",\"id\",\"modifiedTime\",\"type\", \"uploadId\"],\"properties\": {\"client\": {\"type\": \"object\",\"required\": [\"name\",\"version\"],\"properties\": {\"name\": {\"type\": \"string\"},\"version\": {\"type\": \"string\"}}},\"createdTime\": {\"type\": \"string\"}, \"dataSetType\": {\"type\": \"string\"},\"deduplicator\": {\"type\": \"object\",\"required\": [\"name\",\"version\"],\"properties\": { \"name\": {\"type\": \"string\"},\"version\": {\"type\": \"string\"}}},\"id\": {\"type\": \"string\"},\"modifiedTime\": {\"type\": \"string\"},\"type\": {\"type\": \"string\"},\"uploadId\": {\"type\": \"string\"}}}]}}",
 					"",
 					"pm.globals.set(\"userSchema\", JSON.stringify(userSchema));",
 					"pm.globals.set(\"custodialUserSchema\", JSON.stringify(custodialUserSchema));",
@@ -3732,10 +4048,17 @@
 					"pm.globals.set(\"messageAddedSchema\", JSON.stringify(messageAddedSchema));",
 					"pm.globals.set(\"messagesSchema\", JSON.stringify(messagesSchema));",
 					"pm.globals.set(\"smbgsSchema\", JSON.stringify(smbgsSchema));",
+					"pm.globals.set(\"cbgHKSchema\", JSON.stringify(cbgHKSchema));",
 					"pm.globals.set(\"cbgSchema\", JSON.stringify(cbgSchema));",
 					"pm.globals.set(\"bolusSchema\", JSON.stringify(bolusSchema));",
+					"pm.globals.set(\"bolusHKSchema\", JSON.stringify(bolusHKSchema));",
+					"pm.globals.set(\"basalHKSchema\", JSON.stringify(basalHKSchema));",
+					"pm.globals.set(\"foodHKSchema\", JSON.stringify(foodHKSchema));",
+					"pm.globals.set(\"activityHKSchema\", JSON.stringify(activityHKSchema));",
 					"pm.globals.set(\"careteamInviteSchema\", JSON.stringify(careteamInviteSchema));",
 					"pm.globals.set(\"userSettingsSchema\", JSON.stringify(userSettingsSchema));",
+					"pm.globals.set(\"uploadSessionStartSchema\", JSON.stringify(uploadSessionStartSchema));",
+					"pm.globals.set(\"uploadSessionSchema\", JSON.stringify(uploadSessionSchema));",
 					"",
 					"pm.globals.set('loadAsserts', function loadAsserts() {",
 					"    let asserts = {};",
@@ -3764,7 +4087,7 @@
 					"    asserts.responseBodyMatchesSchema = function responseBodyMatchesSchema(jsonData,schemaName) {",
 					"         pm.test(\"Response body matches \"+schemaName, function () {",
 					"            let schema = JSON.parse(pm.globals.get(schemaName));",
-					"            pm.expect(tv4.validate(jsonData, schema)).to.be.true;",
+					"            pm.response.to.have.jsonSchema(schema);",
 					"         });",
 					"    };",
 					"    asserts.responseStatusCodeIs = function responseStatusCodeIs(code){",
@@ -3793,7 +4116,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "a3c78883-ba39-4877-8ced-7943d5476a87",
+				"id": "7024f3af-35ec-402d-a0a5-08d47177d822",
 				"type": "text/javascript",
 				"exec": [
 					""
