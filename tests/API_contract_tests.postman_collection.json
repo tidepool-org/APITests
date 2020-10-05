@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "API Smoke Test",
+			"name": "API_Smoke-Test",
 			"item": [
 				{
 					"name": "login to tidepool",
@@ -427,7 +427,231 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Clinician - Signup",
+			"name": "API_Status-Checks",
+			"item": [
+				{
+					"name": "auth status check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d558ad59-0a80-435e-a080-610a48762c12",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/auth/status",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "confirm status check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5f839c18-853e-4f2d-92c4-985adea7ab84",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/confirm/status",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"confirm",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "data status check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2cfde819-cd06-4bb2-b781-beabd62748b4",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/data/status",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dataservices status check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97c3ce1f-bc97-4b94-88e0-403016fa0516",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/dataservices/status",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"dataservices",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "export status check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "901ba565-0499-45b1-ab35-50b9cfd2922a",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/export/status",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"export",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "metrics status check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a47a4934-f541-4690-8307-b93c07f59153",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/metrics/status",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"metrics",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "userservices status check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "30cd1d8e-3e31-4f1e-9737-048cd5395d0d",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/userservices/status",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"userservices",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "API status checks",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Clinician_Signup",
 			"item": [
 				{
 					"name": "Clinician sign up",
@@ -812,7 +1036,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Clinician - New Patient",
+			"name": "Clinician_New-Patient",
 			"item": [
 				{
 					"name": "Clincian login",
@@ -1622,7 +1846,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Data Owner - Signup",
+			"name": "Data-Owner_Signup",
 			"item": [
 				{
 					"name": "DSA sign-up",
@@ -2296,7 +2520,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Data Owner - HealthKit upload",
+			"name": "Data-Owner_HealthKit-Upload",
 			"item": [
 				{
 					"name": "DSA login",
@@ -2850,7 +3074,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Data Owner - Data upload",
+			"name": "Data-Owner_Data-Upload",
 			"item": [
 				{
 					"name": "DSA login",
@@ -4083,7 +4307,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Data Owner - Share data",
+			"name": "Data-Owner_Share",
 			"item": [
 				{
 					"name": "DSA login",
@@ -4803,230 +5027,6 @@
 				}
 			],
 			"description": "DSA that uploads data to their Tidepool Account, adds notes and shares data with their clinician in preparation for a clinic appointment.",
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "API Status Checks",
-			"item": [
-				{
-					"name": "auth status check",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d558ad59-0a80-435e-a080-610a48762c12",
-								"exec": [
-									"const assert = eval(globals.loadAsserts);\r",
-									"assert.common(200, 300, false, null,\"\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api}}/auth/status",
-							"host": [
-								"{{api}}"
-							],
-							"path": [
-								"auth",
-								"status"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "confirm status check",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "5f839c18-853e-4f2d-92c4-985adea7ab84",
-								"exec": [
-									"const assert = eval(globals.loadAsserts);\r",
-									"assert.common(200, 300, false, null,\"\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api}}/confirm/status",
-							"host": [
-								"{{api}}"
-							],
-							"path": [
-								"confirm",
-								"status"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "data status check",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "2cfde819-cd06-4bb2-b781-beabd62748b4",
-								"exec": [
-									"const assert = eval(globals.loadAsserts);\r",
-									"assert.common(200, 300, false, null,\"\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api}}/data/status",
-							"host": [
-								"{{api}}"
-							],
-							"path": [
-								"data",
-								"status"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "dataservices status check",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "97c3ce1f-bc97-4b94-88e0-403016fa0516",
-								"exec": [
-									"const assert = eval(globals.loadAsserts);\r",
-									"assert.common(200, 300, false, null,\"\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api}}/dataservices/status",
-							"host": [
-								"{{api}}"
-							],
-							"path": [
-								"dataservices",
-								"status"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "export status check",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "901ba565-0499-45b1-ab35-50b9cfd2922a",
-								"exec": [
-									"const assert = eval(globals.loadAsserts);\r",
-									"assert.common(200, 300, false, null,\"\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api}}/export/status",
-							"host": [
-								"{{api}}"
-							],
-							"path": [
-								"export",
-								"status"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "metrics status check",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "a47a4934-f541-4690-8307-b93c07f59153",
-								"exec": [
-									"const assert = eval(globals.loadAsserts);\r",
-									"assert.common(200, 300, false, null,\"\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api}}/metrics/status",
-							"host": [
-								"{{api}}"
-							],
-							"path": [
-								"metrics",
-								"status"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "userservices status check",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "30cd1d8e-3e31-4f1e-9737-048cd5395d0d",
-								"exec": [
-									"const assert = eval(globals.loadAsserts);\r",
-									"assert.common(200, 300, false, null,\"\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api}}/userservices/status",
-							"host": [
-								"{{api}}"
-							],
-							"path": [
-								"userservices",
-								"status"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"description": "API status checks",
 			"protocolProfileBehavior": {}
 		}
 	],
