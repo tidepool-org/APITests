@@ -6,6 +6,33 @@
 	},
 	"item": [
 		{
+			"name": "Data-Owner-Usecases ??",
+			"item": [],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7163ed0e-6007-4fd0-a4bd-823eb460f256",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0de25045-aa1c-4314-9f0c-8f11817afae3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "API_Smoke-Test",
 			"item": [
 				{
@@ -2516,11 +2543,33 @@
 					"response": []
 				}
 			],
-			"description": "The initial interactions a user goes through to sign up for tidepool and set up their profile.",
+			"description": "Sign up for tidepool account and set up profile.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fac60207-51a0-4a59-8894-66c4146722c6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "151331e7-d710-4f5c-98c2-2b39946a531f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Data-Owner_HealthKit-Upload",
+			"name": "Data-Owner_Continous-Upload-Session",
 			"item": [
 				{
 					"name": "DSA login",
@@ -3070,11 +3119,609 @@
 					"response": []
 				}
 			],
-			"description": "The initial interactions a user goes through to sign up for tidepool and set up their profile.",
+			"description": "Upload data to the API using a continous upload session. This mimics a healthkit data type upload from mobile device",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ba6b3078-c499-4e28-acc0-a3b7329f3eb6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1f45f94f-9f17-4090-887a-879f5a501c8c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Data-Owner_Data-Upload",
+			"name": "Data-Owner_Non-Continous-Upload-Session",
+			"item": [
+				{
+					"name": "DSA login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "11bc5ece-73f4-419a-a726-5f25dc601512",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"userId\", jsonData.userid);",
+									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{loginPw}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{loginEmail}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{api}}/auth/login",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "open upload session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b98cc849-d8f4-401e-ad83-8e0e18a258fa",
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"pm.variables.set(\"uploadSessionId\", jsonData.data.id);\r",
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(201, 500, false, null,\"uploadSessionStartSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client\": {\r\n\t\t\t\"name\": \"org.tidepool.mobile\",\r\n\t\t\t\"version\": \"2.1.6\"\r\n\t},\r\n\t\"dataSetType\": \"continuous\",\r\n\t\"deduplicator\": {\r\n\t\t\"name\": \"org.tidepool.deduplicator.dataset.delete.origin\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/v1/users/{{userId}}/datasets",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{userId}}",
+								"datasets"
+							]
+						},
+						"description": "Open a continuous upload session"
+					},
+					"response": []
+				},
+				{
+					"name": "retrieve existing continous session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c1b6cac-07c0-4921-ba38-a6cbfc509cad",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"uploadSessionSchema\");\r",
+									"pm.test(\"Upload session retrieved is the same one we created\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].id).to.eql(pm.variables.get(\"uploadSessionId\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/v1/users/{{userId}}/data_sets",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{userId}}",
+								"data_sets"
+							]
+						},
+						"description": "retrieve the ID of the continuous upload session created"
+					},
+					"response": []
+				},
+				{
+					"name": "upload healthkit data",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1fe4ea6f-fe35-44e2-820b-a84ec313d016",
+								"exec": [
+									"const uuid = require('uuid');\r",
+									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());\r",
+									"const moment = require('moment');\r",
+									"let now = moment();\r",
+									"pm.variables.set(\"uploadTime\", now.format());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "bb04b172-a21c-4f6a-9c68-f64122632129",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 500, false, null,'');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"cbg\",\r\n\t\"value\": 16.04166,\r\n\t\"units\": \"mmol/L\",\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{uploadDeviceDataItemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"41RQLJ 8332825\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n\t\t\"com.loudnate.GlucoseKit.HKMetadataKey.GlucoseIsDisplayOnly\": 0,\r\n        \"device\": {\r\n\t\t\t\"manufacturer\": \"Dexcom\",\r\n\t\t\t\"model\": \"G5 Mobile\",\r\n\t\t\t\"name\": \"CGMBLEKit\",\r\n\t\t\t\"softwareVersion\": \"20.0\",\r\n\t\t\t\"udiDeviceIdentifier\": \"00386270000002\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n}, {\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"basal\",\r\n    \"deliveryType\": \"temp\",\r\n    \"duration\": 300000,\r\n\t\"rate\": 6,\r\n    \"surpressed\": {\r\n        \"deliveryType\": \"scheduled\",\r\n        \"rate\": 1.4,\r\n        \"type\": \"basal\"\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{uploadDeviceDataItemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"16011cc3174513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 1,\r\n        \"com.loopkit.InsulinKit.MetadataKeyScheduledBasalRate\": \"1.4 IU/hr\",\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"bolus\",\r\n    \"subType\": \"normal\",\r\n    \"normal\": 2,\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{uploadDeviceDataItemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"0100500050003c0035e7564513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 2,\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"{{uploadTime}}\",\r\n    \"name\": \"\\ud83e\\udd67\",\r\n\t\"type\": \"food\",\r\n    \"nutrition\": {\r\n        \"carbohydrate\": {\r\n            \"net\": 30,\r\n            \"units\": \"grams\"\r\n        }\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{uploadDeviceDataItemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"35C3AE35-142B-4FF0-8B2E-784066849A50\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"com.loudnate.CarbKit.HKMetadataKey.AbsorptionTimeMinutes\": 7200,\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},\r\n{\r\n\t\"time\": \"{{uploadTime}}\",\r\n    \"name\": \"Traditional Strength Training\",\r\n\t\"type\": \"physicalActivity\",\r\n    \"duration\": {\r\n        \"units\": \"seconds\",\r\n        \"value\": 518\r\n    },\r\n    \"energy\": {\r\n        \"units\": \"kilocalories\",\r\n        \"value\": 23\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{uploadDeviceDataItemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n        \"Workout Name\": \"Quick Abs\",\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.oneothergame.7min-fitness\",\r\n\t\t\t\t\"name\": \"Workout for Women\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"3.5.0.1\"\r\n\t\t}\r\n\t}\r\n}\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/dataservices/v1/datasets/{{uploadSessionId}}/data",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"dataservices",
+								"v1",
+								"datasets",
+								"{{uploadSessionId}}",
+								"data"
+							]
+						},
+						"description": "Upload ios healthkit data to the continous upload session opened in the previous request"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last cbg healthkit data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b0c6062-4ac7-4167-91ca-eb3200adc670",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"cbgHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=cbg",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "cbg"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload healthkit cgm data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last bolus healthkit data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cd309426-ea42-4ffd-9153-caac59d2fbfb",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"bolusHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=bolus",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "bolus"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload healthkit pump data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last basal healthkit data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b564f340-6207-4a5e-a9b8-8f0241b38d50",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"basalHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=basal",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "basal"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload healthkit pump data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last food data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e9bc02b0-cf3a-4f34-be63-351c7a74a87f",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"foodHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=food",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "food"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload healthkit nutrition data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last physical activity data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "adee514b-ec07-47d5-a6ae-2ddfad63fe92",
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 500, false, jsonData,\"activityHKSchema\");\r",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {\r",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=physicalActivity",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "physicalActivity"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload healthkit activity data."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout of tidepool",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "77f594a5-e572-483e-8181-a22e89b6aed1",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 300, false, null, \"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{api}}/auth/logout",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Data Owner uploads data using a non-continous upload session, such as the tidepool uploader would use",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7a719b42-b79e-4677-aed6-3c4a2896a3b3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5cf0e0a0-31b6-4b21-8554-2d022d941ad0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Data-Owner_Legacy-Upload",
 			"item": [
 				{
 					"name": "DSA login",
@@ -4303,7 +4950,29 @@
 					"response": []
 				}
 			],
-			"description": "DSA that uploads data to their Tidepool Account, adds notes and shares data with their clinician in preparation for a clinic appointment.",
+			"description": "Data Owner uploads data via the legacy upload API",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2c28ad74-660a-43de-ba0c-7eb5cd48b830",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "816dfd7a-fef9-4973-a09e-99b8c956e450",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
 			"protocolProfileBehavior": {}
 		},
 		{
@@ -5026,7 +5695,29 @@
 					"response": []
 				}
 			],
-			"description": "DSA that uploads data to their Tidepool Account, adds notes and shares data with their clinician in preparation for a clinic appointment.",
+			"description": "Data Owner shares there account with a clinician to get feedback on thier diabetes. The Data Owner will create a note, that the clinician will then view and comment on.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f17c14bf-035d-4676-8614-c46377f29cd0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4a046747-f8f9-4cfe-bfd6-10488755ad0e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
 			"protocolProfileBehavior": {}
 		}
 	],
