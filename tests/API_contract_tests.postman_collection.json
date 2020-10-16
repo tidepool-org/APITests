@@ -131,9 +131,8 @@
 							"script": {
 								"id": "6daf1c9e-31e9-42e4-96cf-2b17b4bdbce4",
 								"exec": [
-									"const emailName = pm.environment.get(\"sharingEmailName\");",
-									"let emailAddress = emailName+ \"+sharing_\" + Date.now() + \"@tidepool.org\";",
-									"pm.variables.set(\"sharingEmailAddress\", emailAddress);"
+									"let sharingEmailAddress = pm.variables.get('sharingEmailAddress');",
+									"pm.variables.set('sharingEmailAddress', sharingEmailAddress.replace('_datetag_', Date.now()));"
 								],
 								"type": "text/javascript"
 							}
@@ -450,9 +449,9 @@
 								"id": "23cca03b-62ca-4aab-8f64-908b58e34259",
 								"exec": [
 									"const uuid = require('uuid');",
-									"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));",
-									"let clinicianEmailAddress = \"automated-tests+clinician\"+ Date.now() + \"@tidepool.org\";",
-									"pm.variables.set(\"newClinicianEmailAddress\", clinicianEmailAddress);"
+									"pm.variables.set('signupPw', uuid.v4().slice(0,9));",
+									"let newClinicianEmailAddress = pm.variables.get('newClinicianEmailAddress');",
+									"pm.variables.set('newClinicianEmailAddress', newClinicianEmailAddress.replace('_datetag_', Date.now()));"
 								],
 								"type": "text/javascript"
 							}
@@ -1458,8 +1457,8 @@
 							"script": {
 								"id": "842a5313-ef58-4e6f-82e2-8c19c4f68c9f",
 								"exec": [
-									"let custodialEmailAddress = \"automated-tests+custodial\"+ Date.now() + \"@tidepool.org\";\r",
-									"pm.variables.set(\"newCustodialEmailAddress\", custodialEmailAddress);"
+									"let newCustodialEmailAddress = pm.variables.get('newCustodialEmailAddress');\r",
+									"pm.variables.set('newCustodialEmailAddress', newCustodialEmailAddress.replace('_datetag_', Date.now()));"
 								],
 								"type": "text/javascript"
 							}
@@ -1658,8 +1657,8 @@
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));",
-									"let dataUserEmailAddress = \"automated-tests+user\"+ Date.now() + \"@tidepool.org\";",
-									"pm.variables.set(\"newDataUserEmailAddress\", dataUserEmailAddress);"
+									"let newUserEmailAddress = pm.variables.get('newUserEmailAddress');",
+									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now()));"
 								],
 								"type": "text/javascript"
 							}
@@ -1684,7 +1683,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\":\"{{newDataUserEmailAddress}}\",\"password\":\"{{signupPw}}\",\"emails\":[\"{{newDataUserEmailAddress}}\"],\"roles\":[]}",
+							"raw": "{\"username\":\"{{newUserEmailAddress}}\",\"password\":\"{{signupPw}}\",\"emails\":[\"{{newUserEmailAddress}}\"],\"roles\":[]}",
 							"options": {
 								"raw": {
 									"language": "json"
