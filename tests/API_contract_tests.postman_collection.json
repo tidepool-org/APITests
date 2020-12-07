@@ -2571,7 +2571,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete User Copy",
+					"name": "Delete User",
 					"event": [
 						{
 							"listen": "test",
@@ -2647,95 +2647,48 @@
 			"name": "Upload with jellyfish",
 			"item": [
 				{
-					"name": "DSA login",
+					"name": "DSA sign-up",
 					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4a650fc0-3e86-4678-b29d-19e8fc687225",
+								"exec": [
+									"const uuid = require('uuid');",
+									"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));",
+									"let newUserEmailAddress = pm.variables.get('newUserEmailAddress');",
+									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + '2'));"
+								],
+								"type": "text/javascript"
+							}
+						},
 						{
 							"listen": "test",
 							"script": {
-								"id": "ace41819-faae-491b-a348-e75d67290afd",
+								"id": "d5ee5fb6-903d-4d1f-9bee-63fb7a97af37",
 								"exec": [
-									"let jsonData = pm.response.json();",
-									"pm.variables.set(\"userId\", jsonData.userid);",
-									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(201, 1000, true, null,\"\");",
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+									"pm.variables.set(\"userId\", jsonData.userid);"
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "{{loginPw}}",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "{{loginEmail}}",
-									"type": "string"
-								},
-								{
-									"key": "saveHelperData",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "showPassword",
-									"value": false,
-									"type": "boolean"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\"username\":\"{{newUserEmailAddress}}\",\"password\":\"{{signupPw}}\",\"emails\":[\"{{newUserEmailAddress}}\"],\"roles\":[]}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
-						"url": {
-							"raw": "{{api}}/auth/login",
-							"host": [
-								"{{api}}"
-							],
-							"path": [
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get account information",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "a9a4ac69-d11c-4521-88bb-1d1246b11200",
-								"exec": [
-									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userAccountInfoSchema\");"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "x-tidepool-session-token",
-								"value": "{{sessionToken}}"
-							}
-						],
 						"url": {
 							"raw": "{{api}}/auth/user",
 							"host": [
@@ -2745,20 +2698,63 @@
 								"auth",
 								"user"
 							]
-						}
+						},
+						"description": "Initial sign-up for a data storage account, which includes creation of the \n    \n    `userId`\n    "
 					},
 					"response": []
 				},
 				{
-					"name": "Retrieve user profile",
+					"name": "Send email verification",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "9e0f67ae-18a8-4339-8d79-6278edc917da",
+								"id": "d83675bb-d4b2-4280-8238-00c2b3c62965",
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 1000, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/confirm/send/signup/{{userId}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"confirm",
+								"send",
+								"signup",
+								"{{userId}}"
+							]
+						},
+						"description": "Send the email confirmation using the `userId` we picked up in the last request."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve email key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ed8eb78a-f1f5-4eb3-abdb-41dcee34de15",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, null,\"\");",
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
 							}
@@ -2768,14 +2764,185 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
 								"key": "x-tidepool-session-token",
+								"type": "text",
 								"value": "{{sessionToken}}"
 							}
 						],
+						"url": {
+							"raw": "{{api}}/confirm/signup/{{userId}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"confirm",
+								"signup",
+								"{{userId}}"
+							]
+						},
+						"description": "Get `emailKey` to use in next request to confirm email"
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d8a2f667-2873-4353-8627-275294426d89",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/confirm/accept/signup/{{emailKey}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"confirm",
+								"accept",
+								"signup",
+								"{{emailKey}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Using `emailKey` to confirm email."
+					},
+					"response": []
+				},
+				{
+					"name": "Accept terms",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6fb71a2d-5fb8-46c5-a3bf-0cffad419a55",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "a578cd2a-c052-4e3f-a50a-68b23f63798f",
+								"exec": [
+									"var moment = require('moment');\r",
+									"\r",
+									"pm.variables.set(\"currentTimestamp\", moment().format());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"updates\":{\"termsAccepted\":\"{{currentTimestamp}}\"}}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/auth/user",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"user"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Accepting Terms and conditions"
+					},
+					"response": []
+				},
+				{
+					"name": "Initial DSA profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cf21aa02-c7c8-4106-b4a1-25d943ae98c2",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "39e5847c-3de2-4335-82b4-21cdac80cc94",
+								"exec": [
+									"var moment = require('moment');\r",
+									"let newMoment = moment().subtract(18, 'years');\r",
+									"pm.variables.set(\"birthdate\", newMoment.format('YYYY-MM-DD'));\r",
+									"pm.variables.set(\"fullName\", pm.variables.replaceIn(\"{{$randomFullName}}\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"fullName\":\"{{fullName}}\",\"patient\":{\"birthday\":\"{{birthdate}}\",\"diagnosis date\":\"{{birthdate}}\"}}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{api}}/metadata/{{userId}}/profile",
 							"host": [
@@ -2786,7 +2953,8 @@
 								"{{userId}}",
 								"profile"
 							]
-						}
+						},
+						"description": "Setting up Name and birthdate (18 years old) for the new user."
 					},
 					"response": []
 				},
@@ -3020,40 +3188,47 @@
 					"response": []
 				},
 				{
-					"name": "logout of tidepool",
+					"name": "Delete User",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "51899951-1524-4bc1-9ad8-2672b3613ece",
+								"id": "a8477f24-7d5f-4026-8ace-e8e947840b5b",
 								"exec": [
-									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, null, \"\");"
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(204, 2000, false, null,\"\");"
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "x-tidepool-session-token",
+								"type": "text",
 								"value": "{{sessionToken}}"
 							}
 						],
 						"body": {
-							"mode": "formdata",
-							"formdata": []
+							"mode": "raw",
+							"raw": "{\"password\":\"{{signupPw}}\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "{{api}}/auth/logout",
+							"raw": "{{api}}/v1/users/{{userId}}",
 							"host": [
 								"{{api}}"
 							],
 							"path": [
-								"auth",
-								"logout"
+								"v1",
+								"users",
+								"{{userId}}"
 							]
 						}
 					},
@@ -3572,7 +3747,12 @@
 							"script": {
 								"id": "7b8af3cf-a0f9-440b-a8c6-99bbc4194dda",
 								"exec": [
-									"pm.variables.set(\"uploadId\", pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0,12));"
+									"pm.variables.set(\"uploadId\", pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0,12));\r",
+									"pm.variables.set(\"itemId\", pm.variables.replaceIn('{{$randomUUID}}').replace(/-/g, ''));\r",
+									"pm.variables.set(\"guid\", pm.variables.replaceIn('{{$guid}}'));\r",
+									"pm.variables.set(\"smbgValue\", 11.331314156239124);\r",
+									"pm.variables.set(\"bolusValue\", 2.47);\r",
+									"pm.variables.set(\"cbgValue\", 8.437136946389211);"
 								],
 								"type": "text/javascript"
 							}
@@ -3603,7 +3783,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\n  {\n    \"type\": \"smbg\",\n    \"subType\": \"manual\",\n    \"units\": \"mg/dL\",\n    \"value\": 205.331314156239124,\n    \"clockDriftOffset\": -579000,\n    \"conversionOffset\": 0,\n    \"deviceId\": \"meter-123\",\n    \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n    \"guid\": \"{{uploadDeviceDataItemId}}\",\n    \"id\": \"{{uploadDeviceDataItemId}}\",\n    \"time\": \"{{currentTimestamp}}\",\n    \"timezoneOffset\": 600,\n    \"uploadId\": \"{{uploadId}}\"\n},\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{uploadDeviceDataItemId}}\",\n        \"normal\": 2.47,\n        \"payload\": {\n            \"logIndices\": [\n                2\n            ]\n        },\n        \"subType\": \"normal\",\n        \"time\": \"{{currentTimestamp}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"bolus\",\n        \"uploadId\": \"{{uploadId}}\"\n    },\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{uploadDeviceDataItemId}}\",\n        \"payload\": {\n            \"logIndices\": [\n                1\n            ],\n            \"type\": [\n                \"Five Minute Reading (FMR)\"\n            ]\n        },\n        \"time\": \"{{currentTimestamp}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"cbg\",\n        \"units\": \"mmol/L\",\n        \"uploadId\": \"{{uploadId}}\",\n        \"value\": 8.437136946389211\n    }\n]"
+							"raw": "[\n  {\n    \"type\": \"smbg\",\n    \"subType\": \"manual\",\n    \"units\": \"mmol/L\",\n    \"value\": {{smbgValue}},\n    \"clockDriftOffset\": -579000,\n    \"conversionOffset\": 0,\n    \"deviceId\": \"meter-123\",\n    \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n    \"guid\": \"{{guid}}\",\n    \"id\": \"{{itemId}}\",\n    \"time\": \"{{currentTimestamp}}\",\n    \"timezoneOffset\": 600,\n    \"uploadId\": \"{{uploadId}}\"\n},\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{guid}}\",\n        \"normal\": {{bolusValue}},\n        \"payload\": {\n            \"logIndices\": [\n                2\n            ]\n        },\n        \"subType\": \"normal\",\n        \"time\": \"{{currentTimestamp}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"bolus\",\n        \"uploadId\": \"{{uploadId}}\"\n    },\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{guid}}\",\n        \"payload\": {\n            \"logIndices\": [\n                1\n            ],\n            \"type\": [\n                \"Five Minute Reading (FMR)\"\n            ]\n        },\n        \"time\": \"{{currentTimestamp}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"cbg\",\n        \"units\": \"mmol/L\",\n        \"uploadId\": \"{{uploadId}}\",\n        \"value\": {{cbgValue}}\n    }\n]"
 						},
 						"url": {
 							"raw": "{{api}}/data/{{custodialUserId}}",
@@ -3620,22 +3800,49 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve last CBG data",
+					"name": "Retrieve all cbg data",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "64dba260-65c2-49ef-b8e4-934ad1c5a0da",
+								"id": "606aa27b-acfa-4c26-bfe5-cee1bba3792e",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, jsonData,\"cbgSchema\");",
-									"pm.test(\"one item is returned\", function () {",
-									"pm.expect(jsonData.length).to.eql(1);",
+									"assert.common(200, 500, false, null,\"\");",
+									"",
+									"pm.test(\"Schema is valid for data types returned\", function () {",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(tv4.validate(jsonData[i], `${jsonData[i].type}Schema`)).to.be.true;",
+									"",
+									"    }",
 									"});",
-									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadId\"));",
-									"});"
+									"",
+									"pm.test(\"CBG data just uploaded is returned\", function () {",
+									"    let uploadId = pm.variables.get(\"uploadId\");",
+									"    let cbgValue = pm.variables.get(\"cbgValue\");",
+									"    let testPassed = false;",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        if (jsonData[i].uploadId === uploadId && jsonData[i].type === \"cbg\") {",
+									"            pm.expect(jsonData[i].value).to.eql(cbgValue);",
+									"            return testPassed = true;",
+									"            }",
+									"        }",
+									"         if (!testPassed) {",
+									"        pm.expect.fail(\"Data uploaded was not returned\")",
+									"         }",
+									"    }",
+									");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "d3b59b8e-288f-40f5-aaae-adc38bc1658c",
+								"exec": [
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -3654,7 +3861,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{api}}/data/{{custodialUserId}}?latest=true&type=cbg",
+							"raw": "{{api}}/data/{{custodialUserId}}?type=cbg",
 							"host": [
 								"{{api}}"
 							],
@@ -3663,10 +3870,6 @@
 								"{{custodialUserId}}"
 							],
 							"query": [
-								{
-									"key": "latest",
-									"value": "true"
-								},
 								{
 									"key": "type",
 									"value": "cbg"
@@ -3678,22 +3881,50 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve last SMBG data",
+					"name": "Retrieve all smbg data",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "39cf07c3-0cd1-409b-96a8-3703e2185243",
+								"id": "2f4d04ea-9c36-4cf5-8291-0cff4e145c25",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, jsonData,\"smbgSchema\");",
-									"pm.test(\"one item is returned\", function () {",
-									"pm.expect(jsonData.length).to.eql(1);",
+									"assert.common(200, 500, false, null,\"\");",
+									"",
+									"pm.test(\"Schema is valid for data types returned\", function () {",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(tv4.validate(jsonData[i], `${jsonData[i].type}Schema`)).to.be.true;",
+									"",
+									"    }",
 									"});",
-									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadId\"));",
-									"});"
+									"",
+									"pm.test(\"SMBG data just uploaded is returned\", function () {",
+									"    let uploadId = pm.variables.get(\"uploadId\");",
+									"    let smbgValue = pm.variables.get(\"smbgValue\");",
+									"    let testPassed = false;",
+									"    console.log(uploadId)",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        if (jsonData[i].uploadId === uploadId && jsonData[i].type === \"smbg\") {",
+									"            pm.expect(jsonData[i].value).to.eql(smbgValue);",
+									"            return testPassed = true;",
+									"            }",
+									"        } ",
+									"        if (!testPassed) {",
+									"        pm.expect.fail(\"Data uploaded was not returned\")",
+									"         }",
+									"    }",
+									");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "76d8691c-e04d-44ad-92b1-e516bf3bc665",
+								"exec": [
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -3712,7 +3943,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{api}}/data/{{custodialUserId}}?latest=true&type=smbg",
+							"raw": "{{api}}/data/{{custodialUserId}}?type=smbg",
 							"host": [
 								"{{api}}"
 							],
@@ -3721,37 +3952,60 @@
 								"{{custodialUserId}}"
 							],
 							"query": [
-								{
-									"key": "latest",
-									"value": "true"
-								},
 								{
 									"key": "type",
 									"value": "smbg"
 								}
 							]
 						},
-						"description": "Verifying the data was stored from previous request to upload meter data."
+						"description": "Verifying the data was stored from previous request to upload pump data."
 					},
 					"response": []
 				},
 				{
-					"name": "Retrieve last bolus data",
+					"name": "Retrieve all bolus data",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "3e479a37-d55d-44ce-aaea-1381a1a631ee",
+								"id": "d4074e17-5c2f-4833-9bcc-7818a139ea31",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, jsonData,\"bolusSchema\");",
-									"pm.test(\"one item is returned\", function () {",
-									"    pm.expect(jsonData.length).to.eql(1);",
+									"assert.common(200, 500, false, null,\"\");",
+									"",
+									"pm.test(\"Schema is valid for data types returned\", function () {",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(tv4.validate(jsonData[i], `${jsonData[i].type}Schema`)).to.be.true;",
+									"",
+									"    }",
 									"});",
-									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"    pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadId\"));",
-									"});"
+									"",
+									"pm.test(\"Bolus data just uploaded is returned\", function () {",
+									"    let uploadId = pm.variables.get(\"uploadId\");",
+									"    let bolusValue = pm.variables.get(\"bolusValue\");",
+									"    let testPassed = false;",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        if (jsonData[i].uploadId === uploadId && jsonData[i].type === \"bolus\") {",
+									"            pm.expect(jsonData[i].normal).to.eql(bolusValue);",
+									"            return testPassed = true;",
+									"            }",
+									"        }",
+									"         if (!testPassed) {",
+									"        pm.expect.fail(\"Data uploaded was not returned\")",
+									"         }",
+									"    }",
+									");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "fbd0d99e-6ed7-4eaf-a373-6c4bc0f423fa",
+								"exec": [
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -3770,7 +4024,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{api}}/data/{{custodialUserId}}?latest=true&type=bolus",
+							"raw": "{{api}}/data/{{custodialUserId}}?type=bolus",
 							"host": [
 								"{{api}}"
 							],
@@ -3779,10 +4033,6 @@
 								"{{custodialUserId}}"
 							],
 							"query": [
-								{
-									"key": "latest",
-									"value": "true"
-								},
 								{
 									"key": "type",
 									"value": "bolus"
@@ -4272,9 +4522,18 @@
 							"pm.variables.set('newCustodialEmailAddress', newCustodialEmailAddress.replace('_datetag_', Date.now()));",
 							"let newMoment = moment().subtract(18, 'years');",
 							"pm.variables.set(\"birthdate\", newMoment.format('YYYY-MM-DD'));",
-							"pm.variables.set(\"uploadDeviceDataItemId\", pm.variables.replaceIn('{{$guid}}'));",
 							"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", moment().format('YYYY-MM-DDThh:mm:ss'));",
 							"pm.variables.set(\"currentTimestamp\", moment().format());"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ea5adf75-e427-467c-8938-d2e9c58e8ce5",
+						"type": "text/javascript",
+						"exec": [
+							""
 						]
 					}
 				}
@@ -4396,13 +4655,15 @@
 							"script": {
 								"id": "ec21ae05-9c8a-4e39-ab04-9765a19ffad5",
 								"exec": [
-									"const uuid = require('uuid');",
-									"pm.variables.set(\"uploadDeviceDataItemId\", uuid.v4());",
+									"pm.variables.set(\"guid\", pm.variables.replaceIn(\"{{$guid}}\"));",
 									"const moment = require('moment');",
-									"let now = moment();",
-									"pm.variables.set(\"uploadDeviceDataItemTime\", now.format());",
-									"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", now.format('YYYY-MM-DDThh:mm:ss'));",
-									"pm.variables.set(\"uploadId\", uuid.v4().replace(/-/g, '').slice(0,12));"
+									"pm.variables.set(\"currentDate\", moment().format());",
+									"pm.variables.set(\"currentDateWithoutOffset\", moment().format('YYYY-MM-DDThh:mm:ss'));",
+									"pm.variables.set(\"uploadId\", pm.variables.replaceIn(\"{{$randomUUID}}\").replace(/-/g, '').slice(0,12));",
+									"pm.variables.set(\"itemId\", pm.variables.replaceIn(\"{{$randomUUID}}\").replace(/-/g, ''));",
+									"pm.variables.set(\"smbgValue\", 11.331314156239124);",
+									"pm.variables.set(\"bolusValue\", 2.47);",
+									"pm.variables.set(\"cbgValue\", 8.437136946389211);"
 								],
 								"type": "text/javascript"
 							}
@@ -4433,7 +4694,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\n  {\n    \"type\": \"smbg\",\n    \"subType\": \"manual\",\n    \"units\": \"mg/dL\",\n    \"value\": 205.331314156239124,\n    \"clockDriftOffset\": -579000,\n    \"conversionOffset\": 0,\n    \"deviceId\": \"meter-123\",\n    \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n    \"guid\": \"{{uploadDeviceDataItemId}}\",\n    \"id\": \"{{uploadDeviceDataItemId}}\",\n    \"time\": \"{{uploadDeviceDataItemTime}}\",\n    \"timezoneOffset\": 600,\n    \"uploadId\": \"{{uploadId}}\"\n},\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{uploadDeviceDataItemId}}\",\n        \"normal\": 2.47,\n        \"payload\": {\n            \"logIndices\": [\n                2\n            ]\n        },\n        \"subType\": \"normal\",\n        \"time\": \"{{uploadDeviceDataItemTime}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"bolus\",\n        \"uploadId\": \"{{uploadId}}\"\n    },\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{uploadDeviceDataItemId}}\",\n        \"payload\": {\n            \"logIndices\": [\n                1\n            ],\n            \"type\": [\n                \"Five Minute Reading (FMR)\"\n            ]\n        },\n        \"time\": \"{{uploadDeviceDataItemTime}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"cbg\",\n        \"units\": \"mmol/L\",\n        \"uploadId\": \"{{uploadId}}\",\n        \"value\": 8.437136946389211\n    }\n]"
+							"raw": "[\n  {\n    \"type\": \"smbg\",\n    \"subType\": \"manual\",\n    \"units\": \"mmol/L\",\n    \"value\": {{smbgValue}},\n    \"clockDriftOffset\": -579000,\n    \"conversionOffset\": 0,\n    \"deviceId\": \"meter-123\",\n    \"deviceTime\": \"{{currentDateWithoutOffset}}\",\n    \"guid\": \"{{guid}}\",\n    \"id\": \"{{itemId}}\",\n    \"time\": \"{{currentDate}}\",\n    \"timezoneOffset\": 600,\n    \"uploadId\": \"{{uploadId}}\"\n},\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{currentDateWithoutOffset}}\",\n        \"guid\": \"{{guid}}\",\n        \"normal\": {{bolusValue}},\n        \"payload\": {\n            \"logIndices\": [\n                2\n            ]\n        },\n        \"subType\": \"normal\",\n        \"time\": \"{{currentDate}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"bolus\",\n        \"uploadId\": \"{{uploadId}}\"\n    },\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{currentDateWithoutOffset}}\",\n        \"guid\": \"{{guid}}\",\n        \"payload\": {\n            \"logIndices\": [\n                1\n            ],\n            \"type\": [\n                \"Five Minute Reading (FMR)\"\n            ]\n        },\n        \"time\": \"{{currentDate}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"cbg\",\n        \"units\": \"mmol/L\",\n        \"uploadId\": \"{{uploadId}}\",\n        \"value\": {{cbgValue}}\n    }\n]"
 						},
 						"url": {
 							"raw": "{{api}}/data/{{userId}}",
@@ -4450,90 +4711,49 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve last SMBG data",
+					"name": "Retrieve all cbg data Copy",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "a471d9ae-3bc0-4af2-840f-ad063920cfa3",
+								"id": "b673a82e-e5f7-4115-9d35-e0f93e63a33f",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, jsonData,\"smbgSchema\");",
-									"pm.test(\"one item is returned\", function () {",
-									"pm.expect(jsonData.length).to.eql(1);",
+									"assert.common(200, 500, false, null,\"\");",
+									"",
+									"pm.test(\"Schema is valid for data types returned\", function () {",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(tv4.validate(jsonData[i], `${jsonData[i].type}Schema`)).to.be.true;",
+									"",
+									"    }",
 									"});",
-									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadId\"));",
-									"});"
+									"",
+									"pm.test(\"CBG data just uploaded is returned\", function () {",
+									"    let uploadId = pm.variables.get(\"uploadId\");",
+									"    let cbgValue = pm.variables.get(\"cbgValue\");",
+									"    let testPassed = false;",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        if (jsonData[i].uploadId === uploadId && jsonData[i].type === \"cbg\") {",
+									"            pm.expect(jsonData[i].value).to.eql(cbgValue);",
+									"            return testPassed = true;",
+									"            }",
+									"        }",
+									"         if (!testPassed) {",
+									"        pm.expect.fail(\"Data uploaded was not returned\")",
+									"         }",
+									"    }",
+									");"
 								],
 								"type": "text/javascript"
 							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "x-tidepool-session-token",
-								"value": "{{sessionToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{api}}/data/{{userId}}?latest=true&type=smbg",
-							"host": [
-								"{{api}}"
-							],
-							"path": [
-								"data",
-								"{{userId}}"
-							],
-							"query": [
-								{
-									"key": "startDate",
-									"value": "{{dDataStartDate}}",
-									"disabled": true
-								},
-								{
-									"key": "endDate",
-									"value": "{{dDataEndDate}}",
-									"disabled": true
-								},
-								{
-									"key": "latest",
-									"value": "true"
-								},
-								{
-									"key": "type",
-									"value": "smbg"
-								}
-							]
 						},
-						"description": "Verifying the data was stored from previous request to upload meter data."
-					},
-					"response": []
-				},
-				{
-					"name": "Retrieve last CBG data",
-					"event": [
 						{
-							"listen": "test",
+							"listen": "prerequest",
 							"script": {
-								"id": "6a21ea51-d4f2-467a-a492-545eb5a76cfd",
+								"id": "8a982451-8ca3-4a48-b745-e3036bdc85df",
 								"exec": [
-									"let jsonData = pm.response.json();",
-									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, jsonData,\"cbgSchema\");",
-									"pm.test(\"one item is returned\", function () {",
-									"pm.expect(jsonData.length).to.eql(1);",
-									"});",
-									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadId\"));",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -4552,7 +4772,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{api}}/data/{{userId}}?latest=true&type=cbg",
+							"raw": "{{api}}/data/{{userId}}?type=cbg",
 							"host": [
 								"{{api}}"
 							],
@@ -4561,20 +4781,6 @@
 								"{{userId}}"
 							],
 							"query": [
-								{
-									"key": "startDate",
-									"value": "{{dDataStartDate}}",
-									"disabled": true
-								},
-								{
-									"key": "endDate",
-									"value": "{{dDataEndDate}}",
-									"disabled": true
-								},
-								{
-									"key": "latest",
-									"value": "true"
-								},
 								{
 									"key": "type",
 									"value": "cbg"
@@ -4586,22 +4792,50 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve last bolus data",
+					"name": "Retrieve all smbg data Copy",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "2ffddef0-8ace-4dac-bd64-56fd82161b6c",
+								"id": "fe82e30f-4545-4817-ac6b-dd1765f4cc3d",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, jsonData,\"bolusSchema\");",
-									"pm.test(\"one item is returned\", function () {",
-									"pm.expect(jsonData.length).to.eql(1);",
+									"assert.common(200, 500, false, null,\"\");",
+									"",
+									"pm.test(\"Schema is valid for data types returned\", function () {",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(tv4.validate(jsonData[i], `${jsonData[i].type}Schema`)).to.be.true;",
+									"",
+									"    }",
 									"});",
-									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadId\"));",
-									"});"
+									"",
+									"pm.test(\"SMBG data just uploaded is returned\", function () {",
+									"    let uploadId = pm.variables.get(\"uploadId\");",
+									"    let smbgValue = pm.variables.get(\"smbgValue\");",
+									"    let testPassed = false;",
+									"    console.log(uploadId)",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        if (jsonData[i].uploadId === uploadId && jsonData[i].type === \"smbg\") {",
+									"            pm.expect(jsonData[i].value).to.eql(smbgValue);",
+									"            return testPassed = true;",
+									"            }",
+									"        } ",
+									"        if (!testPassed) {",
+									"        pm.expect.fail(\"Data uploaded was not returned\")",
+									"         }",
+									"    }",
+									");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f3f5faf4-a50e-4c45-a4fc-5e8132205d3f",
+								"exec": [
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -4620,7 +4854,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{api}}/data/{{userId}}?latest=true&type=bolus",
+							"raw": "{{api}}/data/{{userId}}?type=smbg",
 							"host": [
 								"{{api}}"
 							],
@@ -4630,19 +4864,86 @@
 							],
 							"query": [
 								{
-									"key": "startDate",
-									"value": "{{dDataStartDate}}",
-									"disabled": true
-								},
-								{
-									"key": "endDate",
-									"value": "{{dDataEndDate}}",
-									"disabled": true
-								},
-								{
-									"key": "latest",
-									"value": "true"
-								},
+									"key": "type",
+									"value": "smbg"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload pump data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve all bolus data Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f64bbe5f-cfe5-4fb8-9fa9-a6de9a4977f1",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, null,\"\");",
+									"",
+									"pm.test(\"Schema is valid for data types returned\", function () {",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(tv4.validate(jsonData[i], `${jsonData[i].type}Schema`)).to.be.true;",
+									"",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Bolus data just uploaded is returned\", function () {",
+									"    let uploadId = pm.variables.get(\"uploadId\");",
+									"    let bolusValue = pm.variables.get(\"bolusValue\");",
+									"    let testPassed = false;",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        if (jsonData[i].uploadId === uploadId && jsonData[i].type === \"bolus\") {",
+									"            pm.expect(jsonData[i].normal).to.eql(bolusValue);",
+									"            return testPassed = true;",
+									"            }",
+									"        }",
+									"         if (!testPassed) {",
+									"        pm.expect.fail(\"Data uploaded was not returned\")",
+									"         }",
+									"    }",
+									");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5794362a-82e7-4293-983d-51e2a5be25c7",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?type=bolus",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
 								{
 									"key": "type",
 									"value": "bolus"
@@ -4956,6 +5257,46 @@
 					"response": []
 				},
 				{
+					"name": "Get the clinic account information Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "796bce0f-b915-49aa-97ee-871cf72a8dff",
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 300, false, pm.response.json(),\"userAccountInfoSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/auth/user",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Retrieve patient profile as clinic",
 					"event": [
 						{
@@ -4997,90 +5338,49 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve last SMBG data",
+					"name": "Retrieve all cbg data",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "e76c2d99-618e-4e34-9dc9-545af4daaa53",
+								"id": "0ef111d4-e2a0-4683-b1f6-56269f39a33f",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, jsonData,\"smbgSchema\");",
-									"pm.test(\"one item is returned\", function () {",
-									"pm.expect(jsonData.length).to.eql(1);",
+									"assert.common(200, 500, false, null,\"\");",
+									"",
+									"pm.test(\"Schema is valid for data types returned\", function () {",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(tv4.validate(jsonData[i], `${jsonData[i].type}Schema`)).to.be.true;",
+									"",
+									"    }",
 									"});",
-									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadId\"));",
-									"});"
+									"",
+									"pm.test(\"CBG data just uploaded is returned\", function () {",
+									"    let uploadId = pm.variables.get(\"uploadId\");",
+									"    let cbgValue = pm.variables.get(\"cbgValue\");",
+									"    let testPassed = false;",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        if (jsonData[i].uploadId === uploadId && jsonData[i].type === \"cbg\") {",
+									"            pm.expect(jsonData[i].value).to.eql(cbgValue);",
+									"            return testPassed = true;",
+									"            }",
+									"        }",
+									"         if (!testPassed) {",
+									"        pm.expect.fail(\"Data uploaded was not returned\")",
+									"         }",
+									"    }",
+									");"
 								],
 								"type": "text/javascript"
 							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "x-tidepool-session-token",
-								"value": "{{sessionToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{api}}/data/{{userId}}?latest=true&type=smbg",
-							"host": [
-								"{{api}}"
-							],
-							"path": [
-								"data",
-								"{{userId}}"
-							],
-							"query": [
-								{
-									"key": "startDate",
-									"value": "{{dDataStartDate}}",
-									"disabled": true
-								},
-								{
-									"key": "endDate",
-									"value": "{{dDataEndDate}}",
-									"disabled": true
-								},
-								{
-									"key": "latest",
-									"value": "true"
-								},
-								{
-									"key": "type",
-									"value": "smbg"
-								}
-							]
 						},
-						"description": "Verifying the data was stored from previous request to upload meter data."
-					},
-					"response": []
-				},
-				{
-					"name": "Retrieve last CBG data",
-					"event": [
 						{
-							"listen": "test",
+							"listen": "prerequest",
 							"script": {
-								"id": "4119c037-b3ec-4861-9814-8fc5cb9a8dbb",
+								"id": "b857a3cc-9531-4d40-b74f-a748b56d95ce",
 								"exec": [
-									"let jsonData = pm.response.json();",
-									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, jsonData,\"cbgSchema\");",
-									"pm.test(\"one item is returned\", function () {",
-									"pm.expect(jsonData.length).to.eql(1);",
-									"});",
-									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadId\"));",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -5099,7 +5399,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{api}}/data/{{userId}}?latest=true&type=cbg",
+							"raw": "{{api}}/data/{{userId}}?type=cbg",
 							"host": [
 								"{{api}}"
 							],
@@ -5108,20 +5408,6 @@
 								"{{userId}}"
 							],
 							"query": [
-								{
-									"key": "startDate",
-									"value": "{{dDataStartDate}}",
-									"disabled": true
-								},
-								{
-									"key": "endDate",
-									"value": "{{dDataEndDate}}",
-									"disabled": true
-								},
-								{
-									"key": "latest",
-									"value": "true"
-								},
 								{
 									"key": "type",
 									"value": "cbg"
@@ -5133,22 +5419,50 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve last bolus data",
+					"name": "Retrieve all smbg data",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "bd3d8ac4-8e0d-49b4-9270-504a0b280a6d",
+								"id": "600d7d06-a79a-4c5d-9712-de484d2263dd",
 								"exec": [
 									"let jsonData = pm.response.json();",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, jsonData,\"bolusSchema\");",
-									"pm.test(\"one item is returned\", function () {",
-									"pm.expect(jsonData.length).to.eql(1);",
+									"assert.common(200, 500, false, null,\"\");",
+									"",
+									"pm.test(\"Schema is valid for data types returned\", function () {",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(tv4.validate(jsonData[i], `${jsonData[i].type}Schema`)).to.be.true;",
+									"",
+									"    }",
 									"});",
-									"pm.test(\"the returned item is the same that we uploaded\", function () {",
-									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadId\"));",
-									"});"
+									"",
+									"pm.test(\"SMBG data just uploaded is returned\", function () {",
+									"    let uploadId = pm.variables.get(\"uploadId\");",
+									"    let smbgValue = pm.variables.get(\"smbgValue\");",
+									"    let testPassed = false;",
+									"    console.log(uploadId)",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        if (jsonData[i].uploadId === uploadId && jsonData[i].type === \"smbg\") {",
+									"            pm.expect(jsonData[i].value).to.eql(smbgValue);",
+									"            return testPassed = true;",
+									"            }",
+									"        } ",
+									"        if (!testPassed) {",
+									"        pm.expect.fail(\"Data uploaded was not returned\")",
+									"         }",
+									"    }",
+									");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9e9bfdd2-4ab8-4583-ad58-ccf04b23b0ec",
+								"exec": [
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -5167,7 +5481,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{api}}/data/{{userId}}?latest=true&type=bolus",
+							"raw": "{{api}}/data/{{userId}}?type=smbg",
 							"host": [
 								"{{api}}"
 							],
@@ -5177,19 +5491,86 @@
 							],
 							"query": [
 								{
-									"key": "startDate",
-									"value": "{{dDataStartDate}}",
-									"disabled": true
-								},
-								{
-									"key": "endDate",
-									"value": "{{dDataEndDate}}",
-									"disabled": true
-								},
-								{
-									"key": "latest",
-									"value": "true"
-								},
+									"key": "type",
+									"value": "smbg"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload pump data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve all bolus data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0408ad77-ec60-4c5f-8c77-5d5a0722aad8",
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, null,\"\");",
+									"",
+									"pm.test(\"Schema is valid for data types returned\", function () {",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(tv4.validate(jsonData[i], `${jsonData[i].type}Schema`)).to.be.true;",
+									"",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Bolus data just uploaded is returned\", function () {",
+									"    let uploadId = pm.variables.get(\"uploadId\");",
+									"    let bolusValue = pm.variables.get(\"bolusValue\");",
+									"    let testPassed = false;",
+									"    for(let i = 0; i < jsonData.length; i++) {",
+									"        if (jsonData[i].uploadId === uploadId && jsonData[i].type === \"bolus\") {",
+									"            pm.expect(jsonData[i].normal).to.eql(bolusValue);",
+									"            return testPassed = true;",
+									"            }",
+									"        }",
+									"         if (!testPassed) {",
+									"        pm.expect.fail(\"Data uploaded was not returned\")",
+									"         }",
+									"    }",
+									");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "79561eaa-0991-4249-a277-bbf9bd03569f",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?type=bolus",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
 								{
 									"key": "type",
 									"value": "bolus"
