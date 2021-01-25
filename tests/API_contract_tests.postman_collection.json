@@ -1122,7 +1122,7 @@
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));",
 									"let newUserEmailAddress = pm.variables.get('newUserEmailAddress');",
-									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + '2'));"
+									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
 								],
 								"type": "text/javascript"
 							}
@@ -1826,7 +1826,7 @@
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));",
 									"let newUserEmailAddress = pm.variables.get('newUserEmailAddress');",
-									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + '2'));"
+									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
 								],
 								"type": "text/javascript"
 							}
@@ -2657,7 +2657,7 @@
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));",
 									"let newUserEmailAddress = pm.variables.get('newUserEmailAddress');",
-									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + '2'));"
+									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
 								],
 								"type": "text/javascript"
 							}
