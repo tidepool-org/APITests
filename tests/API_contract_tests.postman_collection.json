@@ -4518,7 +4518,7 @@
 					"response": []
 				},
 				{
-					"name": "Upload device data Copy",
+					"name": "Upload device data",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -4576,7 +4576,7 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve all cbg data Copy",
+					"name": "Retrieve all cbg data",
 					"event": [
 						{
 							"listen": "test",
@@ -4655,7 +4655,7 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve all smbg data Copy",
+					"name": "Retrieve all smbg data",
 					"event": [
 						{
 							"listen": "test",
@@ -4735,7 +4735,7 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve all bolus data Copy",
+					"name": "Retrieve all bolus data",
 					"event": [
 						{
 							"listen": "test",
@@ -5109,7 +5109,7 @@
 					"response": []
 				},
 				{
-					"name": "Get the clinic account information Copy",
+					"name": "Get the clinic account information",
 					"event": [
 						{
 							"listen": "test",
