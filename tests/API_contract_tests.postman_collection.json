@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d5fe7b4e-2a09-4b22-95c5-4b70702096bd",
+		"_postman_id": "b3dfa0e1-bcf6-418f-9246-1b1267639235",
 		"name": "API_contract_tests",
 		"description": "Contract tests using the tidepool API with the goal of testing the interaction between the Tidepool APis to see that its is working as a client expects. We are looking at\r\n\r\n - response code\r\n - response timing \r\n - headers, specifically the x-tidepool-session and content type\r\n - response json data to make sure it matches our schema expectations at a high level",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -2217,6 +2217,920 @@
 							]
 						},
 						"description": "Upload ios healthkit data to the continous upload session opened in the previous request"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last cbg healthkit data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"cbgHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=cbg",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "cbg"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload healthkit cgm data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last bolus healthkit data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"bolusHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=bolus",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "bolus"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload healthkit pump data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last basal healthkit data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"basalHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=basal",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "basal"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload healthkit pump data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last food data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, jsonData,\"foodHKSchema\");",
+									"pm.test(\"one item is returned\", function () {",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=food",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "food"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload healthkit nutrition data."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve last physical activity data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 500, false, jsonData,\"activityHKSchema\");\r",
+									"pm.test(\"the returned item is the same that we uploaded\", function () {\r",
+									"pm.expect(jsonData[0].uploadId).to.eql(pm.variables.get(\"uploadSessionId\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/data/{{userId}}?latest=true&type=physicalActivity",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"data",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "latest",
+									"value": "true"
+								},
+								{
+									"key": "type",
+									"value": "physicalActivity"
+								}
+							]
+						},
+						"description": "Verifying the data was stored from previous request to upload healthkit activity data."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(204, 2000, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"password\":\"{{signupPw}}\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/v1/users/{{userId}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This series of tests is designed to test the continous upload workflow, which simulates how our users upload with Tidepool mobile.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Continous upload with platform data with multuple requests (mobile)",
+			"item": [
+				{
+					"name": "DSA sign-up",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const uuid = require('uuid');",
+									"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));",
+									"let newUserEmailAddress = pm.variables.get('newUserEmailAddress');",
+									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(201, 1000, true, null,\"\");",
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+									"pm.variables.set(\"userId\", jsonData.userid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\":\"{{newUserEmailAddress}}\",\"password\":\"{{signupPw}}\",\"emails\":[\"{{newUserEmailAddress}}\"],\"roles\":[]}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/auth/user",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"user"
+							]
+						},
+						"description": "Initial sign-up for a data storage account, which includes creation of the \n    \n    `userId`\n    "
+					},
+					"response": []
+				},
+				{
+					"name": "Send email verification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 1000, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/confirm/send/signup/{{userId}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"confirm",
+								"send",
+								"signup",
+								"{{userId}}"
+							]
+						},
+						"description": "Send the email confirmation using the `userId` we picked up in the last request."
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve email key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, null,\"\");",
+									"let jsonData = pm.response.json();",
+									"pm.variables.set(\"emailKey\", jsonData[0].key);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/confirm/signup/{{userId}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"confirm",
+								"signup",
+								"{{userId}}"
+							]
+						},
+						"description": "Get `emailKey` to use in next request to confirm email"
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, null,\"\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/confirm/accept/signup/{{emailKey}}",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"confirm",
+								"accept",
+								"signup",
+								"{{emailKey}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Using `emailKey` to confirm email."
+					},
+					"response": []
+				},
+				{
+					"name": "Accept terms",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');\r",
+									"\r",
+									"pm.variables.set(\"currentTimestamp\", moment().format());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"updates\":{\"termsAccepted\":\"{{currentTimestamp}}\"}}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/auth/user",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"auth",
+								"user"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Accepting Terms and conditions"
+					},
+					"response": []
+				},
+				{
+					"name": "Initial DSA profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = eval(globals.loadAsserts);",
+									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');\r",
+									"let newMoment = moment().subtract(18, 'years');\r",
+									"pm.variables.set(\"birthdate\", newMoment.format('YYYY-MM-DD'));\r",
+									"pm.variables.set(\"fullName\", pm.variables.replaceIn(\"{{$randomFullName}}\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"fullName\":\"{{fullName}}\",\"patient\":{\"birthday\":\"{{birthdate}}\",\"diagnosis date\":\"{{birthdate}}\"}}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/metadata/{{userId}}/profile",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"metadata",
+								"{{userId}}",
+								"profile"
+							]
+						},
+						"description": "Setting up Name and birthdate (18 years old) for the new user."
+					},
+					"response": []
+				},
+				{
+					"name": "open upload session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();\r",
+									"pm.variables.set(\"uploadSessionId\", jsonData.data.id);\r",
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(201, 500, false, null,\"uploadSessionStartSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"type": "text",
+								"value": "{{sessionToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"client\": {\r\n\t\t\t\"name\": \"org.tidepool.mobile\",\r\n\t\t\t\"version\": \"2.1.6\"\r\n\t},\r\n\t\"dataSetType\": \"continuous\",\r\n\t\"deduplicator\": {\r\n\t\t\"name\": \"org.tidepool.deduplicator.dataset.delete.origin\"\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/v1/users/{{userId}}/datasets",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{userId}}",
+								"datasets"
+							]
+						},
+						"description": "Open a continuous upload session"
+					},
+					"response": []
+				},
+				{
+					"name": "retrieve existing continous session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"uploadSessionSchema\");\r",
+									"pm.test(\"Upload session retrieved is the same one we created\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].id).to.eql(pm.variables.get(\"uploadSessionId\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/v1/users/{{userId}}/data_sets",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{userId}}",
+								"data_sets"
+							]
+						},
+						"description": "retrieve the ID of the continuous upload session created"
+					},
+					"response": []
+				},
+				{
+					"name": "upload healthkit data",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"itemId\", pm.variables.replaceIn(\"{{$guid}}\").replace(/-/g, ''));\r",
+									"const moment = require('moment');\r",
+									"let now = moment();\r",
+									"pm.variables.set(\"uploadTime\", now.format());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 500, false, null,'');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"cbg\",\r\n\t\"value\": 16.04166,\r\n\t\"units\": \"mmol/L\",\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{itemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"41RQLJ 8332825\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n\t\t\"com.loudnate.GlucoseKit.HKMetadataKey.GlucoseIsDisplayOnly\": 0,\r\n        \"device\": {\r\n\t\t\t\"manufacturer\": \"Dexcom\",\r\n\t\t\t\"model\": \"G5 Mobile\",\r\n\t\t\t\"name\": \"CGMBLEKit\",\r\n\t\t\t\"softwareVersion\": \"20.0\",\r\n\t\t\t\"udiDeviceIdentifier\": \"00386270000002\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n}, {\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"basal\",\r\n    \"deliveryType\": \"temp\",\r\n    \"duration\": 300000,\r\n\t\"rate\": 6,\r\n    \"surpressed\": {\r\n        \"deliveryType\": \"scheduled\",\r\n        \"rate\": 1.4,\r\n        \"type\": \"basal\"\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{itemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"16011cc3174513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 1,\r\n        \"com.loopkit.InsulinKit.MetadataKeyScheduledBasalRate\": \"1.4 IU/hr\",\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"bolus\",\r\n    \"subType\": \"normal\",\r\n    \"normal\": 2,\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{itemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"0100500050003c0035e7564513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 2,\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"{{uploadTime}}\",\r\n    \"name\": \"\\ud83e\\udd67\",\r\n\t\"type\": \"food\",\r\n    \"nutrition\": {\r\n        \"carbohydrate\": {\r\n            \"net\": 30,\r\n            \"units\": \"grams\"\r\n        }\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{itemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"35C3AE35-142B-4FF0-8B2E-784066849A50\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"com.loudnate.CarbKit.HKMetadataKey.AbsorptionTimeMinutes\": 7200,\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},\r\n{\r\n\t\"time\": \"{{uploadTime}}\",\r\n    \"name\": \"Traditional Strength Training\",\r\n\t\"type\": \"physicalActivity\",\r\n    \"duration\": {\r\n        \"units\": \"seconds\",\r\n        \"value\": 518\r\n    },\r\n    \"energy\": {\r\n        \"units\": \"kilocalories\",\r\n        \"value\": 23\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{itemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n        \"Workout Name\": \"Quick Abs\",\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.oneothergame.7min-fitness\",\r\n\t\t\t\t\"name\": \"Workout for Women\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"3.5.0.1\"\r\n\t\t}\r\n\t}\r\n}\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/dataservices/v1/datasets/{{uploadSessionId}}/data",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"dataservices",
+								"v1",
+								"datasets",
+								"{{uploadSessionId}}",
+								"data"
+							]
+						},
+						"description": "Upload ios healthkit data to the continous upload session opened in the previous request"
+					},
+					"response": []
+				},
+				{
+					"name": "upload healthkit data Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.set(\"itemId\", pm.variables.replaceIn(\"{{$guid}}\").replace(/-/g, ''));\r",
+									"const moment = require('moment');\r",
+									"let now = moment();\r",
+									"pm.variables.set(\"uploadTime\", now.format());"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 500, false, null,'');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"cbg\",\r\n\t\"value\": 16.04166,\r\n\t\"units\": \"mmol/L\",\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{itemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"41RQLJ 8332825\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n\t\t\"com.loudnate.GlucoseKit.HKMetadataKey.GlucoseIsDisplayOnly\": 0,\r\n        \"device\": {\r\n\t\t\t\"manufacturer\": \"Dexcom\",\r\n\t\t\t\"model\": \"G5 Mobile\",\r\n\t\t\t\"name\": \"CGMBLEKit\",\r\n\t\t\t\"softwareVersion\": \"20.0\",\r\n\t\t\t\"udiDeviceIdentifier\": \"00386270000002\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n}, {\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"basal\",\r\n    \"deliveryType\": \"temp\",\r\n    \"duration\": 300000,\r\n\t\"rate\": 6,\r\n    \"surpressed\": {\r\n        \"deliveryType\": \"scheduled\",\r\n        \"rate\": 1.4,\r\n        \"type\": \"basal\"\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{itemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"16011cc3174513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 1,\r\n        \"com.loopkit.InsulinKit.MetadataKeyScheduledBasalRate\": \"1.4 IU/hr\",\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"{{uploadTime}}\",\r\n\t\"deviceId\": \"MMT-1711:12345678\",\r\n\t\"type\": \"bolus\",\r\n    \"subType\": \"normal\",\r\n    \"normal\": 2,\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{itemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"0100500050003c0035e7564513\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"HasLoopKitOrigin\": 1,\r\n\t\t\"HKInsulinDeliveryReason\": 2,\r\n        \"device\": {\r\n\t\t\t\"firmwareVersion\": \"subg_rfspy 2.2\",\r\n\t\t\t\t\"localIdentifier\": \"979142\",\r\n\t\t\t\t\"manufacturer\": \"Medtronic\",\r\n\t\t\t\t\"model\": \"754\",\r\n\t\t\t\t\"name\": \"Testing\",\r\n\t\t\t\t\"softwareVersion\": \"44.0\"\r\n\t\t},\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},{\r\n\t\"time\": \"{{uploadTime}}\",\r\n    \"name\": \"\\ud83e\\udd67\",\r\n\t\"type\": \"food\",\r\n    \"nutrition\": {\r\n        \"carbohydrate\": {\r\n            \"net\": 30,\r\n            \"units\": \"grams\"\r\n        }\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{itemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n\t\t\"HKMetadataKeySyncIdentifier\": \"35C3AE35-142B-4FF0-8B2E-784066849A50\",\r\n\t\t\"HKMetadataKeySyncVersion\": 1,\r\n        \"com.loudnate.CarbKit.HKMetadataKey.AbsorptionTimeMinutes\": 7200,\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.E53PUHPBVX.loopkit.Loop\",\r\n\t\t\t\t\"name\": \"Loop\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"56\"\r\n\t\t}\r\n\t}\r\n},\r\n{\r\n\t\"time\": \"{{uploadTime}}\",\r\n    \"name\": \"Traditional Strength Training\",\r\n\t\"type\": \"physicalActivity\",\r\n    \"duration\": {\r\n        \"units\": \"seconds\",\r\n        \"value\": 518\r\n    },\r\n    \"energy\": {\r\n        \"units\": \"kilocalories\",\r\n        \"value\": 23\r\n    },\r\n\t\"origin\": {\r\n\t\t\"id\": \"{{itemId}}\",\r\n\t\t\"name\": \"com.apple.HealthKit\",\r\n\t\t\"type\": \"service\"\r\n\t},\r\n\t\"payload\": {\r\n        \"Workout Name\": \"Quick Abs\",\r\n\t\t\"sourceRevision\": {\r\n\t\t\t\"operatingSystemVersion\": \"12.1.0\",\r\n\t\t\t\"productType\": \"iPhone9,3\",\r\n\t\t\t\"source\": {\r\n\t\t\t\t\"bundleIdentifier\": \"com.oneothergame.7min-fitness\",\r\n\t\t\t\t\"name\": \"Workout for Women\"\r\n\t\t\t},\r\n\t\t\t\"version\": \"3.5.0.1\"\r\n\t\t}\r\n\t}\r\n}\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/dataservices/v1/datasets/{{uploadSessionId}}/data",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"dataservices",
+								"v1",
+								"datasets",
+								"{{uploadSessionId}}",
+								"data"
+							]
+						},
+						"description": "Upload ios healthkit data to the continous upload session opened in the previous request"
+					},
+					"response": []
+				},
+				{
+					"name": "retrieve existing continous session Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const assert = eval(globals.loadAsserts);\r",
+									"assert.common(200, 300, false, null,\"uploadSessionSchema\");\r",
+									"pm.test(\"Upload session retrieved is the same one we created\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].id).to.eql(pm.variables.get(\"uploadSessionId\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-tidepool-session-token",
+								"value": "{{sessionToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/v1/users/{{userId}}/data_sets",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"{{userId}}",
+								"data_sets"
+							]
+						},
+						"description": "retrieve the ID of the continuous upload session created"
 					},
 					"response": []
 				},
