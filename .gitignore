@@ -1,3 +1,4 @@
 node_modules
 newman
 local.sh
+.DS_Store
