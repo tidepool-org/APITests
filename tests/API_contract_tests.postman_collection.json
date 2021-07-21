@@ -1458,7 +1458,6 @@
 								"{{api}}"
 							],
 							"path": [
-								"dataservices",
 								"v1",
 								"users",
 								"{{userId}}",
