@@ -217,7 +217,7 @@
 					"response": []
 				},
 				{
-					"name": "Initial clinic profile",
+					"name": "Initial clinician profile",
 					"event": [
 						{
 							"listen": "test",
@@ -259,12 +259,12 @@
 								"profile"
 							]
 						},
-						"description": "Setting up Name, clinic name, role and telephone number."
+						"description": "Setting up Name, clinician name, role and telephone number."
 					},
 					"response": []
 				},
 				{
-					"name": "get the clinic account information",
+					"name": "get the clinician account information",
 					"event": [
 						{
 							"listen": "test",
@@ -303,7 +303,7 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve clinic profile",
+					"name": "Retrieve clinician profile",
 					"event": [
 						{
 							"listen": "test",
@@ -3257,12 +3257,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "{{clinicPw}}",
+									"value": "{{clinicianPw}}",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "{{clinicEmail}}",
+									"value": "{{clinicianEmail}}",
 									"type": "string"
 								},
 								{
@@ -3293,7 +3293,7 @@
 					"response": []
 				},
 				{
-					"name": "Get the clinic account information",
+					"name": "Get the clinician account information",
 					"event": [
 						{
 							"listen": "test",
@@ -3332,7 +3332,7 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve clinic profile",
+					"name": "Retrieve clinician profile",
 					"event": [
 						{
 							"listen": "test",
@@ -3456,12 +3456,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "{{clinicPw}}",
+									"value": "{{clinicianPw}}",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "{{clinicEmail}}",
+									"value": "{{clinicianEmail}}",
 									"type": "string"
 								},
 								{
@@ -3547,7 +3547,7 @@
 								"profile"
 							]
 						},
-						"description": "Setting up Name, clinic name, role and telephone number."
+						"description": "Setting up Name, clinician name, role and telephone number."
 					},
 					"response": []
 				},
@@ -4798,7 +4798,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"{{clinicEmail}}\",\n  \"permissions\": {\n    \"view\": {},\n    \"note\":{},\n    \"upload\":{}\n  }\n}"
+							"raw": "{\n  \"email\": \"{{clinicianEmail}}\",\n  \"permissions\": {\n    \"view\": {},\n    \"note\":{},\n    \"upload\":{}\n  }\n}"
 						},
 						"url": {
 							"raw": "{{api}}/confirm/send/invite/{{userId}}",
@@ -4862,7 +4862,7 @@
 							"script": {
 								"exec": [
 									"let jsonData = pm.response.json();",
-									"pm.variables.set(\"clinicUserId\", jsonData.userid);",
+									"pm.variables.set(\"clinicianUserId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
@@ -4877,12 +4877,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "{{clinicPw}}",
+									"value": "{{clinicianPw}}",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "{{clinicEmail}}",
+									"value": "{{clinicianEmail}}",
 									"type": "string"
 								},
 								{
@@ -4945,7 +4945,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/confirm/accept/invite/{{clinicUserId}}/{{userId}}",
+							"raw": "{{api}}/confirm/accept/invite/{{clinicianUserId}}/{{userId}}",
 							"host": [
 								"{{api}}"
 							],
@@ -4953,7 +4953,7 @@
 								"confirm",
 								"accept",
 								"invite",
-								"{{clinicUserId}}",
+								"{{clinicianUserId}}",
 								"{{userId}}"
 							]
 						}
@@ -4961,7 +4961,7 @@
 					"response": []
 				},
 				{
-					"name": "Get the clinic account information",
+					"name": "Get the clinician account information",
 					"event": [
 						{
 							"listen": "test",
@@ -5000,7 +5000,7 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve patient profile as clinic",
+					"name": "Retrieve patient profile as clinician",
 					"event": [
 						{
 							"listen": "test",
@@ -5486,14 +5486,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{api}}/access/{{userId}}/{{clinicUserId}}",
+							"raw": "{{api}}/access/{{userId}}/{{clinicianUserId}}",
 							"host": [
 								"{{api}}"
 							],
 							"path": [
 								"access",
 								"{{userId}}",
-								"{{clinicUserId}}"
+								"{{clinicianUserId}}"
 							],
 							"query": [
 								{
@@ -5539,7 +5539,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/confirm/{{userId}}/invited/{{clinicEmail}}",
+							"raw": "{{api}}/confirm/{{userId}}/invited/{{clinicianEmail}}",
 							"host": [
 								"{{api}}"
 							],
@@ -5547,7 +5547,7 @@
 								"confirm",
 								"{{userId}}",
 								"invited",
-								"{{clinicEmail}}"
+								"{{clinicianEmail}}"
 							]
 						}
 					},
@@ -5806,12 +5806,12 @@
 									"basic": [
 										{
 											"key": "username",
-											"value": "{{clinicEmail}}",
+											"value": "{{clinicianEmail}}",
 											"type": "string"
 										},
 										{
 											"key": "password",
-											"value": "{{clinicPw}}",
+											"value": "{{clinicianPw}}",
 											"type": "string"
 										},
 										{
@@ -6015,12 +6015,12 @@
 									"basic": [
 										{
 											"key": "username",
-											"value": "{{clinicEmail}}",
+											"value": "{{clinicianEmail}}",
 											"type": "string"
 										},
 										{
 											"key": "password",
-											"value": "{{clinicPw}}",
+											"value": "{{clinicianPw}}",
 											"type": "string"
 										},
 										{
@@ -6224,12 +6224,12 @@
 									"basic": [
 										{
 											"key": "username",
-											"value": "{{clinicEmail}}",
+											"value": "{{clinicianEmail}}",
 											"type": "string"
 										},
 										{
 											"key": "password",
-											"value": "{{clinicPw}}",
+											"value": "{{clinicianPw}}",
 											"type": "string"
 										},
 										{
