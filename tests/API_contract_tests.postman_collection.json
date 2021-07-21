@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d5fe7b4e-2a09-4b22-95c5-4b70702096bd",
+		"_postman_id": "022bacab-22d0-4736-9345-05289a859ebf",
 		"name": "API_contract_tests",
 		"description": "Contract tests using the tidepool API with the goal of testing the interaction between the Tidepool APis to see that its is working as a client expects. We are looking at\r\n\r\n - response code\r\n - response timing \r\n - headers, specifically the x-tidepool-session and content type\r\n - response json data to make sure it matches our schema expectations at a high level",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -21,6 +21,18 @@
 									"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"userId\", jsonData.userid);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const uuid = require('uuid');",
+									"pm.variables.set('signupPw', uuid.v4().slice(0,9));",
+									"let newClinicianEmailAddress = \"automated-tests+clinician_datetag_@tidepool.org\";",
+									"pm.variables.set('newClinicianEmailAddress', newClinicianEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
 								],
 								"type": "text/javascript"
 							}
@@ -179,6 +191,16 @@
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');",
+									"pm.variables.set(\"currentDate\", moment().format());"
 								],
 								"type": "text/javascript"
 							}
@@ -384,22 +406,7 @@
 				}
 			],
 			"description": "Clinician signs up for tidepool, and fills out profile.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const uuid = require('uuid');",
-							"const moment = require('moment');",
-							"pm.variables.set('signupPw', uuid.v4().slice(0,9));",
-							"let newClinicianEmailAddress = pm.variables.get('newClinicianEmailAddress');",
-							"pm.variables.set('newClinicianEmailAddress', newClinicianEmailAddress.replace('_datetag_', Date.now()));",
-							"pm.variables.set(\"currentDate\", moment().format());"
-						]
-					}
-				}
-			]
+			"event": []
 		},
 		{
 			"name": "Data storage account signup and setup",
@@ -2807,6 +2814,12 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const moment = require('moment');",
+									"let currentTimestamp = Date.now();",
+									"pm.variables.set(\"currentDate\", moment().format());",
+									"pm.variables.set('currentTimestamp', currentTimestamp);",
+									"pm.variables.set(\"guid\", pm.variables.replaceIn('{{$guid}}'));",
+									"pm.variables.set(\"currentDateWithoutOffset\", moment().format('YYYY-MM-DDThh:mm:ss'));",
 									"pm.variables.set(\"uploadId\", pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0,12));"
 								],
 								"type": "text/javascript"
@@ -3071,23 +3084,7 @@
 					"response": []
 				}
 			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const moment = require('moment');",
-							"let currentTimestamp = Date.now();",
-							"let sharingEmailAddress = pm.variables.get('sharingEmailAddress');",
-							"pm.variables.set('sharingEmailAddress', sharingEmailAddress.replace('_datetag_', currentTimestamp));",
-							"pm.variables.set(\"currentDate\", moment().format());",
-							"pm.variables.set('currentTimestamp', currentTimestamp);",
-							"pm.variables.set(\"guid\", pm.variables.replaceIn('{{$guid}}'));",
-							"pm.variables.set(\"currentDateWithoutOffset\", moment().format('YYYY-MM-DDThh:mm:ss'));"
-						]
-					}
-				},
+			"event": []
 		},
 		{
 			"name": "Clinician and custodial user interaction",
@@ -3393,7 +3390,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"let newCustodialEmailAddress = pm.variables.get('newCustodialEmailAddress');\r",
+									"let newCustodialEmailAddress = \"automated-tests+custodial_datetag_@tidepool.org\";\r",
 									"pm.variables.set('newCustodialEmailAddress', newCustodialEmailAddress.replace('_datetag_', Date.now()));"
 								],
 								"type": "text/javascript"
@@ -3558,6 +3555,9 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const moment = require('moment');\r",
+									"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", moment().format('YYYY-MM-DDThh:mm:ss'));\r",
+									"pm.variables.set(\"currentTimestamp\", moment().format());\r",
 									"pm.variables.set(\"uploadId\", pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0,12));\r",
 									"pm.variables.set(\"itemId\", pm.variables.replaceIn('{{$randomUUID}}').replace(/-/g, ''));\r",
 									"pm.variables.set(\"guid\", pm.variables.replaceIn('{{$guid}}'));\r",
@@ -3839,6 +3839,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const moment = require('moment');",
+									"pm.variables.set(\"currentTimestamp\", moment().format());",
 									"pm.variables.set(\"messageGUI\", pm.variables.replaceIn('{{$guid}}'));"
 								],
 								"type": "text/javascript"
@@ -4180,7 +4182,6 @@
 							"script": {
 								"exec": [
 									"var moment = require('moment');\r",
-									"\r",
 									"pm.variables.set(\"currentTimestamp\", moment().format());"
 								],
 								"type": "text/javascript"
@@ -4274,22 +4275,7 @@
 				}
 			],
 			"description": "Clinician adds new custodial patient, uploads data, and creates notes. Custodial patient claims account.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const moment = require('moment');",
-							"let newCustodialEmailAddress = pm.variables.get('newCustodialEmailAddress');",
-							"pm.variables.set('newCustodialEmailAddress', newCustodialEmailAddress.replace('_datetag_', Date.now()));",
-							"let newMoment = moment().subtract(18, 'years');",
-							"pm.variables.set(\"birthdate\", newMoment.format('YYYY-MM-DD'));",
-							"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", moment().format('YYYY-MM-DDThh:mm:ss'));",
-							"pm.variables.set(\"currentTimestamp\", moment().format());"
-						]
-					}
-				},
+			"event": []
 		},
 		{
 			"name": "Data owner and clinician user interaction",
@@ -4403,6 +4389,9 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const moment = require('moment');\r",
+									"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", moment().format('YYYY-MM-DDThh:mm:ss'));\r",
+									"pm.variables.set(\"currentTimestamp\", moment().format());\r",
 									"pm.variables.set(\"uploadId\", pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0,12));\r",
 									"pm.variables.set(\"itemId\", pm.variables.replaceIn('{{$randomUUID}}').replace(/-/g, ''));\r",
 									"pm.variables.set(\"guid\", pm.variables.replaceIn('{{$guid}}'));\r",
@@ -5335,7 +5324,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"message\": {\n        \"parentmessage\": \"{{messageId}}\",\n        \"userid\": \"{{userId}}\",\n        \"groupid\": \"{{clinicUserId}}\",\n        \"messagetext\": \"Clinician comment\",\n        \"timestamp\": \"{{noteCreationTime}}\",\n        \"guid\": \"{{messageGUI}}\"\n    }\n}"
+							"raw": "{\n    \"message\": {\n        \"parentmessage\": \"{{messageId}}\",\n        \"userid\": \"{{userId}}\",\n        \"groupid\": \"{{clinicianUserId}}\",\n        \"messagetext\": \"Clinician comment\",\n        \"timestamp\": \"{{noteCreationTime}}\",\n        \"guid\": \"{{messageGUI}}\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{api}}/message/reply/{{messageId}}",
@@ -5554,19 +5543,8 @@
 					"response": []
 				}
 			],
-			"description": "DSA that uploads data to their Tidepool Account, adds notes and shares data with their clinician in preparation for a clinic appointment.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const moment = require('moment');",
-							"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", moment().format('YYYY-MM-DDThh:mm:ss'));",
-							"pm.variables.set(\"currentTimestamp\", moment().format());"
-						]
-					}
-				},
+			"description": "DSA that uploads data to their Tidepool Account, adds notes and shares data with their clinician in preparation for a clinician appointment.",
+			"event": []
 		},
 		{
 			"name": "Negative tests",
