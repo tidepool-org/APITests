@@ -3385,8 +3385,9 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const uuid = require('uuid');\r",
 									"let newCustodialEmailAddress = \"automated-tests+custodial_datetag_@tidepool.org\";\r",
-									"pm.variables.set('newCustodialEmailAddress', newCustodialEmailAddress.replace('_datetag_', Date.now()));"
+									"pm.variables.set('newCustodialEmailAddress', newCustodialEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
 								],
 								"type": "text/javascript"
 							}
