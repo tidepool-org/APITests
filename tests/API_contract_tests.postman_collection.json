@@ -17,8 +17,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 1000, true, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"userId\", jsonData.userid);"
 								],
@@ -100,7 +100,7 @@
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"let jsonData = pm.response.json();",
-									"assert.common(200, 500, false, jsonData, \"signupConfirmationSchema\");",
+									"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -178,7 +178,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -224,7 +224,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"clinicProfileSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -271,7 +271,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userAccountInfoSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -310,7 +310,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"clinicProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -424,8 +424,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 1000, true, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"userId\", jsonData.userid);"
 								],
@@ -506,8 +506,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -592,7 +592,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -656,7 +656,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -714,7 +714,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -755,7 +755,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"settingsSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -802,7 +802,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");",
+									"assert.common(200, 500, false, pm.response.json(),\"settingsSchema\");",
 									"pm.test(\"Verify settings change to mmol\", function () {",
 									"var jsonData = pm.response.json();",
 									"pm.expect(jsonData.units.bg).to.eql(\"mmol/L\");",
@@ -844,7 +844,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"inviteSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -891,7 +891,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"inviteSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1081,8 +1081,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 1000, true, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"userId\", jsonData.userid);"
 								],
@@ -1163,8 +1163,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -1249,7 +1249,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1313,7 +1313,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1372,11 +1372,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
-								],
-								"type": "text/javascript"
-							}
-						},
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1423,13 +1419,9 @@
 							"script": {
 								"exec": [
 									"let jsonData = pm.response.json();\r",
-									"pm.variables.set(\"uploadSessionId\", jsonData.data.id);\r",
 									"const assert = eval(globals.loadAsserts);\r",
-									"assert.common(201, 500, false, null,\"uploadSessionStartSchema\");"
-								],
-								"type": "text/javascript"
-							}
-						},
+									"assert.common(201, 500, false, jsonData,\"datasetSchema\");\r",
+									"pm.variables.set(\"uploadSessionId\", jsonData.data.id);"
 								],
 								"type": "text/javascript"
 							}
@@ -1735,8 +1727,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 1000, true, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"userId\", jsonData.userid);"
 								],
@@ -1817,8 +1809,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(200, 500, false, jsonData,\"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -1903,7 +1895,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1967,7 +1959,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -2028,7 +2020,7 @@
 									"let jsonData = pm.response.json();\r",
 									"pm.variables.set(\"uploadSessionId\", jsonData.data.id);\r",
 									"const assert = eval(globals.loadAsserts);\r",
-									"assert.common(201, 500, false, null,\"uploadSessionStartSchema\");"
+									"assert.common(201, 500, false, jsonData,\"datasetSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -2525,8 +2517,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 1000, true, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"userId\", jsonData.userid);"
 								],
@@ -2607,8 +2599,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(200, 500, false, jsonData,\"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -2693,7 +2685,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -2757,7 +2749,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3111,7 +3103,7 @@
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3171,7 +3163,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userAccountInfoSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3210,7 +3202,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3253,7 +3245,7 @@
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3308,7 +3300,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userAccountInfoSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3347,7 +3339,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"clinicProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3392,7 +3384,7 @@
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"custodialEmail\", jsonData.emails[0]);",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 500, false, null,\"\");"
+									"assert.common(201, 500, false, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3449,10 +3441,10 @@
 							"script": {
 								"exec": [
 									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
-									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3507,7 +3499,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"custodialProfileSchema\");",
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");",
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"custodialBirthdate\", jsonData.patient.birthday);"
 								],
@@ -3836,7 +3828,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
+									"assert.common(201, 500, false, pm.response.json(),\"addMessageSchema\");",
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"messageId\", jsonData.id);"
 								],
@@ -3891,7 +3883,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
+									"assert.common(200, 500, false, pm.response.json().messages,\"getMessageSchema\");",
 									"pm.test(\"Note retrieved is the same one we created\", function () {",
 									"let jsonData = pm.response.json();",
 									"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
@@ -4014,7 +4006,7 @@
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"let jsonData = pm.response.json();",
-									"assert.common(200, 500, false, jsonData, \"signupConfirmationSchema\");",
+									"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -4114,7 +4106,7 @@
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, null,\"\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -4178,7 +4170,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -4310,10 +4302,10 @@
 							"script": {
 								"exec": [
 									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
-									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -4372,7 +4364,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -4681,7 +4673,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
+									"assert.common(201, 500, false, pm.response.json(),\"addMessageSchema\");",
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"messageId\", jsonData.id);"
 								],
@@ -4740,7 +4732,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
+									"assert.common(200, 500, false, pm.response.json().messages,\"getMessageSchema\");",
 									"pm.test(\"Note retrieved is the same one we created\", function () {",
 									"let jsonData = pm.response.json();",
 									"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
@@ -4784,7 +4776,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");",
+									"assert.common(200, 1900, false, pm.response.json(),\"inviteSchema\");",
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"inviteKey\", jsonData.key);"
 								],
@@ -4873,7 +4865,7 @@
 									"pm.variables.set(\"clinicUserId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -4976,7 +4968,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userAccountInfoSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -5015,7 +5007,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -5266,7 +5258,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
+									"assert.common(200, 500, false, pm.response.json().messages,\"getMessageSchema\");",
 									"pm.test(\"Note retrieved is the same one we created\", function () {",
 									"let jsonData = pm.response.json();",
 									"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
@@ -5310,7 +5302,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");"
+									"assert.common(201, 500, false, pm.response.json(),\"addMessageSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -5409,7 +5401,7 @@
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -5593,7 +5585,7 @@
 											"pm.variables.set(\"userId\", jsonData.userid);",
 											"pm.variables.set(\"sessionToken\", pm.variables.replaceIn('{{$randomUUID}}'));",
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 										],
 										"type": "text/javascript"
 									}
@@ -5802,7 +5794,7 @@
 											"pm.variables.set(\"userId\", jsonData.userid);",
 											"pm.variables.set(\"sessionToken\", pm.variables.replaceIn('{{$randomUUID}}'));",
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 										],
 										"type": "text/javascript"
 									}
@@ -6011,7 +6003,7 @@
 											"pm.variables.set(\"userId\", jsonData.userid);",
 											"pm.variables.set(\"sessionToken\", \"\");",
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 										],
 										"type": "text/javascript"
 									}
@@ -6220,7 +6212,7 @@
 											"pm.variables.set(\"userId\", jsonData.userid);",
 											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 										],
 										"type": "text/javascript"
 									}
