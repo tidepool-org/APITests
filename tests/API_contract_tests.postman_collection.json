@@ -1056,26 +1056,7 @@
 				}
 			],
 			"description": "The initial interactions a user goes through to sign up for tidepool and set up their profile.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
+			"event": []
 		},
 		{
 			"name": "Normal upload session with platform data (Libre)",
@@ -1396,11 +1377,6 @@
 								"type": "text/javascript"
 							}
 						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
 								],
 								"type": "text/javascript"
 							}
@@ -1454,11 +1430,6 @@
 								"type": "text/javascript"
 							}
 						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
 								],
 								"type": "text/javascript"
 							}
@@ -1502,15 +1473,6 @@
 				{
 					"name": "Upload Libre data",
 					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
 						{
 							"listen": "test",
 							"script": {
@@ -1563,16 +1525,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, null,\"\");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
+									"assert.common(200, 500, false, pm.response.json(),\"datasetSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -2547,26 +2500,7 @@
 				}
 			],
 			"description": "This series of tests is designed to test the continous upload workflow, which simulates how our users upload with Tidepool mobile.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
+			"event": []
 		},
 		{
 			"name": "Upload with jellyfish",
@@ -3162,16 +3096,6 @@
 						]
 					}
 				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
 		},
 		{
 			"name": "Clinician and custodial user interaction",
@@ -3729,15 +3653,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -3809,15 +3724,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -3885,15 +3791,6 @@
 									"         }",
 									"    }",
 									");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
 								],
 								"type": "text/javascript"
 							}
@@ -4401,16 +4298,6 @@
 						]
 					}
 				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
 		},
 		{
 			"name": "Data owner and clinician user interaction",
@@ -4611,15 +4498,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -4691,15 +4569,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -4767,15 +4636,6 @@
 									"         }",
 									"    }",
 									");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
 								],
 								"type": "text/javascript"
 							}
@@ -5223,15 +5083,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -5303,15 +5154,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -5379,15 +5221,6 @@
 									"         }",
 									"    }",
 									");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
 								],
 								"type": "text/javascript"
 							}
@@ -5742,16 +5575,6 @@
 						]
 					}
 				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
 		},
 		{
 			"name": "Negative tests",
@@ -5963,26 +5786,7 @@
 						}
 					],
 					"description": "Sending requests for profile information and attempting to upload data with an invalid token",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
+					"event": []
 				},
 				{
 					"name": "User actions with incorrect token",
@@ -6191,26 +5995,7 @@
 						}
 					],
 					"description": "Attempting to get user profile information and upload data with an incorrect token (another user's token)",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
+					"event": []
 				},
 				{
 					"name": "User actions with no token",
@@ -6419,26 +6204,7 @@
 						}
 					],
 					"description": "Attempting to get user profile information and upload data with an no token",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
+					"event": []
 				},
 				{
 					"name": "User actions with expired token",
@@ -6686,49 +6452,11 @@
 						}
 					],
 					"description": "Attempting to get user profile information and upload data with an expired token",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
+					"event": []
 				}
 			],
 			"description": "These tests execute the unhappy path by submitting incorrect or missing information",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
+			"event": []
 		},
 		{
 			"name": "Status Checks",
