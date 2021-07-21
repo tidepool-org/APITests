@@ -1453,7 +1453,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/dataservices/v1/users/{{userId}}/datasets",
+							"raw": "{{api}}/v1/users/{{userId}}/datasets",
 							"host": [
 								"{{api}}"
 							],
@@ -2078,7 +2078,7 @@
 									"assert.common(200, 300, false, null,\"uploadSessionSchema\");\r",
 									"pm.test(\"Upload session retrieved is the same one we created\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData[0].id).to.eql(pm.variables.get(\"uploadSessionId\"));\r",
+									"    pm.expect(jsonData.data[0].id).to.eql(pm.variables.get(\"uploadSessionId\"));\r",
 									"});\r",
 									""
 								],
@@ -2096,7 +2096,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{api}}/v1/users/{{userId}}/data_sets",
+							"raw": "{{api}}/v1/users/{{userId}}/datasets",
 							"host": [
 								"{{api}}"
 							],
@@ -2104,7 +2104,7 @@
 								"v1",
 								"users",
 								"{{userId}}",
-								"data_sets"
+								"datasets"
 							]
 						},
 						"description": "retrieve the ID of the continuous upload session created"
