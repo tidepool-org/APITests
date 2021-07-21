@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "022bacab-22d0-4736-9345-05289a859ebf",
+		"_postman_id": "6186b0ea-3854-4544-938b-df356f1e40b7",
 		"name": "API_contract_tests",
 		"description": "Contract tests using the tidepool API with the goal of testing the interaction between the Tidepool APis to see that its is working as a client expects. We are looking at\r\n\r\n - response code\r\n - response timing \r\n - headers, specifically the x-tidepool-session and content type\r\n - response json data to make sure it matches our schema expectations at a high level",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -405,8 +405,7 @@
 					"response": []
 				}
 			],
-			"description": "Clinician signs up for tidepool, and fills out profile.",
-			"event": []
+			"description": "Clinician signs up for tidepool, and fills out profile."
 		},
 		{
 			"name": "Data storage account signup and setup",
@@ -1062,8 +1061,7 @@
 					"response": []
 				}
 			],
-			"description": "The initial interactions a user goes through to sign up for tidepool and set up their profile.",
-			"event": []
+			"description": "The initial interactions a user goes through to sign up for tidepool and set up their profile."
 		},
 		{
 			"name": "Normal upload session with platform data (Libre)",
@@ -2497,8 +2495,7 @@
 					"response": []
 				}
 			],
-			"description": "This series of tests is designed to test the continous upload workflow, which simulates how our users upload with Tidepool mobile.",
-			"event": []
+			"description": "This series of tests is designed to test the continous upload workflow, which simulates how our users upload with Tidepool mobile."
 		},
 		{
 			"name": "Upload with jellyfish",
@@ -3082,8 +3079,7 @@
 					},
 					"response": []
 				}
-			],
-			"event": []
+			]
 		},
 		{
 			"name": "Clinician and custodial user interaction",
@@ -4273,8 +4269,7 @@
 					"response": []
 				}
 			],
-			"description": "Clinician adds new custodial patient, uploads data, and creates notes. Custodial patient claims account.",
-			"event": []
+			"description": "Clinician adds new custodial patient, uploads data, and creates notes. Custodial patient claims account."
 		},
 		{
 			"name": "Data owner and clinician user interaction",
@@ -5542,8 +5537,7 @@
 					"response": []
 				}
 			],
-			"description": "DSA that uploads data to their Tidepool Account, adds notes and shares data with their clinician in preparation for a clinician appointment.",
-			"event": []
+			"description": "DSA that uploads data to their Tidepool Account, adds notes and shares data with their clinician in preparation for a clinician appointment."
 		},
 		{
 			"name": "Negative tests",
@@ -5754,8 +5748,7 @@
 							"response": []
 						}
 					],
-					"description": "Sending requests for profile information and attempting to upload data with an invalid token",
-					"event": []
+					"description": "Sending requests for profile information and attempting to upload data with an invalid token"
 				},
 				{
 					"name": "User actions with incorrect token",
@@ -5963,8 +5956,7 @@
 							"response": []
 						}
 					],
-					"description": "Attempting to get user profile information and upload data with an incorrect token (another user's token)",
-					"event": []
+					"description": "Attempting to get user profile information and upload data with an incorrect token (another user's token)"
 				},
 				{
 					"name": "User actions with no token",
@@ -6172,8 +6164,7 @@
 							"response": []
 						}
 					],
-					"description": "Attempting to get user profile information and upload data with an no token",
-					"event": []
+					"description": "Attempting to get user profile information and upload data with an no token"
 				},
 				{
 					"name": "User actions with expired token",
@@ -6420,12 +6411,10 @@
 							"response": []
 						}
 					],
-					"description": "Attempting to get user profile information and upload data with an expired token",
-					"event": []
+					"description": "Attempting to get user profile information and upload data with an expired token"
 				}
 			],
-			"description": "These tests execute the unhappy path by submitting incorrect or missing information",
-			"event": []
+			"description": "These tests execute the unhappy path by submitting incorrect or missing information"
 		},
 		{
 			"name": "Status Checks",
