@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d5fe7b4e-2a09-4b22-95c5-4b70702096bd",
+		"_postman_id": "6186b0ea-3854-4544-938b-df356f1e40b7",
 		"name": "API_contract_tests",
 		"description": "Contract tests using the tidepool API with the goal of testing the interaction between the Tidepool APis to see that its is working as a client expects. We are looking at\r\n\r\n - response code\r\n - response timing \r\n - headers, specifically the x-tidepool-session and content type\r\n - response json data to make sure it matches our schema expectations at a high level",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -17,10 +17,22 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 1000, true, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"userId\", jsonData.userid);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const uuid = require('uuid');",
+									"pm.variables.set('signupPw', uuid.v4().slice(0,9));",
+									"let newClinicianEmailAddress = \"automated-tests+clinician_datetag_@tidepool.org\";",
+									"pm.variables.set('newClinicianEmailAddress', newClinicianEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
 								],
 								"type": "text/javascript"
 							}
@@ -100,7 +112,7 @@
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"let jsonData = pm.response.json();",
-									"assert.common(200, 500, false, jsonData, \"signupConfirmationSchema\");",
+									"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -178,7 +190,17 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const moment = require('moment');",
+									"pm.variables.set(\"currentDate\", moment().format());"
 								],
 								"type": "text/javascript"
 							}
@@ -217,14 +239,14 @@
 					"response": []
 				},
 				{
-					"name": "Initial clinic profile",
+					"name": "Initial clinician profile",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"clinicProfileSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -259,19 +281,19 @@
 								"profile"
 							]
 						},
-						"description": "Setting up Name, clinic name, role and telephone number."
+						"description": "Setting up Name, clinician name, role and telephone number."
 					},
 					"response": []
 				},
 				{
-					"name": "get the clinic account information",
+					"name": "get the clinician account information",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userAccountInfoSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -303,14 +325,14 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve clinic profile",
+					"name": "Retrieve clinician profile",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"clinicProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -383,23 +405,7 @@
 					"response": []
 				}
 			],
-			"description": "Clinician signs up for tidepool, and fills out profile.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const uuid = require('uuid');",
-							"const moment = require('moment');",
-							"pm.variables.set('signupPw', uuid.v4().slice(0,9));",
-							"let newClinicianEmailAddress = pm.variables.get('newClinicianEmailAddress');",
-							"pm.variables.set('newClinicianEmailAddress', newClinicianEmailAddress.replace('_datetag_', Date.now()));",
-							"pm.variables.set(\"currentDate\", moment().format());"
-						]
-					}
-				}
-			]
+			"description": "Clinician signs up for tidepool, and fills out profile."
 		},
 		{
 			"name": "Data storage account signup and setup",
@@ -413,8 +419,8 @@
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));",
-									"let newUserEmailAddress = pm.variables.get('newUserEmailAddress');",
-									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now()));"
+									"let newUserEmailAddress = \"automated-tests+user_datetag_@tidepool.org\";",
+									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
 								],
 								"type": "text/javascript"
 							}
@@ -424,8 +430,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 1000, true, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"userId\", jsonData.userid);"
 								],
@@ -506,8 +512,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -592,7 +598,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -656,7 +662,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -714,7 +720,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -755,7 +761,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"settingsSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -802,7 +808,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSettingsSchema\");",
+									"assert.common(200, 500, false, pm.response.json(),\"settingsSchema\");",
 									"pm.test(\"Verify settings change to mmol\", function () {",
 									"var jsonData = pm.response.json();",
 									"pm.expect(jsonData.units.bg).to.eql(\"mmol/L\");",
@@ -844,7 +850,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"inviteSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -891,7 +897,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"careteamInviteSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"inviteSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1055,27 +1061,7 @@
 					"response": []
 				}
 			],
-			"description": "The initial interactions a user goes through to sign up for tidepool and set up their profile.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
+			"description": "The initial interactions a user goes through to sign up for tidepool and set up their profile."
 		},
 		{
 			"name": "Normal upload session with platform data (Libre)",
@@ -1089,7 +1075,7 @@
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));",
-									"let newUserEmailAddress = pm.variables.get('newUserEmailAddress');",
+									"let newUserEmailAddress = \"automated-tests+user_datetag_@tidepool.org\";",
 									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
 								],
 								"type": "text/javascript"
@@ -1100,8 +1086,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 1000, true, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"userId\", jsonData.userid);"
 								],
@@ -1182,8 +1168,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -1268,7 +1254,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1332,7 +1318,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1391,16 +1377,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1447,18 +1424,9 @@
 							"script": {
 								"exec": [
 									"let jsonData = pm.response.json();\r",
-									"pm.variables.set(\"uploadSessionId\", jsonData.data.id);\r",
 									"const assert = eval(globals.loadAsserts);\r",
-									"assert.common(201, 500, false, null,\"uploadSessionStartSchema\");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
+									"assert.common(201, 500, false, jsonData,\"datasetSchema\");\r",
+									"pm.variables.set(\"uploadSessionId\", jsonData.data.id);"
 								],
 								"type": "text/javascript"
 							}
@@ -1483,12 +1451,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/dataservices/v1/users/{{userId}}/datasets",
+							"raw": "{{api}}/v1/users/{{userId}}/datasets",
 							"host": [
 								"{{api}}"
 							],
 							"path": [
-								"dataservices",
 								"v1",
 								"users",
 								"{{userId}}",
@@ -1502,15 +1469,6 @@
 				{
 					"name": "Upload Libre data",
 					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
 						{
 							"listen": "test",
 							"script": {
@@ -1563,16 +1521,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, null,\"\");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
+									"assert.common(200, 500, false, pm.response.json(),\"datasetSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1771,7 +1720,7 @@
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));",
-									"let newUserEmailAddress = pm.variables.get('newUserEmailAddress');",
+									"let newUserEmailAddress = \"automated-tests+user_datetag_@tidepool.org\";",
 									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
 								],
 								"type": "text/javascript"
@@ -1782,8 +1731,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 1000, true, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"userId\", jsonData.userid);"
 								],
@@ -1864,8 +1813,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(200, 500, false, jsonData,\"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -1950,7 +1899,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -2014,7 +1963,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -2075,7 +2024,7 @@
 									"let jsonData = pm.response.json();\r",
 									"pm.variables.set(\"uploadSessionId\", jsonData.data.id);\r",
 									"const assert = eval(globals.loadAsserts);\r",
-									"assert.common(201, 500, false, null,\"uploadSessionStartSchema\");"
+									"assert.common(201, 500, false, jsonData,\"datasetSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -2126,7 +2075,7 @@
 									"assert.common(200, 300, false, null,\"uploadSessionSchema\");\r",
 									"pm.test(\"Upload session retrieved is the same one we created\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData[0].id).to.eql(pm.variables.get(\"uploadSessionId\"));\r",
+									"    pm.expect(jsonData.data[0].id).to.eql(pm.variables.get(\"uploadSessionId\"));\r",
 									"});\r",
 									""
 								],
@@ -2144,7 +2093,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{api}}/v1/users/{{userId}}/data_sets",
+							"raw": "{{api}}/v1/users/{{userId}}/datasets",
 							"host": [
 								"{{api}}"
 							],
@@ -2152,7 +2101,7 @@
 								"v1",
 								"users",
 								"{{userId}}",
-								"data_sets"
+								"datasets"
 							]
 						},
 						"description": "retrieve the ID of the continuous upload session created"
@@ -2546,27 +2495,7 @@
 					"response": []
 				}
 			],
-			"description": "This series of tests is designed to test the continous upload workflow, which simulates how our users upload with Tidepool mobile.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
+			"description": "This series of tests is designed to test the continous upload workflow, which simulates how our users upload with Tidepool mobile."
 		},
 		{
 			"name": "Upload with jellyfish",
@@ -2580,7 +2509,7 @@
 								"exec": [
 									"const uuid = require('uuid');",
 									"pm.variables.set(\"signupPw\", uuid.v4().slice(0,9));",
-									"let newUserEmailAddress = pm.variables.get('newUserEmailAddress');",
+									"let newUserEmailAddress = \"automated-tests+user_datetag_@tidepool.org\";",
 									"pm.variables.set('newUserEmailAddress', newUserEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
 								],
 								"type": "text/javascript"
@@ -2591,8 +2520,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 1000, true, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"userId\", jsonData.userid);"
 								],
@@ -2673,8 +2602,8 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, null,\"\");",
 									"let jsonData = pm.response.json();",
+									"assert.common(200, 500, false, jsonData,\"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -2759,7 +2688,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -2823,7 +2752,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -2881,6 +2810,12 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const moment = require('moment');",
+									"let currentTimestamp = Date.now();",
+									"pm.variables.set(\"currentDate\", moment().format());",
+									"pm.variables.set('currentTimestamp', currentTimestamp);",
+									"pm.variables.set(\"guid\", pm.variables.replaceIn('{{$guid}}'));",
+									"pm.variables.set(\"currentDateWithoutOffset\", moment().format('YYYY-MM-DDThh:mm:ss'));",
 									"pm.variables.set(\"uploadId\", pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0,12));"
 								],
 								"type": "text/javascript"
@@ -3144,33 +3079,6 @@
 					},
 					"response": []
 				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const moment = require('moment');",
-							"let currentTimestamp = Date.now();",
-							"let sharingEmailAddress = pm.variables.get('sharingEmailAddress');",
-							"pm.variables.set('sharingEmailAddress', sharingEmailAddress.replace('_datetag_', currentTimestamp));",
-							"pm.variables.set(\"currentDate\", moment().format());",
-							"pm.variables.set('currentTimestamp', currentTimestamp);",
-							"pm.variables.set(\"guid\", pm.variables.replaceIn('{{$guid}}'));",
-							"pm.variables.set(\"currentDateWithoutOffset\", moment().format('YYYY-MM-DDThh:mm:ss'));"
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
 			]
 		},
 		{
@@ -3187,7 +3095,7 @@
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3247,7 +3155,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userAccountInfoSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3286,7 +3194,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3329,7 +3237,7 @@
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3341,12 +3249,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "{{clinicPw}}",
+									"value": "{{clinicianPw}}",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "{{clinicEmail}}",
+									"value": "{{clinicianEmail}}",
 									"type": "string"
 								},
 								{
@@ -3377,14 +3285,14 @@
 					"response": []
 				},
 				{
-					"name": "Get the clinic account information",
+					"name": "Get the clinician account information",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userAccountInfoSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3416,14 +3324,14 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve clinic profile",
+					"name": "Retrieve clinician profile",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"clinicProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3468,7 +3376,7 @@
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"pm.variables.set(\"custodialEmail\", jsonData.emails[0]);",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 500, false, null,\"\");"
+									"assert.common(201, 500, false, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3477,8 +3385,9 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"let newCustodialEmailAddress = pm.variables.get('newCustodialEmailAddress');\r",
-									"pm.variables.set('newCustodialEmailAddress', newCustodialEmailAddress.replace('_datetag_', Date.now()));"
+									"const uuid = require('uuid');\r",
+									"let newCustodialEmailAddress = \"automated-tests+custodial_datetag_@tidepool.org\";\r",
+									"pm.variables.set('newCustodialEmailAddress', newCustodialEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
 								],
 								"type": "text/javascript"
 							}
@@ -3525,10 +3434,10 @@
 							"script": {
 								"exec": [
 									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
-									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -3540,12 +3449,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "{{clinicPw}}",
+									"value": "{{clinicianPw}}",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "{{clinicEmail}}",
+									"value": "{{clinicianEmail}}",
 									"type": "string"
 								},
 								{
@@ -3583,7 +3492,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"custodialProfileSchema\");",
+									"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");",
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"custodialBirthdate\", jsonData.patient.birthday);"
 								],
@@ -3631,7 +3540,7 @@
 								"profile"
 							]
 						},
-						"description": "Setting up Name, clinic name, role and telephone number."
+						"description": "Setting up Name, clinician name, role and telephone number."
 					},
 					"response": []
 				},
@@ -3642,6 +3551,9 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const moment = require('moment');\r",
+									"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", moment().format('YYYY-MM-DDThh:mm:ss'));\r",
+									"pm.variables.set(\"currentTimestamp\", moment().format());\r",
 									"pm.variables.set(\"uploadId\", pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0,12));\r",
 									"pm.variables.set(\"itemId\", pm.variables.replaceIn('{{$randomUUID}}').replace(/-/g, ''));\r",
 									"pm.variables.set(\"guid\", pm.variables.replaceIn('{{$guid}}'));\r",
@@ -3729,15 +3641,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -3806,15 +3709,6 @@
 									"         }",
 									"    }",
 									");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
 								],
 								"type": "text/javascript"
 							}
@@ -3888,15 +3782,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -3939,7 +3824,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
+									"assert.common(201, 500, false, pm.response.json(),\"addMessageSchema\");",
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"messageId\", jsonData.id);"
 								],
@@ -3950,6 +3835,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const moment = require('moment');",
+									"pm.variables.set(\"currentTimestamp\", moment().format());",
 									"pm.variables.set(\"messageGUI\", pm.variables.replaceIn('{{$guid}}'));"
 								],
 								"type": "text/javascript"
@@ -3994,7 +3881,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
+									"assert.common(200, 500, false, pm.response.json().messages,\"getMessageSchema\");",
 									"pm.test(\"Note retrieved is the same one we created\", function () {",
 									"let jsonData = pm.response.json();",
 									"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
@@ -4117,7 +4004,7 @@
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
 									"let jsonData = pm.response.json();",
-									"assert.common(200, 500, false, jsonData, \"signupConfirmationSchema\");",
+									"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
 									"pm.variables.set(\"emailKey\", jsonData[0].key);"
 								],
 								"type": "text/javascript"
@@ -4217,7 +4104,7 @@
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, null,\"\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -4281,7 +4168,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+									"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -4291,7 +4178,6 @@
 							"script": {
 								"exec": [
 									"var moment = require('moment');\r",
-									"\r",
 									"pm.variables.set(\"currentTimestamp\", moment().format());"
 								],
 								"type": "text/javascript"
@@ -4384,33 +4270,7 @@
 					"response": []
 				}
 			],
-			"description": "Clinician adds new custodial patient, uploads data, and creates notes. Custodial patient claims account.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const moment = require('moment');",
-							"let newCustodialEmailAddress = pm.variables.get('newCustodialEmailAddress');",
-							"pm.variables.set('newCustodialEmailAddress', newCustodialEmailAddress.replace('_datetag_', Date.now()));",
-							"let newMoment = moment().subtract(18, 'years');",
-							"pm.variables.set(\"birthdate\", newMoment.format('YYYY-MM-DD'));",
-							"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", moment().format('YYYY-MM-DDThh:mm:ss'));",
-							"pm.variables.set(\"currentTimestamp\", moment().format());"
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
+			"description": "Clinician adds new custodial patient, uploads data, and creates notes. Custodial patient claims account."
 		},
 		{
 			"name": "Data owner and clinician user interaction",
@@ -4423,10 +4283,10 @@
 							"script": {
 								"exec": [
 									"let jsonData = pm.response.json();",
+									"const assert = eval(globals.loadAsserts);",
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
-									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -4485,7 +4345,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -4524,6 +4384,9 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const moment = require('moment');\r",
+									"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", moment().format('YYYY-MM-DDThh:mm:ss'));\r",
+									"pm.variables.set(\"currentTimestamp\", moment().format());\r",
 									"pm.variables.set(\"uploadId\", pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0,12));\r",
 									"pm.variables.set(\"itemId\", pm.variables.replaceIn('{{$randomUUID}}').replace(/-/g, ''));\r",
 									"pm.variables.set(\"guid\", pm.variables.replaceIn('{{$guid}}'));\r",
@@ -4611,15 +4474,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -4688,15 +4542,6 @@
 									"         }",
 									"    }",
 									");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
 								],
 								"type": "text/javascript"
 							}
@@ -4770,15 +4615,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -4821,7 +4657,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");",
+									"assert.common(201, 500, false, pm.response.json(),\"addMessageSchema\");",
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"messageId\", jsonData.id);"
 								],
@@ -4880,7 +4716,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
+									"assert.common(200, 500, false, pm.response.json().messages,\"getMessageSchema\");",
 									"pm.test(\"Note retrieved is the same one we created\", function () {",
 									"let jsonData = pm.response.json();",
 									"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
@@ -4924,7 +4760,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1900, false, pm.response.json(),\"careteamInviteSchema\");",
+									"assert.common(200, 1900, false, pm.response.json(),\"inviteSchema\");",
 									"let jsonData = pm.response.json();",
 									"pm.variables.set(\"inviteKey\", jsonData.key);"
 								],
@@ -4946,7 +4782,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"{{clinicEmail}}\",\n  \"permissions\": {\n    \"view\": {},\n    \"note\":{},\n    \"upload\":{}\n  }\n}"
+							"raw": "{\n  \"email\": \"{{clinicianEmail}}\",\n  \"permissions\": {\n    \"view\": {},\n    \"note\":{},\n    \"upload\":{}\n  }\n}"
 						},
 						"url": {
 							"raw": "{{api}}/confirm/send/invite/{{userId}}",
@@ -5010,10 +4846,10 @@
 							"script": {
 								"exec": [
 									"let jsonData = pm.response.json();",
-									"pm.variables.set(\"clinicUserId\", jsonData.userid);",
+									"pm.variables.set(\"clinicianUserId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -5025,12 +4861,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "{{clinicPw}}",
+									"value": "{{clinicianPw}}",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "{{clinicEmail}}",
+									"value": "{{clinicianEmail}}",
 									"type": "string"
 								},
 								{
@@ -5093,7 +4929,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/confirm/accept/invite/{{clinicUserId}}/{{userId}}",
+							"raw": "{{api}}/confirm/accept/invite/{{clinicianUserId}}/{{userId}}",
 							"host": [
 								"{{api}}"
 							],
@@ -5101,7 +4937,7 @@
 								"confirm",
 								"accept",
 								"invite",
-								"{{clinicUserId}}",
+								"{{clinicianUserId}}",
 								"{{userId}}"
 							]
 						}
@@ -5109,14 +4945,14 @@
 					"response": []
 				},
 				{
-					"name": "Get the clinic account information",
+					"name": "Get the clinician account information",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userAccountInfoSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -5148,14 +4984,14 @@
 					"response": []
 				},
 				{
-					"name": "Retrieve patient profile as clinic",
+					"name": "Retrieve patient profile as clinician",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 300, false, pm.response.json(),\"userProfileSchema\");"
+									"assert.common(200, 300, false, pm.response.json(),\"profileSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -5223,15 +5059,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -5300,15 +5127,6 @@
 									"         }",
 									"    }",
 									");"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
 								],
 								"type": "text/javascript"
 							}
@@ -5382,15 +5200,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -5433,7 +5242,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 500, false, pm.response.json().messages,\"messagesSchema\");",
+									"assert.common(200, 500, false, pm.response.json().messages,\"getMessageSchema\");",
 									"pm.test(\"Note retrieved is the same one we created\", function () {",
 									"let jsonData = pm.response.json();",
 									"pm.expect(jsonData.messages[0].guid).to.eql(pm.variables.get(\"messageGUI\"));",
@@ -5477,7 +5286,7 @@
 							"script": {
 								"exec": [
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(201, 500, false, pm.response.json(),\"messageAddedSchema\");"
+									"assert.common(201, 500, false, pm.response.json(),\"addMessageSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -5510,7 +5319,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"message\": {\n        \"parentmessage\": \"{{messageId}}\",\n        \"userid\": \"{{userId}}\",\n        \"groupid\": \"{{clinicUserId}}\",\n        \"messagetext\": \"Clinician comment\",\n        \"timestamp\": \"{{noteCreationTime}}\",\n        \"guid\": \"{{messageGUI}}\"\n    }\n}"
+							"raw": "{\n    \"message\": {\n        \"parentmessage\": \"{{messageId}}\",\n        \"userid\": \"{{userId}}\",\n        \"groupid\": \"{{clinicianUserId}}\",\n        \"messagetext\": \"Clinician comment\",\n        \"timestamp\": \"{{noteCreationTime}}\",\n        \"guid\": \"{{messageGUI}}\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{api}}/message/reply/{{messageId}}",
@@ -5576,7 +5385,7 @@
 									"pm.variables.set(\"userId\", jsonData.userid);",
 									"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 									"const assert = eval(globals.loadAsserts);",
-									"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+									"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 								],
 								"type": "text/javascript"
 							}
@@ -5661,14 +5470,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{api}}/access/{{userId}}/{{clinicUserId}}",
+							"raw": "{{api}}/access/{{userId}}/{{clinicianUserId}}",
 							"host": [
 								"{{api}}"
 							],
 							"path": [
 								"access",
 								"{{userId}}",
-								"{{clinicUserId}}"
+								"{{clinicianUserId}}"
 							],
 							"query": [
 								{
@@ -5714,7 +5523,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/confirm/{{userId}}/invited/{{clinicEmail}}",
+							"raw": "{{api}}/confirm/{{userId}}/invited/{{clinicianEmail}}",
 							"host": [
 								"{{api}}"
 							],
@@ -5722,36 +5531,14 @@
 								"confirm",
 								"{{userId}}",
 								"invited",
-								"{{clinicEmail}}"
+								"{{clinicianEmail}}"
 							]
 						}
 					},
 					"response": []
 				}
 			],
-			"description": "DSA that uploads data to their Tidepool Account, adds notes and shares data with their clinician in preparation for a clinic appointment.",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const moment = require('moment');",
-							"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", moment().format('YYYY-MM-DDThh:mm:ss'));",
-							"pm.variables.set(\"currentTimestamp\", moment().format());"
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
+			"description": "DSA that uploads data to their Tidepool Account, adds notes and shares data with their clinician in preparation for a clinician appointment."
 		},
 		{
 			"name": "Negative tests",
@@ -5770,7 +5557,7 @@
 											"pm.variables.set(\"userId\", jsonData.userid);",
 											"pm.variables.set(\"sessionToken\", pm.variables.replaceIn('{{$randomUUID}}'));",
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 										],
 										"type": "text/javascript"
 									}
@@ -5962,27 +5749,7 @@
 							"response": []
 						}
 					],
-					"description": "Sending requests for profile information and attempting to upload data with an invalid token",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
+					"description": "Sending requests for profile information and attempting to upload data with an invalid token"
 				},
 				{
 					"name": "User actions with incorrect token",
@@ -5998,7 +5765,7 @@
 											"pm.variables.set(\"userId\", jsonData.userid);",
 											"pm.variables.set(\"sessionToken\", pm.variables.replaceIn('{{$randomUUID}}'));",
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 										],
 										"type": "text/javascript"
 									}
@@ -6010,12 +5777,12 @@
 									"basic": [
 										{
 											"key": "username",
-											"value": "{{clinicEmail}}",
+											"value": "{{clinicianEmail}}",
 											"type": "string"
 										},
 										{
 											"key": "password",
-											"value": "{{clinicPw}}",
+											"value": "{{clinicianPw}}",
 											"type": "string"
 										},
 										{
@@ -6190,27 +5957,7 @@
 							"response": []
 						}
 					],
-					"description": "Attempting to get user profile information and upload data with an incorrect token (another user's token)",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
+					"description": "Attempting to get user profile information and upload data with an incorrect token (another user's token)"
 				},
 				{
 					"name": "User actions with no token",
@@ -6226,7 +5973,7 @@
 											"pm.variables.set(\"userId\", jsonData.userid);",
 											"pm.variables.set(\"sessionToken\", \"\");",
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 										],
 										"type": "text/javascript"
 									}
@@ -6238,12 +5985,12 @@
 									"basic": [
 										{
 											"key": "username",
-											"value": "{{clinicEmail}}",
+											"value": "{{clinicianEmail}}",
 											"type": "string"
 										},
 										{
 											"key": "password",
-											"value": "{{clinicPw}}",
+											"value": "{{clinicianPw}}",
 											"type": "string"
 										},
 										{
@@ -6418,27 +6165,7 @@
 							"response": []
 						}
 					],
-					"description": "Attempting to get user profile information and upload data with an no token",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
+					"description": "Attempting to get user profile information and upload data with an no token"
 				},
 				{
 					"name": "User actions with expired token",
@@ -6454,7 +6181,7 @@
 											"pm.variables.set(\"userId\", jsonData.userid);",
 											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
 											"const assert = eval(globals.loadAsserts);",
-											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
 										],
 										"type": "text/javascript"
 									}
@@ -6466,12 +6193,12 @@
 									"basic": [
 										{
 											"key": "username",
-											"value": "{{clinicEmail}}",
+											"value": "{{clinicianEmail}}",
 											"type": "string"
 										},
 										{
 											"key": "password",
-											"value": "{{clinicPw}}",
+											"value": "{{clinicianPw}}",
 											"type": "string"
 										},
 										{
@@ -6685,50 +6412,10 @@
 							"response": []
 						}
 					],
-					"description": "Attempting to get user profile information and upload data with an expired token",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
+					"description": "Attempting to get user profile information and upload data with an expired token"
 				}
 			],
-			"description": "These tests execute the unhappy path by submitting incorrect or missing information",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
+			"description": "These tests execute the unhappy path by submitting incorrect or missing information"
 		},
 		{
 			"name": "Status Checks",
@@ -6922,102 +6609,1248 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"const userAccountInfoSchema = { \"required\": [\"emailVerified\", \"emails\", \"termsAccepted\", \"userid\", \"username\"], \"properties\": {\"emailVerified\": {\"type\": \"boolean\"}, \"emails\": {\"type\": \"array\"}, \"termsAccepted\" : {\"type\": \"string\"}, \"userid\": {\"type\": \"string\"}}};",
-					"const userSchema = { \"required\": [\"userid\", \"username\", \"emails\", \"emailVerified\", \"termsAccepted\"], \"properties\": { \"emailVerified\": { \"type\": \"boolean\" }, \"emails\": { \"type\": \"array\" }, \"userid\": { \"type\": \"string\" }, \"username\": { \"type\": \"string\" }, \"termsAccepted\": { \"type\": \"string\" } } };",
-					"const custodialUserSchema = { \"required\": [\"userid\", \"username\", \"emails\", \"emailVerified\"], \"properties\": { \"emailVerified\": { \"type\": \"boolean\" }, \"emails\": { \"type\": \"array\" }, \"userid\": { \"type\": \"string\" }, \"username\": { \"type\": \"string\" } } };",
-					"const messageAddedSchema = { \"required\": [\"id\"], \"properties\": { \"id\": { \"type\": \"string\" } } };",
-					"const messagesSchema = { \"type\": \"object\", \"required\":[\"messages\"], \"properties\":{\"messages\": {\"type\": \"array\", \"items\": { \"required\": [\"id\", \"guid\", \"parentmessage\", \"userid\", \"groupid\", \"timestamp\", \"createdtime\", \"messagetext\", \"user\"], \"properties\": { \"id\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"userid\": { \"type\": \"string\" }, \"groupid\": { \"type\": \"string\" }, \"timestamp\": { \"type\": \"string\" }, \"createdtime\": { \"type\": \"string\" }, \"messagetext\": { \"type\": \"string\" }, \"user\": { \"type\": \"object\", \"required\": [\"fullName\"], \"properties\": {\"fullName\": {\"type\": \"string\"}}}}}}}};",
-					"const signupConfirmationSchema = { \"type\": \"array\", \"items\": { \"type\": \"object\", \"required\": [\"key\", \"type\", \"email\", \"creatorId\", \"creator\", \"created\"], \"properties\": {\"key\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}, \"email\": {\"type\": \"string\"}, \"creatorId\": {\"type\": \"string\"}, \"creator\": {\"type\": \"object\", \"required\": [\"userid\"], \"properties\": {\"userid\": {\"type\": \"string\"}}}, \"created\":{\"type\": \"string\"}}}};",
-					"const smbgSchema = { \"type\": \"array\", \"items\": { \"required\": [\"clockDriftOffset\", \"deviceId\", \"deviceTime\", \"guid\", \"id\", \"subType\", \"time\", \"type\", \"units\", \"uploadId\", \"value\"], \"properties\": { \"clockDriftOffset\": { \"type\": \"integer\" }, \"conversionOffset\": { \"type\": \"integer\" }, \"deviceId\": { \"type\": \"string\" }, \"deviceTime\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"id\": { \"type\": \"string\" }, \"subType\": { \"type\": \"string\" }, \"time\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"units\": { \"type\": \"string\" }, \"uploadId\": { \"type\": \"string\" }, \"value\": { \"type\": \"number\" } } } };",
-					"const cbgSchema = { \"type\": \"array\", \"items\": { \"required\": [\"clockDriftOffset\", \"deviceId\", \"deviceTime\", \"guid\", \"id\", \"time\", \"type\", \"units\", \"uploadId\", \"value\"], \"properties\": { \"clockDriftOffset\": { \"type\": \"integer\" }, \"conversionOffset\": { \"type\": \"integer\" }, \"deviceId\": { \"type\": \"string\" }, \"deviceTime\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"id\": { \"type\": \"string\" }, \"time\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"units\": { \"type\": \"string\" }, \"uploadId\": { \"type\": \"string\" }, \"value\": { \"type\": \"number\" } } } };",
-					"const cbgHKSchema = {\"type\": \"array\",\"items\": {\"anyOf\": [{\"type\": \"object\",\"required\": [\"deviceId\",\"id\",\"origin\",\"payload\",\"time\",\"type\",\"units\",\"uploadId\",\"value\"], \"properties\": {\"deviceId\": {\"type\": \"string\"}, \"id\": {\"type\": \"string\"}, \"origin\": {\"type\": \"object\", \"required\": [\"id\",\"name\",\"type\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}}}, \"payload\": {\"type\":\"object\", \"required\":[\"HKMetadataKeySyncIdentifier\", \"device\",\"sourceRevision\"], \"properties\":{\"HKMetadataKeySyncIdentifier\": {\"type\": \"string\"}, \"device\":{\"type\": \"object\", \"required\": [\"manufacturer\", \"model\"], \"properties\": {\"manufacturer\": {\"type\": \"string\"}, \"model\":{\"type\":\"string\"}}}, \"sourceRevision\":{\"type\": \"object\"}, \"properties\":{\"source\":{\"type\":\"string\"}}}}, \"time\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}, \"units\":{\"type\":\"string\"}, \"uploadId\":{\"type\": \"string\"}, \"value\": {\"type\":\"number\"}}}]}}",
-					"const bolusSchema = { \"type\": \"array\", \"items\": { \"required\": [\"clockDriftOffset\", \"deviceId\", \"deviceTime\", \"guid\", \"id\", \"subType\", \"time\", \"type\", \"uploadId\"], \"properties\": { \"clockDriftOffset\": { \"type\": \"integer\" }, \"conversionOffset\": { \"type\": \"integer\" }, \"deviceId\": { \"type\": \"string\" }, \"deviceTime\": { \"type\": \"string\" }, \"guid\": { \"type\": \"string\" }, \"id\": { \"type\": \"string\" }, \"normal\": {\"type\": \"number\"}, \"extended\":{\"type\": \"integer\"}, \"expectedExtended\":{\"type\": \"integer\"}, \"duration\":{\"type\": \"integer\"}, \"expectedDuration\":{\"type\": \"integer\"}, \"subType\": { \"type\": \"string\" }, \"time\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"uploadId\": { \"type\": \"string\" } } } }",
-					"const bolusHKSchema = {\"type\": \"array\",\"items\": {\"anyOf\": [{\"type\": \"object\",\"required\": [\"deviceId\",\"id\", \"normal\",\"origin\",\"payload\",\"subType\", \"time\",\"type\",\"uploadId\"], \"properties\": {\"deviceId\": {\"type\": \"string\"}, \"id\": {\"type\": \"string\"}, \"normal\":{\"type\":\"number\"}, \"origin\": {\"type\": \"object\", \"required\": [\"id\",\"name\",\"type\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}}}, \"payload\": {\"type\":\"object\", \"required\":[\"HKInsulinDeliveryReason\",\"HKMetadataKeySyncIdentifier\", \"device\",\"sourceRevision\"], \"properties\":{\"HKInsulinDeliveryReason\":{\"type\": \"integer\"}, \"HKMetadataKeySyncIdentifier\": {\"type\": \"string\"}, \"device\":{\"type\": \"object\", \"required\": [\"manufacturer\", \"model\"], \"properties\": {\"manufacturer\": {\"type\": \"string\"}, \"model\":{\"type\":\"string\"}}}, \"sourceRevision\":{\"type\": \"object\"}, \"properties\":{\"source\":{\"type\":\"string\"}}}}, \"subType\":{\"type\":\"string\"}, \"time\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}, \"uploadId\":{\"type\": \"string\"}}}]}}",
-					"const basalHKSchema = {\"type\": \"array\",\"items\": {\"anyOf\": [{\"type\": \"object\",\"required\": [\"deviceId\",\"id\",\"origin\",\"payload\", \"rate\", \"time\",\"type\",\"uploadId\"], \"properties\": {\"deviceId\": {\"type\": \"string\"}, \"id\": {\"type\": \"string\"}, \"origin\": {\"type\": \"object\", \"required\": [\"id\",\"name\",\"type\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}}}, \"payload\": {\"type\":\"object\", \"required\":[\"HKInsulinDeliveryReason\",\"HKMetadataKeySyncIdentifier\", \"device\",\"sourceRevision\"], \"properties\":{\"HKInsulinDeliveryReason\":{\"type\": \"integer\"}, \"HKMetadataKeySyncIdentifier\": {\"type\": \"string\"}, \"device\":{\"type\": \"object\", \"required\": [\"manufacturer\", \"model\"], \"properties\": {\"manufacturer\": {\"type\": \"string\"}, \"model\":{\"type\":\"string\"}}}, \"sourceRevision\":{\"type\": \"object\"}, \"properties\":{\"source\":{\"type\":\"string\"}}}}, \"rate\":{\"type\":\"number\"}, \"time\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}, \"uploadId\":{\"type\": \"string\"}}}]}}",
-					"const foodHKSchema = {\"type\": \"array\",\"items\": {\"anyOf\": [{\"type\": \"object\",\"required\": [\"id\",\"name\", \"nutrition\",\"origin\",\"payload\", \"time\",\"type\",\"uploadId\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\":{\"type\":\"string\"},\"nutrition\":{\"type\":\"object\", \"required\":[\"carbohydrate\"], \"properties\":{\"carbohydrate\":{\"type\":\"object\", \"required\":[\"net\", \"units\"], \"properties\":{\"net\":{\"type\":\"number\"}, \"units\":{\"type\":\"string\"}}}}}, \"origin\": {\"type\": \"object\", \"required\": [\"id\",\"name\",\"type\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}}}, \"payload\": {\"type\":\"object\", \"required\":[\"HKMetadataKeySyncIdentifier\", \"sourceRevision\"], \"properties\":{\"HKMetadataKeySyncIdentifier\": {\"type\": \"string\"},\"sourceRevision\":{\"type\": \"object\"}, \"properties\":{\"source\":{\"type\":\"string\"}}}}, \"time\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}, \"uploadId\":{\"type\": \"string\"}}}]}}",
-					"const activityHKSchema = {\"type\": \"array\",\"items\": {\"anyOf\": [{\"type\": \"object\",\"required\": [\"duration\", \"energy\",\"id\",\"name\", \"origin\",\"payload\", \"time\",\"type\",\"uploadId\"], \"properties\": {\"duration\":{\"type\":\"object\", \"required\":[\"units\", \"value\"], \"properties\":{\"units\":{\"type\":\"string\"}, \"value\":{\"type\":\"number\"}}},\"energy\":{\"type\":\"object\", \"required\":[\"units\", \"value\"], \"properties\":{\"units\":{\"type\":\"string\"}, \"value\":{\"type\":\"number\"}}}, \"id\": {\"type\": \"string\"}, \"name\":{\"type\":\"string\"}, \"origin\": {\"type\": \"object\", \"required\": [\"id\",\"name\",\"type\"], \"properties\": {\"id\": {\"type\": \"string\"}, \"name\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}}}, \"payload\": {\"type\":\"object\", \"required\":[\"sourceRevision\"], \"properties\":{\"sourceRevision\":{\"type\": \"object\"}, \"properties\":{\"source\":{\"type\":\"object\", \"required\":[\"name\"], \"properties\":{\"name\":{\"type\":\"string\"}}}}}}, \"time\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"}, \"uploadId\":{\"type\": \"string\"}}}]}}",
-					"const userProfileSchema = {\"required\": [\"fullName\", \"patient\"], \"properties\": { \"fullName\": { \"type\": \"string\"}, \"patient\": {\"type\": \"object\", \"required\": [\"birthday\"], \"properties\": {\"birthday\":{\"type\": \"string\"}, \"diagnosis date\": {\"type\": \"string\"}}}}};",
-					"const clinicProfileSchema = {\"required\": [\"fullName\", \"clinic\"], \"properties\": { \"fullName\": { \"type\": \"string\"}, \"clinic\": {\"type\": \"object\", \"required\": [\"role\", \"name\"], \"properties\": {\"role\": {\"type\": \"string\"}, \"name\": {\"type\": \"string\"}, \"telephone\": {\"type\": \"string\"}}}}};",
-					"const custodialProfileSchema = {\"required\": [\"fullName\", \"patient\"], \"properties\": { \"fullName\": { \"type\": \"string\"}, \"patient\": {\"type\": \"object\", \"required\": [\"birthday\", \"mrn\"], \"properties\": {\"birthday\":{\"type\": \"string\"}, \"mrn\": {\"type\": \"string\"}, \"targetTimezone\": {\"type\": \"string\"}}}}};",
-					"const careteamInviteSchema = { \"required\": [\"key\", \"type\", \"email\", \"creatorId\", \"creator\", \"context\", \"created\"], \"properties\": { \"key\": { \"type\": \"string\" }, \"type\": { \"type\": \"string\" }, \"email\": { \"type\": \"string\" }, \"creatorId\": { \"type\": \"string\" }, \"creator\": { \"type\": \"object\", \"required\": [\"profile\", \"userid\"], \"properties\": {\"profile\": {\"type\": \"object\", \"required\": [\"fullName\", \"patient\"], \"properties\": {\"fullName\": {\"type\": \"string\"}, \"patient\": {\"type\": \"object\", \"required\": [\"birthday\", \"diagnosisDate\", \"isOtherPerson\", \"fullName\"], \"properties\": {\"birthday\": {\"type\": \"string\", \"diagnosisDate\": {\"type\": \"string\"}, \"isOtherPerson\":{\"type\": \"string\"}, \"fullName\":{\"type\": \"string\"}}}}}, \"userId\": {\"type\": \"string\"}}}, \"context\": { \"type\": \"object\", \"required\": [\"view\"], \"properties\": {\"view\": {\"type\": \"object\"}} }, \"created\": { \"type\": \"string\" }}}};",
-					"const userSettingsSchema = { \"required\": [\"bgTarget\", \"units\"], \"properties\": { \"bgTarget\": { \"type\": \"object\" }, \"units\": { \"type\": \"object\" } } };",
-					"const uploadSessionStartSchema = { \"type\": \"object\", \"required\": [\"data\", \"meta\"], \"properties\": {\"data\": {\"type\": \"object\"}, \"required\": [\"createdTime\", \"deduplicator\", \"id\", \"modifiedTime\", \"type\", \"uploadId\", \"client\", \"dataSetType\"], \"properties\": {\"createdTime\": {\"type\":\"string\"}, \"deduplicator\": {\"type\": \"object\", \"required\":[\"name\", \"version\"], \"properties\": {\"name\":{\"type\": \"string\"}, \"version\":{\"type\": \"string\"}}}, \"id\": {\"type\":\"string\"}, \"modifiedTime\": {\"type\": \"string\"}, \"type\": {\"type\": \"string\"}, \"uploadId\": {\"type\": \"string\"},\"client\": {\"type\": \"object\", \"required\": [\"name\", \"version\"], \"properties\": {\"name\": { \"type\": \"string\"}, \"version\": {\"type\": \"string\"}}}, \"dataSetType\": {\"type\": \"string\"}}, \"meta\": {\"type\": \"object\"}, \"required\": [\"trace\"], \"properties\": {\"trace\":{\"type\": \"object\"}, \"required\": [\"request\"], \"properties\": {\"type\": \"string\"}}}}",
-					"const uploadSessionSchema = {\"type\": \"array\", \"items\": { \"anyOf\": [{\"type\": \"object\",\"default\": {}, \"required\": [\"client\",\"createdTime\",\"dataSetType\",\"deduplicator\",\"id\",\"modifiedTime\",\"type\", \"uploadId\"],\"properties\": {\"client\": {\"type\": \"object\",\"required\": [\"name\",\"version\"],\"properties\": {\"name\": {\"type\": \"string\"},\"version\": {\"type\": \"string\"}}},\"createdTime\": {\"type\": \"string\"}, \"dataSetType\": {\"type\": \"string\"},\"deduplicator\": {\"type\": \"object\",\"required\": [\"name\",\"version\"],\"properties\": { \"name\": {\"type\": \"string\"},\"version\": {\"type\": \"string\"}}},\"id\": {\"type\": \"string\"},\"modifiedTime\": {\"type\": \"string\"},\"type\": {\"type\": \"string\"},\"uploadId\": {\"type\": \"string\"}}}]}}",
-					"const errorSchema = {\"type\": \"object\", \"required\": [\"code\", \"reason\"], \"properties\": {\"code\": {\"type\":\"integer\"}, \"reason\": {\"type\":\"string\"}}}",
+					"const userAccountSchema = {",
+					"  required: ['emailVerified'],",
+					"  properties: {",
+					"    createdTime: {",
+					"      type: 'string'",
+					"    },",
+					"    deletedTime: {",
+					"      type: 'string'",
+					"    },",
+					"    emailVerified: {",
+					"      type: 'boolean'",
+					"    },",
+					"    emails: {",
+					"      type: 'array',",
+					"      items: [{",
+					"        type: 'string',",
+					"      }, ],",
+					"    },",
+					"    modifiedTime: {",
+					"      type: 'string'",
+					"    },",
+					"    roles: {",
+					"      type: 'array',",
+					"      items: [{",
+					"        type: 'string',",
+					"      }, ],",
+					"    },",
+					"    termsAccepted: {",
+					"      type: 'string'",
+					"    },",
+					"    userid: {",
+					"      type: 'string'",
+					"    },",
+					"    username: {",
+					"      type: 'string'",
+					"    },",
+					"  },",
+					"}",
+					"const inviteSchema = {",
+					"  type: 'object',",
+					"  required: ['created', 'creatorId', 'email', 'key', 'type'],",
+					"  properties: {",
+					"    created: {",
+					"      type: 'string'",
+					"    },",
+					"    creatorId: {",
+					"      type: 'string'",
+					"    },",
+					"    context: {",
+					"      type: ['object', 'null'],",
+					"      properties: {",
+					"        note: {",
+					"          type: 'object'",
+					"        },",
+					"        upload: {",
+					"          type: 'object'",
+					"        },",
+					"        view: {",
+					"          type: 'object'",
+					"        },",
+					"      }",
+					"    },",
+					"    email: {",
+					"      type: 'string'",
+					"    },",
+					"    key: {",
+					"      type: 'string'",
+					"    },",
+					"    type: {",
+					"      type: 'string'",
+					"    },",
+					"    status: {",
+					"      type: 'string'",
+					"    },",
+					"    creator: {",
+					"      type: 'object',",
+					"      required: ['userid', 'profile'],",
+					"      propeties: {",
+					"        userid: {",
+					"          type: 'string'",
+					"        },",
+					"        profile: {",
+					"          type: ['object', 'null'],",
+					"          required: ['fullName', 'patient'],",
+					"          properties: {",
+					"            fullName: {",
+					"              type: 'string'",
+					"            },",
+					"            patient: {",
+					"              type: 'object',",
+					"              properties: {",
+					"                birthday: {",
+					"                  type: 'string'",
+					"                },",
+					"                diagnosisDate: {",
+					"                  type: 'string'",
+					"                },",
+					"                isOtherPerson: {",
+					"                  type: 'string'",
+					"                },",
+					"                fullName: {",
+					"                  type: 'string'",
+					"                },",
+					"              },",
+					"            },",
+					"          },",
+					"        },",
+					"      },",
+					"    },",
+					"  },",
+					"}",
+					"const invitedSchema = {",
+					"  type: 'array',",
+					"  items: [{",
+					"    type: 'object',",
+					"    required: ['created', 'creatorId', 'email', 'key', 'type'],",
+					"    properties: {",
+					"      created: {",
+					"        type: 'string'",
+					"      },",
+					"      creatorId: {",
+					"        type: 'string'",
+					"      },",
+					"      context: {",
+					"        type: ['object', 'null'],",
+					"        properties: {",
+					"          note: {",
+					"            type: 'object'",
+					"          },",
+					"          upload: {",
+					"            type: 'object'",
+					"          },",
+					"          view: {",
+					"            type: 'object'",
+					"          },",
+					"        }",
+					"      },",
+					"      email: {",
+					"        type: 'string'",
+					"      },",
+					"      key: {",
+					"        type: 'string'",
+					"      },",
+					"      type: {",
+					"        type: 'string'",
+					"      },",
+					"      status: {",
+					"        type: 'string'",
+					"      },",
+					"      creator: {",
+					"        type: 'object',",
+					"        required: ['userid', 'profile'],",
+					"        propeties: {",
+					"          userid: {",
+					"            type: 'string'",
+					"          },",
+					"          profile: {",
+					"            type: ['object', 'null'],",
+					"            required: ['fullName', 'patient'],",
+					"            properties: {",
+					"              fullName: {",
+					"                type: 'string'",
+					"              },",
+					"              patient: {",
+					"                type: 'object',",
+					"                properties: {",
+					"                  birthday: {",
+					"                    type: 'string'",
+					"                  },",
+					"                  diagnosisDate: {",
+					"                    type: 'string'",
+					"                  },",
+					"                  isOtherPerson: {",
+					"                    type: 'string'",
+					"                  },",
+					"                  fullName: {",
+					"                    type: 'string'",
+					"                  },",
+					"                },",
+					"              },",
+					"            },",
+					"          },",
+					"        },",
+					"      },",
+					"    },",
+					"  }, ],",
+					"}",
+					"const profileSchema = {",
+					"  required: ['fullName'],",
+					"  properties: {",
+					"    fullName: {",
+					"      type: 'string'",
+					"    },",
+					"    clinic: {",
+					"      type: 'object',",
+					"      required: ['role', 'name'],",
+					"      properties: {",
+					"        role: {",
+					"          type: 'string'",
+					"        },",
+					"        name: {",
+					"          type: 'string'",
+					"        },",
+					"        telephone: {",
+					"          type: 'string'",
+					"        },",
+					"      },",
+					"    },",
+					"    patient: {",
+					"      type: 'object',",
+					"      required: ['birthday'],",
+					"      properties: {",
+					"        about: {",
+					"          type: 'string'",
+					"        },",
+					"        birthday: {",
+					"          type: 'string'",
+					"        },",
+					"        diagnosisDate: {",
+					"          type: 'string'",
+					"        },",
+					"        diagnosisType: {",
+					"          type: 'string'",
+					"        },",
+					"        mrn: {",
+					"          type: 'string'",
+					"        },",
+					"        targetDevices: {",
+					"          type: 'array',",
+					"          items: [{",
+					"            type: 'string'",
+					"          }]",
+					"        },",
+					"        targetTimezone: {",
+					"          type: 'string'",
+					"        },",
+					"      }",
+					"    }",
+					"  }",
+					"}",
+					"const settingsSchema = {",
+					"  type: 'object',",
+					"  properties: {",
+					"    bgTarget: {",
+					"      type: 'object',",
+					"      properties: {",
+					"        low: {",
+					"          type: 'number'",
+					"        },",
+					"        high: {",
+					"          type: 'number'",
+					"        },",
+					"      }",
+					"    },",
+					"    units: {",
+					"      type: 'object',",
+					"      properties: {",
+					"        bg: {",
+					"          type: 'string'",
+					"        }",
+					"      }",
+					"    }",
+					"  }",
+					"}",
+					"const datasetSchema = {",
+					"  type: 'object',",
+					"  properties: {",
+					"    data: {",
+					"      type: 'object',",
+					"      properties: {",
+					"        client: {",
+					"          type: 'object',",
+					"          properties: {",
+					"            name: {",
+					"              type: 'string'",
+					"            },",
+					"            private: {",
+					"              type: 'object',",
+					"              properties: {",
+					"                blobId: {",
+					"                  type: 'string'",
+					"                },",
+					"                os: {",
+					"                  type: 'string'",
+					"                }",
+					"              }",
+					"            },",
+					"            version: {",
+					"              type: 'string'",
+					"            }",
+					"          }",
+					"        },",
+					"        computerTime: {",
+					"          type: 'string'",
+					"        },",
+					"        conversionOffset: {",
+					"          type: 'integer'",
+					"        },",
+					"        createdTime: {",
+					"          type: 'string'",
+					"        },",
+					"        dataSetType: {",
+					"          type: 'string'",
+					"        },",
+					"        deduplicator: {",
+					"          type: 'object',",
+					"          properties: {",
+					"            name: {",
+					"              type: 'string'",
+					"            },",
+					"            version: {",
+					"              type: 'string'",
+					"            }",
+					"          }",
+					"        },",
+					"        deviceId: {",
+					"          type: 'string'",
+					"        },",
+					"        deviceManufacturers: {",
+					"          type: 'array',",
+					"          items: [{",
+					"            type: 'string'",
+					"          }]",
+					"        },",
+					"        deviceModel: {",
+					"          type: 'string'",
+					"        },",
+					"        deviceSerialNumber: {",
+					"          type: 'string'",
+					"        },",
+					"        deviceTags: {",
+					"          type: 'array',",
+					"          items: [{",
+					"              type: 'string',",
+					"            },",
+					"            {",
+					"              type: 'string',",
+					"            },",
+					"            {",
+					"              type: 'string',",
+					"            }",
+					"          ]",
+					"        },",
+					"        deviceTime: {",
+					"          type: 'string'",
+					"        },",
+					"        id: {",
+					"          type: 'string'",
+					"        },",
+					"        modifiedTime: {",
+					"          type: 'string'",
+					"        },",
+					"        time: {",
+					"          type: 'string'",
+					"        },",
+					"        timeProcessing: {",
+					"          type: 'string'",
+					"        },",
+					"        timezone: {",
+					"          type: 'string'",
+					"        },",
+					"        timezoneOffset: {",
+					"          type: 'integer'",
+					"        },",
+					"        type: {",
+					"          type: 'string'",
+					"        },",
+					"        uploadId: {",
+					"          type: 'string'",
+					"        },",
+					"        version: {",
+					"          type: 'string'",
+					"        }",
+					"      }",
+					"    },",
+					"    meta: {",
+					"      type: 'object',",
+					"      properties: {",
+					"        trace: {",
+					"          type: 'object',",
+					"          properties: {",
+					"            request: {",
+					"              type: 'string'",
+					"            }",
+					"          }",
+					"        }",
+					"      }",
+					"    }",
+					"  }",
+					"}",
+					"const uploadSessionSchema = {",
+					"  type: 'array',",
+					"  items: {",
+					"    anyOf: [{",
+					"      type: 'object',",
+					"      default: {},",
+					"      required: [",
+					"        'client',",
+					"        'createdTime',",
+					"        'dataSetType',",
+					"        'deduplicator',",
+					"        'id',",
+					"        'modifiedTime',",
+					"        'type',",
+					"        'uploadId',",
+					"      ],",
+					"      properties: {",
+					"        client: {",
+					"          type: 'object',",
+					"          required: ['name', 'version'],",
+					"          properties: {",
+					"            name: {",
+					"              type: 'string'",
+					"            },",
+					"            version: {",
+					"              type: 'string'",
+					"            },",
+					"          },",
+					"        },",
+					"        createdTime: {",
+					"          type: 'string'",
+					"        },",
+					"        dataSetType: {",
+					"          type: 'string'",
+					"        },",
+					"        deduplicator: {",
+					"          type: 'object',",
+					"          required: ['name', 'version'],",
+					"          properties: {",
+					"            name: {",
+					"              type: 'string'",
+					"            },",
+					"            version: {",
+					"              type: 'string'",
+					"            },",
+					"          },",
+					"        },",
+					"        id: {",
+					"          type: 'string'",
+					"        },",
+					"        modifiedTime: {",
+					"          type: 'string'",
+					"        },",
+					"        type: {",
+					"          type: 'string'",
+					"        },",
+					"        uploadId: {",
+					"          type: 'string'",
+					"        },",
+					"      },",
+					"    }, ],",
+					"  },",
+					"}",
+					"const smbgSchema = {",
+					"  type: 'array',",
+					"  items: {",
+					"    required: [",
+					"      'clockDriftOffset',",
+					"      'deviceId',",
+					"      'deviceTime',",
+					"      'guid',",
+					"      'id',",
+					"      'subType',",
+					"      'time',",
+					"      'type',",
+					"      'units',",
+					"      'uploadId',",
+					"      'value',",
+					"    ],",
+					"    properties: {",
+					"      clockDriftOffset: {",
+					"        type: 'integer'",
+					"      },",
+					"      conversionOffset: {",
+					"        type: 'integer'",
+					"      },",
+					"      deviceId: {",
+					"        type: 'string'",
+					"      },",
+					"      deviceTime: {",
+					"        type: 'string'",
+					"      },",
+					"      guid: {",
+					"        type: 'string'",
+					"      },",
+					"      id: {",
+					"        type: 'string'",
+					"      },",
+					"      subType: {",
+					"        type: 'string'",
+					"      },",
+					"      time: {",
+					"        type: 'string'",
+					"      },",
+					"      type: {",
+					"        type: 'string'",
+					"      },",
+					"      units: {",
+					"        type: 'string'",
+					"      },",
+					"      uploadId: {",
+					"        type: 'string'",
+					"      },",
+					"      value: {",
+					"        type: 'number'",
+					"      },",
+					"    },",
+					"  },",
+					"}",
+					"const cbgSchema = {",
+					"  type: 'array',",
+					"  items: {",
+					"    required: [",
+					"      'clockDriftOffset',",
+					"      'deviceId',",
+					"      'deviceTime',",
+					"      'guid',",
+					"      'id',",
+					"      'time',",
+					"      'type',",
+					"      'units',",
+					"      'uploadId',",
+					"      'value',",
+					"    ],",
+					"    properties: {",
+					"      clockDriftOffset: {",
+					"        type: 'integer'",
+					"      },",
+					"      conversionOffset: {",
+					"        type: 'integer'",
+					"      },",
+					"      deviceId: {",
+					"        type: 'string'",
+					"      },",
+					"      deviceTime: {",
+					"        type: 'string'",
+					"      },",
+					"      guid: {",
+					"        type: 'string'",
+					"      },",
+					"      id: {",
+					"        type: 'string'",
+					"      },",
+					"      time: {",
+					"        type: 'string'",
+					"      },",
+					"      type: {",
+					"        type: 'string'",
+					"      },",
+					"      units: {",
+					"        type: 'string'",
+					"      },",
+					"      uploadId: {",
+					"        type: 'string'",
+					"      },",
+					"      value: {",
+					"        type: 'number'",
+					"      },",
+					"    },",
+					"  },",
+					"}",
+					"const cbgHKSchema = {",
+					"  type: 'array',",
+					"  items: {",
+					"    anyOf: [{",
+					"      type: 'object',",
+					"      required: [",
+					"        'deviceId',",
+					"        'id',",
+					"        'origin',",
+					"        'payload',",
+					"        'time',",
+					"        'type',",
+					"        'units',",
+					"        'uploadId',",
+					"        'value',",
+					"      ],",
+					"      properties: {",
+					"        deviceId: {",
+					"          type: 'string'",
+					"        },",
+					"        id: {",
+					"          type: 'string'",
+					"        },",
+					"        origin: {",
+					"          type: 'object',",
+					"          required: ['id', 'name', 'type'],",
+					"          properties: {",
+					"            id: {",
+					"              type: 'string'",
+					"            },",
+					"            name: {",
+					"              type: 'string'",
+					"            },",
+					"            type: {",
+					"              type: 'string'",
+					"            },",
+					"          },",
+					"        },",
+					"        payload: {",
+					"          type: 'object',",
+					"          required: [",
+					"            'HKMetadataKeySyncIdentifier',",
+					"            'device',",
+					"            'sourceRevision',",
+					"          ],",
+					"          properties: {",
+					"            HKMetadataKeySyncIdentifier: {",
+					"              type: 'string'",
+					"            },",
+					"            device: {",
+					"              type: 'object',",
+					"              required: ['manufacturer', 'model'],",
+					"              properties: {",
+					"                manufacturer: {",
+					"                  type: 'string'",
+					"                },",
+					"                model: {",
+					"                  type: 'string'",
+					"                },",
+					"              },",
+					"            },",
+					"            sourceRevision: {",
+					"              type: 'object'",
+					"            },",
+					"            properties: {",
+					"              source: {",
+					"                type: 'string'",
+					"              }",
+					"            },",
+					"          },",
+					"        },",
+					"        time: {",
+					"          type: 'string'",
+					"        },",
+					"        type: {",
+					"          type: 'string'",
+					"        },",
+					"        units: {",
+					"          type: 'string'",
+					"        },",
+					"        uploadId: {",
+					"          type: 'string'",
+					"        },",
+					"        value: {",
+					"          type: 'number'",
+					"        },",
+					"      },",
+					"    }, ],",
+					"  },",
+					"}",
+					"const bolusSchema = {",
+					"  type: 'array',",
+					"  items: {",
+					"    required: [",
+					"      'clockDriftOffset',",
+					"      'deviceId',",
+					"      'deviceTime',",
+					"      'guid',",
+					"      'id',",
+					"      'subType',",
+					"      'time',",
+					"      'type',",
+					"      'uploadId',",
+					"    ],",
+					"    properties: {",
+					"      clockDriftOffset: {",
+					"        type: 'integer'",
+					"      },",
+					"      conversionOffset: {",
+					"        type: 'integer'",
+					"      },",
+					"      deviceId: {",
+					"        type: 'string'",
+					"      },",
+					"      deviceTime: {",
+					"        type: 'string'",
+					"      },",
+					"      guid: {",
+					"        type: 'string'",
+					"      },",
+					"      id: {",
+					"        type: 'string'",
+					"      },",
+					"      normal: {",
+					"        type: 'number'",
+					"      },",
+					"      extended: {",
+					"        type: 'integer'",
+					"      },",
+					"      expectedExtended: {",
+					"        type: 'integer'",
+					"      },",
+					"      duration: {",
+					"        type: 'integer'",
+					"      },",
+					"      expectedDuration: {",
+					"        type: 'integer'",
+					"      },",
+					"      subType: {",
+					"        type: 'string'",
+					"      },",
+					"      time: {",
+					"        type: 'string'",
+					"      },",
+					"      type: {",
+					"        type: 'string'",
+					"      },",
+					"      uploadId: {",
+					"        type: 'string'",
+					"      },",
+					"    },",
+					"  },",
+					"}",
+					"const bolusHKSchema = {",
+					"  type: 'array',",
+					"  items: {",
+					"    anyOf: [{",
+					"      type: 'object',",
+					"      required: [",
+					"        'deviceId',",
+					"        'id',",
+					"        'normal',",
+					"        'origin',",
+					"        'payload',",
+					"        'subType',",
+					"        'time',",
+					"        'type',",
+					"        'uploadId',",
+					"      ],",
+					"      properties: {",
+					"        deviceId: {",
+					"          type: 'string'",
+					"        },",
+					"        id: {",
+					"          type: 'string'",
+					"        },",
+					"        normal: {",
+					"          type: 'number'",
+					"        },",
+					"        origin: {",
+					"          type: 'object',",
+					"          required: ['id', 'name', 'type'],",
+					"          properties: {",
+					"            id: {",
+					"              type: 'string'",
+					"            },",
+					"            name: {",
+					"              type: 'string'",
+					"            },",
+					"            type: {",
+					"              type: 'string'",
+					"            },",
+					"          },",
+					"        },",
+					"        payload: {",
+					"          type: 'object',",
+					"          required: [",
+					"            'HKInsulinDeliveryReason',",
+					"            'HKMetadataKeySyncIdentifier',",
+					"            'device',",
+					"            'sourceRevision',",
+					"          ],",
+					"          properties: {",
+					"            HKInsulinDeliveryReason: {",
+					"              type: 'integer'",
+					"            },",
+					"            HKMetadataKeySyncIdentifier: {",
+					"              type: 'string'",
+					"            },",
+					"            device: {",
+					"              type: 'object',",
+					"              required: ['manufacturer', 'model'],",
+					"              properties: {",
+					"                manufacturer: {",
+					"                  type: 'string'",
+					"                },",
+					"                model: {",
+					"                  type: 'string'",
+					"                },",
+					"              },",
+					"            },",
+					"            sourceRevision: {",
+					"              type: 'object'",
+					"            },",
+					"            properties: {",
+					"              source: {",
+					"                type: 'string'",
+					"              }",
+					"            },",
+					"          },",
+					"        },",
+					"        subType: {",
+					"          type: 'string'",
+					"        },",
+					"        time: {",
+					"          type: 'string'",
+					"        },",
+					"        type: {",
+					"          type: 'string'",
+					"        },",
+					"        uploadId: {",
+					"          type: 'string'",
+					"        },",
+					"      },",
+					"    }, ],",
+					"  },",
+					"}",
+					"const basalHKSchema = {",
+					"  type: 'array',",
+					"  items: {",
+					"    anyOf: [{",
+					"      type: 'object',",
+					"      required: [",
+					"        'deviceId',",
+					"        'id',",
+					"        'origin',",
+					"        'payload',",
+					"        'rate',",
+					"        'time',",
+					"        'type',",
+					"        'uploadId',",
+					"      ],",
+					"      properties: {",
+					"        deviceId: {",
+					"          type: 'string'",
+					"        },",
+					"        id: {",
+					"          type: 'string'",
+					"        },",
+					"        origin: {",
+					"          type: 'object',",
+					"          required: ['id', 'name', 'type'],",
+					"          properties: {",
+					"            id: {",
+					"              type: 'string'",
+					"            },",
+					"            name: {",
+					"              type: 'string'",
+					"            },",
+					"            type: {",
+					"              type: 'string'",
+					"            },",
+					"          },",
+					"        },",
+					"        payload: {",
+					"          type: 'object',",
+					"          required: [",
+					"            'HKInsulinDeliveryReason',",
+					"            'HKMetadataKeySyncIdentifier',",
+					"            'device',",
+					"            'sourceRevision',",
+					"          ],",
+					"          properties: {",
+					"            HKInsulinDeliveryReason: {",
+					"              type: 'integer'",
+					"            },",
+					"            HKMetadataKeySyncIdentifier: {",
+					"              type: 'string'",
+					"            },",
+					"            device: {",
+					"              type: 'object',",
+					"              required: ['manufacturer', 'model'],",
+					"              properties: {",
+					"                manufacturer: {",
+					"                  type: 'string'",
+					"                },",
+					"                model: {",
+					"                  type: 'string'",
+					"                },",
+					"              },",
+					"            },",
+					"            sourceRevision: {",
+					"              type: 'object'",
+					"            },",
+					"            properties: {",
+					"              source: {",
+					"                type: 'string'",
+					"              }",
+					"            },",
+					"          },",
+					"        },",
+					"        rate: {",
+					"          type: 'number'",
+					"        },",
+					"        time: {",
+					"          type: 'string'",
+					"        },",
+					"        type: {",
+					"          type: 'string'",
+					"        },",
+					"        uploadId: {",
+					"          type: 'string'",
+					"        },",
+					"      },",
+					"    }, ],",
+					"  },",
+					"}",
+					"const foodHKSchema = {",
+					"  type: 'array',",
+					"  items: {",
+					"    anyOf: [{",
+					"      type: 'object',",
+					"      required: [",
+					"        'id',",
+					"        'name',",
+					"        'nutrition',",
+					"        'origin',",
+					"        'payload',",
+					"        'time',",
+					"        'type',",
+					"        'uploadId',",
+					"      ],",
+					"      properties: {",
+					"        id: {",
+					"          type: 'string'",
+					"        },",
+					"        name: {",
+					"          type: 'string'",
+					"        },",
+					"        nutrition: {",
+					"          type: 'object',",
+					"          required: ['carbohydrate'],",
+					"          properties: {",
+					"            carbohydrate: {",
+					"              type: 'object',",
+					"              required: ['net', 'units'],",
+					"              properties: {",
+					"                net: {",
+					"                  type: 'number'",
+					"                },",
+					"                units: {",
+					"                  type: 'string'",
+					"                },",
+					"              },",
+					"            },",
+					"          },",
+					"        },",
+					"        origin: {",
+					"          type: 'object',",
+					"          required: ['id', 'name', 'type'],",
+					"          properties: {",
+					"            id: {",
+					"              type: 'string'",
+					"            },",
+					"            name: {",
+					"              type: 'string'",
+					"            },",
+					"            type: {",
+					"              type: 'string'",
+					"            },",
+					"          },",
+					"        },",
+					"        payload: {",
+					"          type: 'object',",
+					"          required: ['HKMetadataKeySyncIdentifier', 'sourceRevision'],",
+					"          properties: {",
+					"            HKMetadataKeySyncIdentifier: {",
+					"              type: 'string'",
+					"            },",
+					"            sourceRevision: {",
+					"              type: 'object'",
+					"            },",
+					"            properties: {",
+					"              source: {",
+					"                type: 'string'",
+					"              }",
+					"            },",
+					"          },",
+					"        },",
+					"        time: {",
+					"          type: 'string'",
+					"        },",
+					"        type: {",
+					"          type: 'string'",
+					"        },",
+					"        uploadId: {",
+					"          type: 'string'",
+					"        },",
+					"      },",
+					"    }, ],",
+					"  },",
+					"}",
+					"const activityHKSchema = {",
+					"  type: 'array',",
+					"  items: {",
+					"    anyOf: [{",
+					"      type: 'object',",
+					"      required: [",
+					"        'duration',",
+					"        'energy',",
+					"        'id',",
+					"        'name',",
+					"        'origin',",
+					"        'payload',",
+					"        'time',",
+					"        'type',",
+					"        'uploadId',",
+					"      ],",
+					"      properties: {",
+					"        duration: {",
+					"          type: 'object',",
+					"          required: ['units', 'value'],",
+					"          properties: {",
+					"            units: {",
+					"              type: 'string'",
+					"            },",
+					"            value: {",
+					"              type: 'number'",
+					"            },",
+					"          },",
+					"        },",
+					"        energy: {",
+					"          type: 'object',",
+					"          required: ['units', 'value'],",
+					"          properties: {",
+					"            units: {",
+					"              type: 'string'",
+					"            },",
+					"            value: {",
+					"              type: 'number'",
+					"            },",
+					"          },",
+					"        },",
+					"        id: {",
+					"          type: 'string'",
+					"        },",
+					"        name: {",
+					"          type: 'string'",
+					"        },",
+					"        origin: {",
+					"          type: 'object',",
+					"          required: ['id', 'name', 'type'],",
+					"          properties: {",
+					"            id: {",
+					"              type: 'string'",
+					"            },",
+					"            name: {",
+					"              type: 'string'",
+					"            },",
+					"            type: {",
+					"              type: 'string'",
+					"            },",
+					"          },",
+					"        },",
+					"        payload: {",
+					"          type: 'object',",
+					"          required: ['sourceRevision'],",
+					"          properties: {",
+					"            sourceRevision: {",
+					"              type: 'object'",
+					"            },",
+					"            properties: {",
+					"              source: {",
+					"                type: 'object',",
+					"                required: ['name'],",
+					"                properties: {",
+					"                  name: {",
+					"                    type: 'string'",
+					"                  }",
+					"                },",
+					"              },",
+					"            },",
+					"          },",
+					"        },",
+					"        time: {",
+					"          type: 'string'",
+					"        },",
+					"        type: {",
+					"          type: 'string'",
+					"        },",
+					"        uploadId: {",
+					"          type: 'string'",
+					"        },",
+					"      },",
+					"    }, ],",
+					"  },",
+					"}",
+					"const getMessageSchema = {",
+					"  type: 'object',",
+					"  properties: {",
+					"    messages: {",
+					"      type: 'array',",
+					"      items: [",
+					"        {",
+					"          type: \"object\",",
+					"          required: [",
+					"              'id', ",
+					"              'guid', ",
+					"              'parentmessage', ",
+					"              'userid', ",
+					"              'groupid', ",
+					"              'timestamp', ",
+					"              'createdtime', ",
+					"              'messagetext'",
+					"              ],",
+					"          properties: {",
+					"            id: {",
+					"              type: 'string'",
+					"            },",
+					"            guid: {",
+					"              type: 'string'",
+					"            },",
+					"            parentmessage: {",
+					"              type: ['null', 'string']",
+					"            },",
+					"            userid: {",
+					"              type: 'string'",
+					"            },",
+					"            groupid: {",
+					"              type: 'string'",
+					"            },",
+					"            timestamp: {",
+					"              type: 'string'",
+					"            },",
+					"            createdtime: {",
+					"              type: 'string'",
+					"            },",
+					"            messagetext: {",
+					"              type: 'string'",
+					"            },",
+					"            user: {",
+					"              type: 'object',",
+					"              required: ['fullName'],",
+					"              properties: {",
+					"                fullName: {",
+					"                  type: 'string'",
+					"                }",
+					"              }",
+					"            }",
+					"          }",
+					"        }",
+					"      ]",
+					"    }",
+					"  }",
+					"}",
 					"",
-					"pm.globals.set(\"userAccountInfoSchema\", JSON.stringify(userAccountInfoSchema));",
-					"pm.globals.set(\"userSchema\", JSON.stringify(userSchema));",
-					"pm.globals.set(\"custodialUserSchema\", JSON.stringify(custodialUserSchema));",
-					"pm.globals.set(\"userProfileSchema\", JSON.stringify(userProfileSchema));",
-					"pm.globals.set(\"custodialProfileSchema\", JSON.stringify(custodialProfileSchema));",
-					"pm.globals.set(\"clinicProfileSchema\", JSON.stringify(clinicProfileSchema));",
-					"pm.globals.set(\"signupConfirmationSchema\", JSON.stringify(signupConfirmationSchema));",
-					"pm.globals.set(\"messageAddedSchema\", JSON.stringify(messageAddedSchema));",
-					"pm.globals.set(\"messagesSchema\", JSON.stringify(messagesSchema));",
-					"pm.globals.set(\"smbgSchema\", JSON.stringify(smbgSchema));",
-					"pm.globals.set(\"cbgHKSchema\", JSON.stringify(cbgHKSchema));",
-					"pm.globals.set(\"cbgSchema\", JSON.stringify(cbgSchema));",
-					"pm.globals.set(\"bolusSchema\", JSON.stringify(bolusSchema));",
-					"pm.globals.set(\"bolusHKSchema\", JSON.stringify(bolusHKSchema));",
-					"pm.globals.set(\"basalHKSchema\", JSON.stringify(basalHKSchema));",
-					"pm.globals.set(\"foodHKSchema\", JSON.stringify(foodHKSchema));",
-					"pm.globals.set(\"activityHKSchema\", JSON.stringify(activityHKSchema));",
-					"pm.globals.set(\"careteamInviteSchema\", JSON.stringify(careteamInviteSchema));",
-					"pm.globals.set(\"userSettingsSchema\", JSON.stringify(userSettingsSchema));",
-					"pm.globals.set(\"uploadSessionStartSchema\", JSON.stringify(uploadSessionStartSchema));",
-					"pm.globals.set(\"uploadSessionSchema\", JSON.stringify(uploadSessionSchema));",
-					"pm.globals.set(\"errorSchema\", JSON.stringify(errorSchema));",
+					"const addMessageSchema = {",
+					"  type: 'object',",
+					"  required: ['id'],",
+					"  properties: {",
+					"    id: {",
+					"        type: 'string'",
+					"    }",
+					"  }",
+					"}",
 					"",
-					"pm.globals.set('loadAsserts', function loadAsserts() {",
-					"    let asserts = {};",
+					"const errorSchema = {",
+					"  type: 'object',",
+					"  required: ['code', 'reason'],",
+					"  properties: {",
+					"    code: {",
+					"      type: 'integer'",
+					"    },",
+					"    reason: {",
+					"      type: 'string'",
+					"    }",
+					"  },",
+					"}",
+					"pm.globals.set('userAccountSchema', JSON.stringify(userAccountSchema))",
+					"pm.globals.set('profileSchema', JSON.stringify(profileSchema))",
+					"pm.globals.set('inviteSchema', JSON.stringify(inviteSchema))",
+					"pm.globals.set('invitedSchema', JSON.stringify(invitedSchema))",
+					"pm.globals.set('settingsSchema', JSON.stringify(settingsSchema))",
+					"pm.globals.set('addMessageSchema', JSON.stringify(addMessageSchema))",
+					"pm.globals.set('getMessageSchema', JSON.stringify(getMessageSchema))",
+					"pm.globals.set('smbgSchema', JSON.stringify(smbgSchema))",
+					"pm.globals.set('cbgHKSchema', JSON.stringify(cbgHKSchema))",
+					"pm.globals.set('cbgSchema', JSON.stringify(cbgSchema))",
+					"pm.globals.set('bolusSchema', JSON.stringify(bolusSchema))",
+					"pm.globals.set('bolusHKSchema', JSON.stringify(bolusHKSchema))",
+					"pm.globals.set('basalHKSchema', JSON.stringify(basalHKSchema))",
+					"pm.globals.set('foodHKSchema', JSON.stringify(foodHKSchema))",
+					"pm.globals.set('activityHKSchema', JSON.stringify(activityHKSchema))",
+					"pm.globals.set('datasetSchema', JSON.stringify(datasetSchema))",
+					"pm.globals.set('uploadSessionSchema', JSON.stringify(uploadSessionSchema))",
+					"pm.globals.set('errorSchema', JSON.stringify(errorSchema))",
+					"pm.globals.set(",
+					"  'loadAsserts',",
+					"  function loadAsserts() {",
+					"    let asserts = {}",
 					"    asserts.responseTimeMsLessThan = function responseTimeMsLessThan(ms) {",
-					"        pm.test(\"Response time is less than \"+ms+\"ms\", function () {",
-					"            //pm.expect(pm.response.responseTime).to.be.below(ms);",
-					"            console.log(\"Expected response in ms under \",ms);",
-					"            console.log(\"Actual response time in ms \",pm.response.responseTime);",
-					"        });",
-					"    };",
+					"      pm.test('Response time is less than ' + ms + 'ms', function() {",
+					"        //pm.expect(pm.response.responseTime).to.be.below(ms);",
+					"        console.log('Expected response in ms under ', ms)",
+					"        console.log('Actual response time in ms ', pm.response.responseTime)",
+					"      })",
+					"    }",
 					"    asserts.responseTypeJson = function responseTypeJson() {",
-					"        pm.test(\"Response type is application/json\", function () {",
-					"            pm.expect(pm.response.headers.get(\"content-type\")).to.equal('application/json');",
-					"        });",
-					"    };",
+					"      pm.test('Response type is application/json', function() {",
+					"        pm.expect(pm.response.headers.get('content-type')).to.include(",
+					"          'application/json'",
+					"        )",
+					"      })",
+					"    }",
 					"    asserts.responseHasSessionToken = function responseHasSessionToken() {",
-					"        pm.test(\"Response has x-tidepool-session-token\", function () {",
-					"            pm.response.to.have.header(\"x-tidepool-session-token\");",
-					"        });",
-					"    };",
-					"    asserts.responseHasNoSessionToken = function responseHasNoSessionToken(){",
-					"         pm.test(\"Response has NO x-tidepool-session-token\", function () {",
-					"            pm.response.to.not.have.header(\"x-tidepool-session-token\");",
-					"        });",
-					"    };",
-					"    asserts.responseBodyMatchesSchema = function responseBodyMatchesSchema(jsonData,schemaName) {",
-					"         pm.test(\"Response body matches \"+schemaName, function () {",
-					"            let schema = JSON.parse(pm.globals.get(schemaName));",
-					"            pm.response.to.have.jsonSchema(schema);",
-					"         });",
-					"    };",
-					"    asserts.responseStatusCodeIs = function responseStatusCodeIs(code){",
-					"        pm.test(\"Response status is \"+code, function () {",
-					"            pm.response.to.have.status(code);",
-					"        });",
-					"    };",
-					"    asserts.common = function common(expectedCode, durationMs, hasSessionToken, jsonData, schemaName){",
-					"            asserts.responseStatusCodeIs(expectedCode);",
-					"            asserts.responseTimeMsLessThan(durationMs);",
-					"            if(hasSessionToken){",
-					"                assert.responseHasSessionToken();",
-					"            }else{",
-					"                assert.responseHasNoSessionToken();",
-					"            }",
-					"            if (jsonData!==null){",
-					"                assert.responseTypeJson();",
-					"                assert.responseBodyMatchesSchema(jsonData,schemaName);",
-					"            }",
-					"    };",
-					"    return asserts;",
-					"} + '; loadAsserts();');"
+					"      pm.test('Response has x-tidepool-session-token', function() {",
+					"        pm.response.to.have.header('x-tidepool-session-token')",
+					"      })",
+					"    }",
+					"    asserts.responseHasNoSessionToken = function responseHasNoSessionToken() {",
+					"      pm.test('Response has NO x-tidepool-session-token', function() {",
+					"        pm.response.to.not.have.header('x-tidepool-session-token')",
+					"      })",
+					"    }",
+					"    asserts.responseBodyMatchesSchema = function responseBodyMatchesSchema(",
+					"      jsonData,",
+					"      schemaName",
+					"    ) {",
+					"      pm.test('Response body matches ' + schemaName, function() {",
+					"        let schema = JSON.parse(pm.globals.get(schemaName))",
+					"        pm.response.to.have.jsonSchema(schema)",
+					"      })",
+					"    }",
+					"    asserts.responseStatusCodeIs = function responseStatusCodeIs(code) {",
+					"      pm.test('Response status is ' + code, function() {",
+					"        pm.response.to.have.status(code)",
+					"      })",
+					"    }",
+					"    asserts.common = function common(",
+					"      expectedCode,",
+					"      durationMs,",
+					"      hasSessionToken,",
+					"      jsonData,",
+					"      schemaName",
+					"    ) {",
+					"      asserts.responseStatusCodeIs(expectedCode)",
+					"      asserts.responseTimeMsLessThan(durationMs)",
+					"      if (hasSessionToken) {",
+					"        assert.responseHasSessionToken()",
+					"      } else {",
+					"        assert.responseHasNoSessionToken()",
+					"      }",
+					"      if (jsonData !== null) {",
+					"        assert.responseTypeJson()",
+					"        assert.responseBodyMatchesSchema(jsonData, schemaName)",
+					"      }",
+					"    }",
+					"    return asserts",
+					"  } + '; loadAsserts();'",
+					")",
+					""
 				]
 			}
 		},
