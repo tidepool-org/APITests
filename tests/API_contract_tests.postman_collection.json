@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6186b0ea-3854-4544-938b-df356f1e40b7",
+		"_postman_id": "bd01fc50-18ec-45ac-afbc-e3192a0f67c8",
 		"name": "API_contract_tests",
 		"description": "Contract tests using the tidepool API with the goal of testing the interaction between the Tidepool APis to see that its is working as a client expects. We are looking at\r\n\r\n - response code\r\n - response timing \r\n - headers, specifically the x-tidepool-session and content type\r\n - response json data to make sure it matches our schema expectations at a high level",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -6599,6 +6599,2931 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clinic Administration",
+			"item": [
+				{
+					"name": "Create new clinic",
+					"item": [
+						{
+							"name": "Clinician sign up",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"let jsonData = pm.response.json();",
+											"assert.common(201, 1000, true, jsonData,\"userAccountSchema\");",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"pm.variables.set(\"userId\", jsonData.userid);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const uuid = require('uuid');",
+											"pm.variables.set('signupPw', uuid.v4().slice(0,9));",
+											"let newClinicianEmailAddress = \"automated-tests+clinician_datetag_@tidepool.org\";",
+											"pm.variables.set('newClinicianEmailAddress', newClinicianEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"{{newClinicianEmailAddress}}\",\n    \"password\": \"{{signupPw}}\",\n    \"emails\": [\n        \"{{newClinicianEmailAddress}}\"\n    ],\n    \"roles\": [\n        \"clinic\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Initial sign-up for the clinician account, which includes creation of the \n    \n    `userId`\n    "
+							},
+							"response": []
+						},
+						{
+							"name": "Send email verification",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/send/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Send the email confirmation using the `userId` we picked up in the last request."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve email key",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"let jsonData = pm.response.json();",
+											"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
+											"pm.variables.set(\"emailKey\", jsonData[0].key);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Get `emailKey` to use in next request to confirm email"
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/accept/signup/{{emailKey}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"accept",
+										"signup",
+										"{{emailKey}}"
+									]
+								},
+								"description": "Using `emailKey` to confirm email."
+							},
+							"response": []
+						},
+						{
+							"name": "Accept terms",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var moment = require('moment');",
+											"",
+											"pm.variables.set(\"currentTimestamp\", moment().format());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"updates\":{\"termsAccepted\":\"{{currentTimestamp}}\"}}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Accepting Terms and conditions"
+							},
+							"response": []
+						},
+						{
+							"name": "Initial clinician profile",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fullName\":\"{{$randomFullName}}\",\"clinic\":{\"role\":\"endocrinologist\",\"name\":\"{{$randomCompanyName}} Clinic\",\"telephone\":\"{{$randomPhoneNumber}}\"}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "create a clinic",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"let jsonData = pm.response.json();",
+											"assert.common(200, 500, false, null, \"\");",
+											"pm.variables.set(\"shareCode\", jsonData.shareCode);",
+											"pm.variables.set(\"clinicId\", jsonData.id);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set('randomAddress', pm.variables.replaceIn('{{$randomStreetAddress}}'));",
+											"pm.variables.set('randomCity', pm.variables.replaceIn('{{$randomCity}}'));",
+											"let randomZip = Math.floor(Math.random()*90000) + 10000;",
+											"pm.variables.set('randomZip', randomZip);",
+											"let usState  = ['Texas' , 'Illinois' , 'Alaska' , 'Ohio'];",
+											"let randomState = usState[Math.round(Math.random()*(usState.length-1))];",
+											"pm.variables.set('randomState', randomState);",
+											"pm.variables.set('randomTelNum', pm.variables.replaceIn('{{$randomPhoneNumber}}'));",
+											"let clinicType  = ['Hospital' , 'Office' , 'Virtual' , 'House Call'];",
+											"let randomClinicType = clinicType[Math.round(Math.random()*(clinicType.length-1))];",
+											"pm.variables.set('randomClinicType', randomClinicType);",
+											"pm.variables.set('randomClinicName', pm.variables.replaceIn('{{$randomCompanyName}}'));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"address\": \"{{randomAddress}}\",\n\"city\": \"{{randomCity}}\",\n\"postalCode\": \"{{randomZip}}\",\n\"state\": \"{{randomState}}\",\n\"country\": \"{{$randomCountry}}\",\n\"phoneNumbers\": [\n    {\n        \"type\": \"Cell\",\n        \"number\": \"{{randomTelNum}}\"        \n    }\n],\n\"clinicType\": \"{{randomClinicType}}\",\n\"name\": \"{{randomClinicName}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/v1/clinics",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinics"
+									],
+									"query": [
+										{
+											"key": "x-tidepool-session-token",
+											"value": "{{sessionToken}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update clinic info",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"let jsonData = pm.response.json();",
+											"assert.common(200, 500, false, null, \"\");",
+											"pm.variables.set(\"shareCode\", jsonData.shareCode);",
+											"pm.variables.set(\"clinicId\", jsonData.id);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\"address\": \"{{randomAddress}}\",\n\"city\": \"{{randomCity}}\",\n\"postalCode\": \"{{randomZip}}\",\n\"state\": \"{{randomState}}\",\n\"country\": \"{{$randomCountry}}\",\n\"phoneNumbers\": [\n    {\n        \"type\": \"Home\",\n        \"number\": \"{{randomTelNum}}\"        \n    }\n],\n\"clinicType\": \"{{randomClinicType}}\",\n\"name\": \"{{randomClinicName}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/v1/clinics/{{clinicId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinics",
+										"{{clinicId}}"
+									],
+									"query": [
+										{
+											"key": "x-tidepool-session-token",
+											"value": "{{sessionToken}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get clinicians associated with  clinicid",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/v1/clinics/{{clinicId}}/clinicians",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinics",
+										"{{clinicId}}",
+										"clinicians"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DSA login Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{loginPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{loginEmail}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{api}}/auth/login",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get clinic via clinicid",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/v1/clinics/{{clinicId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinics",
+										"{{clinicId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "retrieve clinic object with share code",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/v1/clinics/share_code/{{shareCode}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinics",
+										"share_code",
+										"{{shareCode}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Invite existing Clinician to Clinic",
+					"item": [
+						{
+							"name": "Clinician sign up",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(201, 1000, true, null,\"\");",
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"pm.variables.set(\"userId\", jsonData.userid);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const uuid = require('uuid');",
+											"pm.variables.set('signupPw', uuid.v4().slice(0,9));",
+											"let newClinicianEmailAddress = \"automated-tests+clinician_datetag_@tidepool.org\";",
+											"pm.variables.set('newClinicianEmailAddress', newClinicianEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"{{newClinicianEmailAddress}}\",\n    \"password\": \"{{signupPw}}\",\n    \"emails\": [\n        \"{{newClinicianEmailAddress}}\"\n    ],\n    \"roles\": [\n        \"clinic\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Initial sign-up for the clinician account, which includes creation of the \n    \n    `userId`\n    "
+							},
+							"response": []
+						},
+						{
+							"name": "Send email verification Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/send/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Send the email confirmation using the `userId` we picked up in the last request."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve email key Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"let jsonData = pm.response.json();",
+											"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
+											"pm.variables.set(\"emailKey\", jsonData[0].key);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Get `emailKey` to use in next request to confirm email"
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm email Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/accept/signup/{{emailKey}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"accept",
+										"signup",
+										"{{emailKey}}"
+									]
+								},
+								"description": "Using `emailKey` to confirm email."
+							},
+							"response": []
+						},
+						{
+							"name": "Accept terms Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var moment = require('moment');",
+											"pm.variables.set(\"currentTimestamp\", moment().format());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"updates\":{\"termsAccepted\":\"{{currentTimestamp}}\"}}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Accepting Terms and conditions"
+							},
+							"response": []
+						},
+						{
+							"name": "Initial clinician profile Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fullName\":\"{{$randomFullName}}\",\"clinic\":{\"role\":\"endocrinologist\",\"name\":\"{{$randomCompanyName}} Clinic\",\"telephone\":\"{{$randomPhoneNumber}}\"}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "clinic login Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{clinicPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{clinicEmail}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{api}}/auth/login",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get list of clinics via userid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"clinicId\", jsonData[0].clinic.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/v1/clinicians/{{userId}}/clinics",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinicians",
+										"{{userId}}",
+										"clinics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invite clinician to clinic",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"clinicianInviteId\", jsonData.inviteId);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"{{newClinicianEmailAddress}}\",\n    \"roles\": [\n        \"CLINIC_MEMBER\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/v1/clinics/{{clinicId}}/invites/clinicians",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinics",
+										"{{clinicId}}",
+										"invites",
+										"clinicians"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "new clinician login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{signupPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{newClinicianEmailAddress}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "https://dev1.dev.tidepool.org/auth/login",
+									"protocol": "https",
+									"host": [
+										"dev1",
+										"dev",
+										"tidepool",
+										"org"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "accept clinic invite as clinician",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/v1/clinicians/{{userId}}/invites/{{clinicianInviteId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinicians",
+										"{{userId}}",
+										"invites",
+										"{{clinicianInviteId}}"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "get list of clinics via userid Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Patient successfully added to clinic\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData[0].clinic.id).to.eql(pm.variables.get(\"clinicId\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/v1/clinicians/{{userId}}/clinics",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinicians",
+										"{{userId}}",
+										"clinics"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Invite clinician to clinic and cancel invite w.i.p using internal cancel endpoint??",
+					"item": [
+						{
+							"name": "Clinician sign up",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(201, 1000, true, null,\"\");",
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"pm.variables.set(\"userId\", jsonData.userid);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const uuid = require('uuid');",
+											"pm.variables.set('signupPw', uuid.v4().slice(0,9));",
+											"let newClinicianEmailAddress = \"automated-tests+clinician_datetag_@tidepool.org\";",
+											"pm.variables.set('newClinicianEmailAddress', newClinicianEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"{{newClinicianEmailAddress}}\",\n    \"password\": \"{{signupPw}}\",\n    \"emails\": [\n        \"{{newClinicianEmailAddress}}\"\n    ],\n    \"roles\": [\n        \"clinic\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Initial sign-up for the clinician account, which includes creation of the \n    \n    `userId`\n    "
+							},
+							"response": []
+						},
+						{
+							"name": "Send email verification Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/send/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Send the email confirmation using the `userId` we picked up in the last request."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve email key Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"let jsonData = pm.response.json();",
+											"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
+											"pm.variables.set(\"emailKey\", jsonData[0].key);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Get `emailKey` to use in next request to confirm email"
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm email Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/accept/signup/{{emailKey}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"accept",
+										"signup",
+										"{{emailKey}}"
+									]
+								},
+								"description": "Using `emailKey` to confirm email."
+							},
+							"response": []
+						},
+						{
+							"name": "Accept terms Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var moment = require('moment');",
+											"pm.variables.set(\"currentTimestamp\", moment().format());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"updates\":{\"termsAccepted\":\"{{currentTimestamp}}\"}}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Accepting Terms and conditions"
+							},
+							"response": []
+						},
+						{
+							"name": "Initial clinician profile Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fullName\":\"{{$randomFullName}}\",\"clinic\":{\"role\":\"endocrinologist\",\"name\":\"{{$randomCompanyName}} Clinic\",\"telephone\":\"{{$randomPhoneNumber}}\"}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "clinic login Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{clinicPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{clinicEmail}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "https://dev1.dev.tidepool.org/auth/login",
+									"protocol": "https",
+									"host": [
+										"dev1",
+										"dev",
+										"tidepool",
+										"org"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get list of clinics via userid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"clinicId\", jsonData[0].clinic.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/v1/clinicians/{{userId}}/clinics",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinicians",
+										"{{userId}}",
+										"clinics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invite clinician to clinic",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"clinicianInviteId\", jsonData.inviteId);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"{{newClinicianEmailAddress}}\",\n    \"roles\": [\n        \"CLINIC_MEMBER\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/v1/clinics/{{clinicId}}/invites/clinicians",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinics",
+										"{{clinicId}}",
+										"invites",
+										"clinicians"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "delete clinician invitation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"{{newClinicianEmailAddress}}\",\n    \"roles\": [\n        \"CLINIC_MEMBER\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/v1/clinics/{{clinicId}}/invites/clinicians/{{clinicianInviteId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinics",
+										"{{clinicId}}",
+										"invites",
+										"clinicians",
+										"{{clinicianInviteId}}"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "new clinician login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{signupPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{newClinicianEmailAddress}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "https://dev1.dev.tidepool.org/auth/login",
+									"protocol": "https",
+									"host": [
+										"dev1",
+										"dev",
+										"tidepool",
+										"org"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "accept clinic invite as clinician",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/v1/clinicians/{{userId}}/invites/{{clinicianInviteId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinicians",
+										"{{userId}}",
+										"invites",
+										"{{clinicianInviteId}}"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "get list of clinics via userid Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Patient not added to clinic\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData[0]).to.eql(undefined);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/v1/clinicians/{{userId}}/clinics",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinicians",
+										"{{userId}}",
+										"clinics"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Invite New Clinician to Clinic",
+					"item": [
+						{
+							"name": "clinic login Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{clinicPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{clinicEmail}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "https://dev1.dev.tidepool.org/auth/login",
+									"protocol": "https",
+									"host": [
+										"dev1",
+										"dev",
+										"tidepool",
+										"org"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get list of clinics via userid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"clinicId\", jsonData[0].clinic.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/v1/clinicians/{{userId}}/clinics",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinicians",
+										"{{userId}}",
+										"clinics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invite clinician to clinic",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"clinicianInviteId\", jsonData.inviteId);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const uuid = require('uuid');",
+											"let newClinicianEmailAddress = \"automated-tests+clinician_datetag_@tidepool.org\";",
+											"pm.variables.set('newClinicianEmailAddress', newClinicianEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"{{newClinicianEmailAddress}}\",\n    \"roles\": [\n        \"CLINIC_MEMBER\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/v1/clinics/{{clinicId}}/invites/clinicians",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinics",
+										"{{clinicId}}",
+										"invites",
+										"clinicians"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "Clinician sign up",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(201, 1000, true, null,\"\");",
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const uuid = require('uuid');",
+											"pm.variables.set('signupPw', uuid.v4().slice(0,9));",
+											"let newClinicianEmailAddress = \"automated-tests+clinician_datetag_@tidepool.org\";",
+											"pm.variables.set('newClinicianEmailAddress', newClinicianEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"{{newClinicianEmailAddress}}\",\n    \"password\": \"{{signupPw}}\",\n    \"emails\": [\n        \"{{newClinicianEmailAddress}}\"\n    ],\n    \"roles\": [\n        \"clinic\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Initial sign-up for the clinician account, which includes creation of the \n    \n    `userId`\n    "
+							},
+							"response": []
+						},
+						{
+							"name": "Send email verification Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/send/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"send",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Send the email confirmation using the `userId` we picked up in the last request."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve email key Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"let jsonData = pm.response.json();",
+											"assert.common(200, 500, false, jsonData, \"invitedSchema\");",
+											"pm.variables.set(\"emailKey\", jsonData[0].key);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/signup/{{userId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"signup",
+										"{{userId}}"
+									]
+								},
+								"description": "Get `emailKey` to use in next request to confirm email"
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm email Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, null,\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/confirm/accept/signup/{{emailKey}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"confirm",
+										"accept",
+										"signup",
+										"{{emailKey}}"
+									]
+								},
+								"description": "Using `emailKey` to confirm email."
+							},
+							"response": []
+						},
+						{
+							"name": "Accept terms Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"userAccountSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var moment = require('moment');",
+											"pm.variables.set(\"currentTimestamp\", moment().format());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"updates\":{\"termsAccepted\":\"{{currentTimestamp}}\"}}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/auth/user",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"auth",
+										"user"
+									]
+								},
+								"description": "Accepting Terms and conditions"
+							},
+							"response": []
+						},
+						{
+							"name": "Initial clinician profile Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 500, false, pm.response.json(),\"profileSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"fullName\":\"{{$randomFullName}}\",\"clinic\":{\"role\":\"endocrinologist\",\"name\":\"{{$randomCompanyName}} Clinic\",\"telephone\":\"{{$randomPhoneNumber}}\"}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/metadata/{{userId}}/profile",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"metadata",
+										"{{userId}}",
+										"profile"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "new clinician login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{signupPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{newClinicianEmailAddress}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "https://dev1.dev.tidepool.org/auth/login",
+									"protocol": "https",
+									"host": [
+										"dev1",
+										"dev",
+										"tidepool",
+										"org"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get list of outstanding invites to join a clinic",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/v1/clinicians/{{userId}}/invites",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinicians",
+										"{{userId}}",
+										"invites"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "accept clinic invite as clinician",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/v1/clinicians/{{userId}}/invites/{{clinicianInviteId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinicians",
+										"{{userId}}",
+										"invites",
+										"{{clinicianInviteId}}"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Invite Patient to Clinic W.I.P",
+					"item": [
+						{
+							"name": "clinic login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"userId\", jsonData.userid);",
+											"pm.variables.set(\"sessionToken\", pm.response.headers.get(\"x-tidepool-session-token\"));",
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, true, jsonData,\"userAccountSchema\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{clinicPw}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{clinicEmail}}",
+											"type": "string"
+										},
+										{
+											"key": "saveHelperData",
+											"value": true,
+											"type": "boolean"
+										},
+										{
+											"key": "showPassword",
+											"value": false,
+											"type": "boolean"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "https://dev1.dev.tidepool.org/auth/login",
+									"protocol": "https",
+									"host": [
+										"dev1",
+										"dev",
+										"tidepool",
+										"org"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get list of clinics via userid Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"clinicId\", jsonData[0].clinic.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/v1/clinicians/{{userId}}/clinics",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinicians",
+										"{{userId}}",
+										"clinics"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create custodial patient account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.variables.set(\"custodialUserId\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const uuid = require('uuid');",
+											"let newCustodialEmailAddress = \"automated-tests+custodial_datetag_@tidepool.org\";",
+											"pm.variables.set('newCustodialEmailAddress', newCustodialEmailAddress.replace('_datetag_', Date.now() + uuid.v4().slice(0,5)));",
+											"var moment = require('moment');",
+											"let newMoment = moment().subtract(18, 'years');",
+											"pm.variables.set(\"birthdate\", newMoment.format('YYYY-MM-DD'));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"{{newCustodialEmailAddress}}\",\n    \"fullName\":\"{{$randomFullName}}\",\n    \"birthDate\": \"{{birthdate}}\",\n    \"mrn\": \"{{$randomInt}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/v1/clinics/{{clinicId}}/patients",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinics",
+										"{{clinicId}}",
+										"patients"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						},
+						{
+							"name": "get list of patients via clinicId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Custodial user successfully added to patient list\", function () {",
+											"    pm.expect(pm.response.text()).to.include(pm.variables.get(\"custodialUserId\"));",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api}}/v1/clinics/{{clinicId}}/patients?search={{newCustodialEmailAddress}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"v1",
+										"clinics",
+										"{{clinicId}}",
+										"patients"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "{{newCustodialEmailAddress}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload device data Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const moment = require('moment');\r",
+											"pm.variables.set(\"uploadId\", pm.variables.replaceIn('{{$guid}}').replace(/-/g, '').slice(0,12));\r",
+											"pm.variables.set(\"itemId\", pm.variables.replaceIn('{{$randomUUID}}').replace(/-/g, ''));\r",
+											"pm.variables.set(\"guid\", pm.variables.replaceIn('{{$guid}}'));\r",
+											"pm.variables.set(\"smbgValue\", 11.331314156239124);\r",
+											"pm.variables.set(\"bolusValue\", 2.47);\r",
+											"pm.variables.set(\"cbgValue\", 8.437136946389211);\r",
+											"pm.variables.set(\"uploadDeviceDataItemDeviceTime\", moment().format('YYYY-MM-DDThh:mm:ss'));\r",
+											"pm.variables.set(\"currentTimestamp\", moment().format());"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const assert = eval(globals.loadAsserts);",
+											"assert.common(200, 1000, false, null, \"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-tidepool-session-token",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n  {\n    \"type\": \"smbg\",\n    \"subType\": \"manual\",\n    \"units\": \"mmol/L\",\n    \"value\": {{smbgValue}},\n    \"clockDriftOffset\": -579000,\n    \"conversionOffset\": 0,\n    \"deviceId\": \"meter-123\",\n    \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n    \"guid\": \"{{guid}}\",\n    \"id\": \"{{itemId}}\",\n    \"time\": \"{{currentTimestamp}}\",\n    \"timezoneOffset\": 600,\n    \"uploadId\": \"{{uploadId}}\"\n},\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{guid}}\",\n        \"normal\": {{bolusValue}},\n        \"payload\": {\n            \"logIndices\": [\n                2\n            ]\n        },\n        \"subType\": \"normal\",\n        \"time\": \"{{currentTimestamp}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"bolus\",\n        \"uploadId\": \"{{uploadId}}\"\n    },\n    {\n        \"clockDriftOffset\": -579000,\n        \"conversionOffset\": 0,\n        \"deviceId\": \"pump-123\",\n        \"deviceTime\": \"{{uploadDeviceDataItemDeviceTime}}\",\n        \"guid\": \"{{guid}}\",\n        \"payload\": {\n            \"logIndices\": [\n                1\n            ],\n            \"type\": [\n                \"Five Minute Reading (FMR)\"\n            ]\n        },\n        \"time\": \"{{currentTimestamp}}\",\n        \"timezoneOffset\": -300,\n        \"type\": \"cbg\",\n        \"units\": \"mmol/L\",\n        \"uploadId\": \"{{uploadId}}\",\n        \"value\": {{cbgValue}}\n    }\n]"
+								},
+								"url": {
+									"raw": "{{api}}/data/{{custodialUserId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"data",
+										"{{custodialUserId}}"
+									]
+								},
+								"description": "uploading smbg, cbg and bolus data"
+							},
+							"response": []
+						},
+						{
+							"name": "Create note for custodial patient",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-tidepool-session-token",
+										"type": "text",
+										"value": "{{sessionToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"message\": \n        {\n            \"userid\": \"{{userId}}\", \n            \"groupid\": \"custodialUserId\", \n            \"messagetext\": \"note via Clinician\",\n            \"guid\": \"{{$randomUUID}}\",\n            \"timestamp\": \"{{currentTimestamp}}\"\n        }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api}}/message/send/{{custodialUserId}}",
+									"host": [
+										"{{api}}"
+									],
+									"path": [
+										"message",
+										"send",
+										"{{custodialUserId}}"
+									]
+								},
+								"description": "Setting up Name, clinic name, role and telephone number."
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"let currEnvironment = pm.variables.get('api');",
+							"if (currEnvironment != \"https://dev1.dev.tidepool.org\"){",
+							"postman.setNextRequest(null);",
+							"};"
+						]
+					}
 				}
 			]
 		}
