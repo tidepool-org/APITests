@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "6186b0ea-3854-4544-938b-df356f1e40b7",
+		"_postman_id": "121d0b35-ece2-456f-8830-00085d4f2e45",
 		"name": "API_contract_tests",
 		"description": "Contract tests using the tidepool API with the goal of testing the interaction between the Tidepool APis to see that its is working as a client expects. We are looking at\r\n\r\n - response code\r\n - response timing \r\n - headers, specifically the x-tidepool-session and content type\r\n - response json data to make sure it matches our schema expectations at a high level",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13891425"
 	},
 	"item": [
 		{
@@ -4692,7 +4693,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"message\": {\n        \"guid\": \"{{messageGUI}}\",\n        \"userid\": \"{{userId}}\",\n        \"groupid\":\"{{userId}}\",\n        \"timestamp\": \"{{noteCreationTime}}}\",\n        \"messagetext\": \"Forgot to Bolus for Meal\"\n    }\n}"
+							"raw": "{\n    \"message\": {\n        \"guid\": \"{{messageGUI}}\",\n        \"userid\": \"{{userId}}\",\n        \"groupid\":\"{{userId}}\",\n        \"timestamp\": \"{{noteCreationTime}}\",\n        \"messagetext\": \"Forgot to Bolus for Meal\"\n    }\n}"
 						},
 						"url": {
 							"raw": "{{api}}/message/send/{{userId}}",
